@@ -1,12 +1,13 @@
 ﻿using System;
 
-namespace source
+namespace AHKCore
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var parser = new Parser();
+            Console.WriteLine(parser.parse("qwe"));
         }
     }
 }
