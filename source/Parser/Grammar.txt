@@ -1,0 +1,17 @@
+variableAssign : complexVariable (WS)* ':=' (WS)* expression ;
+
+complexVariable 
+    : (this '.')? variableOrFunction '.' variable
+    | (this '.')? variableOrFunction (WS)* '[' (WS)* exp (WS)* ']'
+    | (this '.')? variable ;
+
+
+variableOrFunction
+    : variable
+    | functionCall
+    | variableOrFunction '.' variableOrFunction
+    | variableOrFunction (WS)* '[' (WS)* exp (WS)* ']' ;
+
+variable : NAME ;
+
+WS : ('\t' | ' ') ;
