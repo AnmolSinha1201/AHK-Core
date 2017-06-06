@@ -1,8 +1,8 @@
-variableAssign : complexVariable (WS)* ':=' (WS)* expression ;
+variableAssign : complexVariable WS* ':=' WS* expression ;
 
 complexVariable 
     : (this '.')? variableOrFunction '.' variable
-    | (this '.')? variableOrFunction (WS)* '[' (WS)* exp (WS)* ']'
+    | (this '.')? variableOrFunction WS* '[' WS* expression WS* ']'
     | (this '.')? variable ;
 
 
@@ -10,8 +10,12 @@ variableOrFunction
     : variable
     | functionCall
     | variableOrFunction '.' variableOrFunction
-    | variableOrFunction (WS)* '[' (WS)* exp (WS)* ']' ;
+    | variableOrFunction WS* '[' WS* expression WS* ']' ;
 
 variable : NAME ;
 
-WS : ('\t' | ' ') ;
+functionCall : NAME WS* '(' WS* expression? (CRLFWS* ',' WS* expression)* WS* ')' ;
+
+WS : '\t' | ' ' ;
+CRLF : '\r' | '\n' ;
+CRLFWS : CRLF | WS ;

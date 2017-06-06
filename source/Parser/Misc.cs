@@ -21,5 +21,50 @@ namespace AHKCore
 				origin++;
 			return code.Substring(start, origin - start);
 		}
+
+		string STRING(string code, ref int origin)
+		{
+			Regex regex = new Regex(@"""(?>[^\\\n""]+|\\.)*""");
+			Match match = regex.Match(code, origin);
+			if (match.Success)
+			{
+				origin = match.Index + match.Length;
+				return match.Value;
+			}
+			return null;
+		}
+
+		string CRLFWS(string code, ref int origin)
+		{
+			bool retVal = false;
+			while (origin < code.Length && "\r\n\t ".Contains(code[origin].ToString()))
+			{
+				retVal = true;
+				origin++;
+			}
+			return retVal ? " " : null;
+		}
+
+		string WS(string code, ref int origin)
+		{
+			bool retVal = false;
+			while (origin < code.Length && "\t ".Contains(code[origin].ToString()))
+			{
+				retVal = true;
+				origin++;
+			}
+			return retVal ? " " : null;
+		}
+
+		string CRLF(string code, ref int origin)
+		{
+			bool retVal = false;
+			while (origin < code.Length && "\r\n".Contains(code[origin].ToString()))
+			{
+				retVal = true;
+				origin++;
+			}
+			return retVal ? "\n" : null;
+		}
 	}
 }
