@@ -8,7 +8,7 @@ namespace AHKCore
 		public string parse(string code)
 		{
             int i = 0;
-			return functionCall("func()", ref i);
+			return variableOrFunctionChaining("qwe.qwefunc[\"qwe\"]", ref i);
 		}
 	}
 }

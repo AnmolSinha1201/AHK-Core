@@ -13,7 +13,7 @@ namespace AHKCore
 			functionCallList : Expression? (CRLFWS* ',' WS* Expression)*;
 			no need of WS* before ')' as functionCallList can break after CRLFWS
 		 */
-        string functionCall(string code, ref int origin)
+		string functionCall(string code, ref int origin)
 		{
 			int pos = origin;
 			string functionName = NAME(code, ref pos);
@@ -21,14 +21,18 @@ namespace AHKCore
 				return null;
 			WS(code, ref pos);
 
-			if (code.Length < pos + "(".Length && code[pos] != '(')
+			if (code.Length < pos + "(".Length)
+				return null;
+			if (code[pos] != '(')
 				return null;
 			pos++;
 
 			WS(code, ref pos);
 			List<string> expressionList = functionCallList(code, ref pos);
 
-			if (code.Length < pos + ")".Length && code[pos] != ')')
+			if (code.Length < pos + ")".Length)
+				return null;
+			if (code[pos] != ')')
 				return null;
 			pos++;
 
@@ -49,13 +53,15 @@ namespace AHKCore
 				{
 					CRLFWS(code, ref pos);
 
-					if (code.Length < pos + ",".Length && code[pos] != ',')
+					if (code.Length < pos + ",".Length)
+						break;
+					if (code[pos] != ',')
 						break;
 					pos++;
 
 					WS(code, ref pos);
 					if ((s = Expression(code, ref pos)) == null)
-						return null; //error
+						return null;
 					expressionList.Add(s);
 				}
 			}
