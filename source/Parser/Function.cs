@@ -7,11 +7,17 @@ namespace AHKCore
 	partial class Parser
 	{
 		/*
-			functionCall : NAME WS* '(' WS* expression? (CRLFWS* ',' WS* expression)* WS* ')' ;
+			functionCall : NAME WS* functionParameter ;
+			functionParameter : '(' WS* (expression? | (expression (CRLFWS* ',' WS* expression)*)) ')' ;
+
 			implemented as
-			functionCall : NAME WS* '(' WS* functionCallList ')';
-			functionCallList : Expression? (CRLFWS* ',' WS* Expression)*;
-			no need of WS* before ')' as functionCallList can break after CRLFWS
+			
+			functionCall : NAME WS* functionParameter;
+			functionParameter : '(' WS* functionParameterList ')' ;
+			functionParameterList : expression? | (expression (CRLFWS* ',' WS* expression)*) ;
+
+			no need of WS* before ')' as functionParameterList ensures the WS. See Grammar file for more details.
+			functionParameter is abstracted so it can be reused in complexFunctions.
 		 */
 		string functionCall(string code, ref int origin)
 		{
@@ -19,8 +25,20 @@ namespace AHKCore
 			string functionName = NAME(code, ref pos);
 			if (functionName == null)
 				return null;
-			WS(code, ref pos);
 
+			WS(code, ref pos);
+			string functionParams = functionParameter(code, ref pos);
+			if (functionParams == null)
+				return null;
+			
+			origin = pos;
+			return functionName + functionParams;
+		}
+
+		string functionParameter(string code, ref int origin)
+		{
+			int pos = origin;
+			
 			if (code.Length < pos + "(".Length)
 				return null;
 			if (code[pos] != '(')
@@ -28,7 +46,7 @@ namespace AHKCore
 			pos++;
 
 			WS(code, ref pos);
-			List<string> expressionList = functionCallList(code, ref pos);
+			List<string> expressionList = functionParameterList(code, ref pos);
 
 			if (code.Length < pos + ")".Length)
 				return null;
@@ -37,35 +55,38 @@ namespace AHKCore
 			pos++;
 
 			origin = pos;
-			return functionName + "(" + expressionList.Count + ")";
+			return "(" + expressionList?.Count + ")";
 		}
 
-		List<string> functionCallList(string code, ref int origin)
+		/*
+			functionParameterList is separated so that it can use its visitor and return a list instead of string.
+		 */
+		List<string> functionParameterList(string code, ref int origin)
 		{
 			int pos = origin;
 			List<string> expressionList = new List<string>();
 			string s;
 			
-			if ((s = Expression(code, ref pos)) != null)
+			if ((s = Expression(code, ref pos)) == null)
+				return null;
+			expressionList.Add(s);
+
+			while (true)
 			{
+				CRLFWS(code, ref pos);
+
+				if (code.Length < pos + ",".Length)
+					break;
+				if (code[pos] != ',')
+					break;
+				pos++;
+
+				WS(code, ref pos);
+				if ((s = Expression(code, ref pos)) == null)
+					return null;
 				expressionList.Add(s);
-				while (true)
-				{
-					CRLFWS(code, ref pos);
-
-					if (code.Length < pos + ",".Length)
-						break;
-					if (code[pos] != ',')
-						break;
-					pos++;
-
-					WS(code, ref pos);
-					if ((s = Expression(code, ref pos)) == null)
-						return null;
-					expressionList.Add(s);
-				}
 			}
-
+			
 			origin = pos;
 			return expressionList;
 		}
