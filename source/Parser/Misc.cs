@@ -34,6 +34,20 @@ namespace AHKCore
 			return null;
 		}
 
+		/*
+			implemented as "THIS" because "this" is reserved
+		 */
+		string THIS(string code, ref int origin)
+		{
+			const string _this = "this.";
+			if (code.Length < origin + _this.Length)
+				return null;
+			if (!code.Substring(origin, 4).Equals(_this, StringComparison.OrdinalIgnoreCase))
+				return null;
+			origin += _this.Length;
+			return _this;
+		}
+
 		string CRLFWS(string code, ref int origin)
 		{
 			bool retVal = false;

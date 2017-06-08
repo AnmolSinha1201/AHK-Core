@@ -8,7 +8,7 @@ namespace AHKCore
 		public string parse(string code)
 		{
             int i = 0;
-			return variableOrFunctionChaining("qwe.asd.qwefunc ( \"qwe\" \n, \" asd \" )", ref i);
+			return complexVariable("this.qwe.asd.qwefunc", ref i);
 		}
 	}
 }
