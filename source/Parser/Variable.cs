@@ -4,9 +4,22 @@ namespace AHKCore
 {
 	partial class Parser
 	{
-		string variable(string code, ref int origin)
+		variableClass variable(string code, ref int origin)
 		{
-			return NAME(code, ref origin);
+			return new variableClass(NAME(code, ref origin));
+		}
+
+		class variableClass
+		{
+			string variableName, defaultValue;
+
+			public variableClass(string variableName)
+			{
+				this.variableName = variableName;
+				this.defaultValue = variableName;
+			}
+
+			public override string ToString() => defaultValue;
 		}
 
 		/*
@@ -25,12 +38,12 @@ namespace AHKCore
 		{
 			int pos = origin;
 			string _this = THIS(code, ref pos);
-			string vorF = variableOrFunctionChaining(code, ref pos);
-			if (vorF == null || vorF[vorF.Length - 1] == ')')
+			var vorF = variableOrFunctionChaining(code, ref pos);
+			if (vorF == null || vorF[vorF.Count - 1].GetType() == typeof(functionCallClass))
 				return null;
 
 			origin = pos;
-			return _this + vorF;
+			return _this + vorF.Flatten();
 		}
 	}
 }
