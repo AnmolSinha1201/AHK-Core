@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static AHKCore.BaseVisitor;
 
 namespace AHKCore
 {
@@ -62,7 +63,7 @@ namespace AHKCore
 				return null;
 			
 			origin = pos;
-			return new dotUnwrapClass(retVal);
+			return visitor.dotUnwrap(retVal);
 		}
 
 		bracketUnwrapClass bracketUnwrap(string code, ref int origin)
@@ -85,35 +86,7 @@ namespace AHKCore
 			pos++;
 
 			origin = pos;
-			return new bracketUnwrapClass(retVal);
-		}
-
-		class dotUnwrapClass
-		{
-			object variableOrFunction;
-			string defaultValue;
-
-			public dotUnwrapClass(object variableOrFunction)
-			{
-				this.variableOrFunction = variableOrFunction;
-				this.defaultValue = "." + variableOrFunction;
-			}
-
-			public override string ToString() => defaultValue;
-		}
-
-		class bracketUnwrapClass
-		{
-			object expression;
-			string defaultValue;
-
-			public bracketUnwrapClass(object expression)
-			{
-				this.expression = expression;
-				this.defaultValue = "[" + expression + "]";
-			}
-
-			public override string ToString() => defaultValue;
+			return visitor.bracketUnwrap(retVal);
 		}
 	}
 }

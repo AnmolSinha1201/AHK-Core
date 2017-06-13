@@ -1,4 +1,5 @@
 using System;
+using static AHKCore.BaseVisitor;
 
 namespace AHKCore
 {
@@ -6,20 +7,11 @@ namespace AHKCore
 	{
 		variableClass variable(string code, ref int origin)
 		{
-			return new variableClass(NAME(code, ref origin));
-		}
+			string variableName = NAME(code, ref origin);
+			if (variableName == null)
+				return null;
 
-		class variableClass
-		{
-			string variableName, defaultValue;
-
-			public variableClass(string variableName)
-			{
-				this.variableName = variableName;
-				this.defaultValue = variableName;
-			}
-
-			public override string ToString() => defaultValue;
+			return visitor.variable(variableName);
 		}
 
 		/*

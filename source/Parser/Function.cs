@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
+using static AHKCore.BaseVisitor;
 
 namespace AHKCore
 {
@@ -32,7 +33,7 @@ namespace AHKCore
 				return null;
 			
 			origin = pos;
-			return new functionCallClass(functionName, functionParams);
+			return visitor.functionCall(functionName, functionParams);
 		}
 
 		// just to "wrap" functionParameterList
@@ -59,7 +60,6 @@ namespace AHKCore
 			return expressionList;
 		}
 
-		
 		// functionParameterList is separated so that it can use its visitor and return a list instead of string.
 		List<object> functionParameterList(string code, ref int origin)
 		{
@@ -89,26 +89,6 @@ namespace AHKCore
 			
 			origin = pos;
 			return expressionList;
-		}
-
-		// using List<objects> because of different types of Expressions
-		class functionCallClass
-		{
-			public string functionName, defaultValue;
-			public List<object> functionParameterList;
-			
-			public functionCallClass(string functionName, List<object> functionParameterList)
-			{
-				this.functionName = functionName;
-				this.functionParameterList = functionParameterList;
-
-				StringBuilder sb = new StringBuilder();
-				foreach (var v in functionParameterList)
-					sb.Append(sb.Length == 0 ? v : ", " + v);
-				this.defaultValue = $"{functionName} ({sb.ToString()})";
-			}
-
-			public override string ToString() => defaultValue;
 		}
 	}
 }
