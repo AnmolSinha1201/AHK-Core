@@ -87,11 +87,20 @@ namespace AHKCore
 	public static class listExtension
 	{
 		// extension method to convert List<object> to correct string
-		public static string Flatten(this List<object> l)
+		public static string FlattenAsChain(this List<object> l)
 		{
 			StringBuilder sb = new StringBuilder();
 			foreach (var v in l)
 				sb.Append(v.ToString());
+			
+			return sb.ToString();
+		}
+
+		public static string FlattenAsFunctionParam(this List<object> l)
+		{
+			StringBuilder sb = new StringBuilder();
+			foreach (var v in l)
+				sb.Append(sb.Length == 0 ? v : ", " + v);
 			
 			return sb.ToString();
 		}
