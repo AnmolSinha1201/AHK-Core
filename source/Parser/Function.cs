@@ -90,5 +90,27 @@ namespace AHKCore
 			origin = pos;
 			return expressionList;
 		}
+
+		complexFunctionCallClass complexFunctionCall(string code, ref int origin)
+		{
+			int pos = origin;
+			string _this = THIS(code, ref pos);
+
+			var vOrF = variableOrFunctionChaining(code, ref pos);
+			if (vOrF == null)
+				return null;
+			
+			List<object> fParam = null;
+			if (vOrF[vOrF.Count - 1].GetType() != typeof(functionCallClass))
+			{
+				WS(code, ref pos);
+				fParam = functionParameter(code, ref pos);
+				if (fParam == null)
+					return null;
+			}
+
+			origin = pos;
+			return visitor.complexFunctionCall(_this, vOrF, fParam);
+		}
 	}
 }

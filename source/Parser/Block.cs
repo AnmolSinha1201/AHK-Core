@@ -12,7 +12,7 @@ namespace AHKCore
 				visitor = new defaultVisitor();
 			
 			int i = 0;
-			return complexVariable("this.qwefunc()", ref i);
+			return complexFunctionCall("this.qwefunc( \"123 \")", ref i).ToString();
 		}
 	}
 
