@@ -19,7 +19,7 @@ namespace AHKCore
 			no need of WS* before ')' as functionParameterList ensures the WS. See Grammar file for more details.
 			functionParameter is abstracted so it can be reused in complexFunctions.
 		 */
-		string functionCall(string code, ref int origin)
+		functionCallClass functionCall(string code, ref int origin)
 		{
 			int pos = origin;
 			string functionName = NAME(code, ref pos);
@@ -27,15 +27,16 @@ namespace AHKCore
 				return null;
 
 			WS(code, ref pos);
-			string functionParams = functionParameter(code, ref pos);
+			List<object> functionParams = functionParameter(code, ref pos);
 			if (functionParams == null)
 				return null;
 			
 			origin = pos;
-			return functionName + functionParams;
+			return new functionCallClass(functionName, functionParams);
 		}
 
-		string functionParameter(string code, ref int origin)
+		// just to "wrap" functionParameterList
+		List<object> functionParameter(string code, ref int origin)
 		{
 			int pos = origin;
 			
@@ -46,7 +47,7 @@ namespace AHKCore
 			pos++;
 
 			WS(code, ref pos);
-			List<string> expressionList = functionParameterList(code, ref pos);
+			List<object> expressionList = functionParameterList(code, ref pos);
 
 			if (code.Length < pos + ")".Length)
 				return null;
@@ -55,21 +56,20 @@ namespace AHKCore
 			pos++;
 
 			origin = pos;
-			return "(" + expressionList?.Count + ")";
+			return expressionList;
 		}
 
-		/*
-			functionParameterList is separated so that it can use its visitor and return a list instead of string.
-		 */
-		List<string> functionParameterList(string code, ref int origin)
+		
+		// functionParameterList is separated so that it can use its visitor and return a list instead of string.
+		List<object> functionParameterList(string code, ref int origin)
 		{
 			int pos = origin;
-			List<string> expressionList = new List<string>();
-			string s;
+			List<object> expressionList = new List<object>();
+			object o;
 			
-			if ((s = Expression(code, ref pos)) == null)
+			if ((o = Expression(code, ref pos)) == null)
 				return null;
-			expressionList.Add(s);
+			expressionList.Add(o);
 
 			while (true)
 			{
@@ -82,13 +82,33 @@ namespace AHKCore
 				pos++;
 
 				WS(code, ref pos);
-				if ((s = Expression(code, ref pos)) == null)
+				if ((o = Expression(code, ref pos)) == null)
 					return null;
-				expressionList.Add(s);
+				expressionList.Add(o);
 			}
 			
 			origin = pos;
 			return expressionList;
+		}
+
+		// using List<objects> because of different types of Expressions
+		class functionCallClass
+		{
+			public string functionName, defaultValue;
+			public List<object> functionParameterList;
+			
+			public functionCallClass(string functionName, List<object> functionParameterList)
+			{
+				this.functionName = functionName;
+				this.functionParameterList = functionParameterList;
+
+				StringBuilder sb = new StringBuilder();
+				foreach (var v in functionParameterList)
+					sb.Append(sb.Length == 0 ? v : ", " + v);
+				this.defaultValue = $"{functionName} ({sb.ToString()})";
+			}
+
+			public override string ToString() => defaultValue;
 		}
 	}
 }
