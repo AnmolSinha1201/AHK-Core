@@ -9,8 +9,8 @@ namespace AHKCore
         #region dotUnwrap
         public class dotUnwrapClass
 		{
-			object variableOrFunction;
-			string defaultValue;
+			public object variableOrFunction;
+			public string defaultValue;
 
 			public dotUnwrapClass(object variableOrFunction)
 			{
@@ -30,8 +30,8 @@ namespace AHKCore
         #region bracketUnwrap
 		public class bracketUnwrapClass
 		{
-			object expression;
-			string defaultValue;
+			public object expression;
+			public string defaultValue;
 
 			public bracketUnwrapClass(object expression)
 			{

@@ -9,7 +9,7 @@ namespace AHKCore
         #region variable
         public class variableClass
 		{
-			string variableName, defaultValue;
+			public string variableName, defaultValue;
 
 			public variableClass(string variableName)
 			{
