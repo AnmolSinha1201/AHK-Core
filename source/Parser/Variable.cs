@@ -39,7 +39,7 @@ namespace AHKCore
 				return null;
 
 			origin = pos;
-			return _this + vorF.Flatten();
+			return _this + vorF.FlattenAsChain();
 		}
 	}
 }
