@@ -44,7 +44,7 @@ namespace AHKCore
 			const string _this = "this.";
 			if (code.Length < origin + _this.Length)
 				return null;
-			if (!code.Substring(origin, 4).Equals(_this, StringComparison.OrdinalIgnoreCase))
+			if (!code.Substring(origin, _this.Length).Equals(_this, StringComparison.OrdinalIgnoreCase))
 				return null;
 			origin += _this.Length;
 			return _this;
