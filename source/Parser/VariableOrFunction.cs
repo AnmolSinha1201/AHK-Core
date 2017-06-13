@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace AHKCore
@@ -19,52 +20,52 @@ namespace AHKCore
 			dotUnwrap : '.' variableOrFunction ;
 			bracketUnwrap : WS* '[' WS* expression WS* ']' ;
 		 */
-		string variableOrFunctionChaining(string code, ref int origin)
+		List<object> variableOrFunctionChaining(string code, ref int origin)
 		{
-			string retVal =  variableOrFunction(code, ref origin);
+			var chain = new List<object>();
+			object retVal =  variableOrFunction(code, ref origin);
 			if (retVal == null)
 				return null; 
-			
-			string right = null;
-			StringBuilder rightBuilder = new StringBuilder();
+			chain.Add(retVal);
+
 			while (true) 
 			{
 				if (origin == code.Length)
 					break;
-				right = dotUnwrap(code, ref origin) ?? bracketUnwrap(code, ref origin);
-				if (right == null)
+				retVal = (object) dotUnwrap(code, ref origin) ?? bracketUnwrap(code, ref origin);
+				if (retVal == null)
 					break;
-				rightBuilder.Append(right);
+				chain.Add(retVal);
 			}
 			
-			return retVal + (rightBuilder.Length == 0 ? "" : rightBuilder.ToString());
+			return chain;
 		}
 
 		/*
 			Call Order :
 			- functionCall -> variable (to prevent variable from consuming functionName)
 		 */
-		string variableOrFunction(string code, ref int origin)
+		object variableOrFunction(string code, ref int origin)
 		{
-			return functionCall(code, ref origin) ?? variable(code, ref origin);
+			return (object) functionCall(code, ref origin) ?? variable(code, ref origin);
 		}
-		
-		string dotUnwrap(string code, ref int origin)
+
+		dotUnwrapClass dotUnwrap(string code, ref int origin)
 		{
 			int pos = origin;
 			if (code[pos] != '.')
 				return null;
 			pos++;
-			string retVal = variableOrFunction(code, ref pos);
+			object retVal = variableOrFunction(code, ref pos);
 				
 			if (retVal == null)
 				return null;
 			
 			origin = pos;
-			return "." + retVal;
+			return new dotUnwrapClass(retVal);
 		}
 
-		string bracketUnwrap(string code, ref int origin)
+		bracketUnwrapClass bracketUnwrap(string code, ref int origin)
 		{
 			int pos = origin;
 
@@ -84,7 +85,35 @@ namespace AHKCore
 			pos++;
 
 			origin = pos;
-			return "[" + retVal + "]";
+			return new bracketUnwrapClass(retVal);
+		}
+
+		class dotUnwrapClass
+		{
+			object variableOrFunction;
+			string defaultValue;
+
+			public dotUnwrapClass(object variableOrFunction)
+			{
+				this.variableOrFunction = variableOrFunction;
+				this.defaultValue = "." + variableOrFunction;
+			}
+
+			public override string ToString() => defaultValue;
+		}
+
+		class bracketUnwrapClass
+		{
+			object expression;
+			string defaultValue;
+
+			public bracketUnwrapClass(object expression)
+			{
+				this.expression = expression;
+				this.defaultValue = "[" + expression + "]";
+			}
+
+			public override string ToString() => defaultValue;
 		}
 	}
 }
