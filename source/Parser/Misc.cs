@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace AHKCore
@@ -79,6 +81,19 @@ namespace AHKCore
 				origin++;
 			}
 			return retVal ? "\n" : null;
+		}
+	}
+
+	public static class listExtension
+	{
+		// extension method to convert List<object> to correct string
+		public static string Flatten(this List<object> l)
+		{
+			StringBuilder sb = new StringBuilder();
+			foreach (var v in l)
+				sb.Append(v.ToString());
+			
+			return sb.ToString();
 		}
 	}
 }
