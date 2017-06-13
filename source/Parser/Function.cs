@@ -48,7 +48,7 @@ namespace AHKCore
 			pos++;
 
 			WS(code, ref pos);
-			List<object> expressionList = functionParameterList(code, ref pos);
+			List<object> expressionList = functionParameterList(code, ref pos) ?? new List<object>();
 
 			if (code.Length < pos + ")".Length)
 				return null;
