@@ -12,7 +12,7 @@ namespace AHKCore
 				visitor = new defaultVisitor();
 			
 			int i = 0;
-			return complexVariable("this.qwe.asd.qwefunc [ \" qwe \" ]", ref i);
+			return complexVariable("this.qwefunc()", ref i);
 		}
 	}
 
