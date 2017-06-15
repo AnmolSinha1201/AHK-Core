@@ -29,7 +29,7 @@ namespace AHKCore
 			i.e. this? variableOrFunction functionParameter (example : className[funcName](params) //invalid complexVariable). 
 			For this purpose, queue complexFunction before complexVariable to ensure it consumes functionParameter.
 		 */
-		string complexVariable(string code, ref int origin)
+		complexVariableClass complexVariable(string code, ref int origin)
 		{
 			int pos = origin;
 			string _this = THIS(code, ref pos);
@@ -39,7 +39,7 @@ namespace AHKCore
 				return null;
 
 			origin = pos;
-			return _this + vorF.FlattenAsChain();
+			return visitor.complexVariable(_this,vorF);
 		}
 	}
 }
