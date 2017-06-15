@@ -31,9 +31,10 @@ namespace AHKCore
 		#region complexFunctionCall
 		public class complexFunctionCallClass
 		{
-			public string functionName, defaultValue, _this;
+			public string defaultValue, _this;
 			public List<object> functionParameterList, chain;
-			public object originalDescription;
+			// type = string for func(param) and List<object> for class["name"](param)
+			public object functionName; 
 			
 			public complexFunctionCallClass(string _this, List<object> varOrFuncChain, List<object> functionParameterList)
 			{
@@ -44,19 +45,26 @@ namespace AHKCore
 					var temp = (functionCallClass)varOrFuncChain[varOrFuncChain.Count - 1];
 					this.functionName = temp.functionName;
 					this.functionParameterList = temp.functionParameterList;
-					this.originalDescription = temp;
+					varOrFuncChain.RemoveAt(varOrFuncChain.Count - 1);
 				}
 				else
 				{
-					var temp = (bracketUnwrapClass)varOrFuncChain[varOrFuncChain.Count - 1];
-					this.functionName = temp.expression.ToString();
+					int i = 0;
+					functionName = new List<object>();
+
+					/*
+						no need to check for i = 0. dotUnwrap can only be present after i = 1 (example : a.c["n"])
+						i = 0 means entire chain is the name (example : class["name"])
+					 */
+					for (i = varOrFuncChain.Count - 1; i > 0 && varOrFuncChain[i].GetType() != typeof(dotUnwrapClass); i--);
+					((List<object>)functionName).AddRange(varOrFuncChain.GetRange(i, varOrFuncChain.Count - i));
 					this.functionParameterList = functionParameterList;
-					this.originalDescription = temp;
+					varOrFuncChain.RemoveRange(i, varOrFuncChain.Count - i);
 				}
-				varOrFuncChain.RemoveAt(varOrFuncChain.Count - 1);
 				this.chain = varOrFuncChain;
 
-				this.defaultValue = $"{_this}{this.chain.FlattenAsChain()}{functionName} ({this.functionParameterList.FlattenAsFunctionParam()})";
+				this.defaultValue = $"{_this}{this.chain.FlattenAsChain()}" +
+				$"{(functionName.GetType() == typeof(string) ? functionName : ((List<object>)functionName).FlattenAsChain())} ({this.functionParameterList.FlattenAsFunctionParam()})";
 			}
 
 			public override string ToString() => defaultValue;
