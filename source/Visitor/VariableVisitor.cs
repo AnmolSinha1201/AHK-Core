@@ -59,5 +59,28 @@ namespace AHKCore
             return new complexVariableClass(_this, varOrFuncChain);
 		}
 		#endregion
+
+		#region variableAssign
+		public class variableAssignClass
+		{
+			public string defaultValue, op, expression;
+			public complexVariableClass variable;
+
+			public variableAssignClass(complexVariableClass variable, string op, string expression)
+			{
+				this.variable = variable;
+				this.op = op;
+				this.expression = expression;
+				this.defaultValue = $"{variable} {op} {expression}";
+			}
+
+			public override string ToString() => defaultValue;
+		}
+
+		public virtual variableAssignClass variableAssign(complexVariableClass variable, string op, string expression)
+		{
+			return new variableAssignClass(variable, op, expression);
+		}
+		#endregion
 	}
 }

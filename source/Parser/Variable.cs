@@ -42,12 +42,12 @@ namespace AHKCore
 			return visitor.complexVariable(_this,vorF);
 		}
 
-		string variableAssign(string code, ref int origin)
+		variableAssignClass variableAssign(string code, ref int origin)
 		{
 			int pos = origin;
 
-			var variableName = complexVariable(code, ref pos);
-			if (variableName == null)
+			var variable = complexVariable(code, ref pos);
+			if (variable == null)
 				return null;
 			
 			CRLFWS(code, ref pos);
@@ -62,7 +62,7 @@ namespace AHKCore
 				return null;
 
 			origin = pos;
-			return $"{variableName} {op} {expression}";
+			return visitor.variableAssign(variable, op, expression);
 		}
 
 		string opChecker(string code, ref int origin, string[] ops)
