@@ -12,7 +12,7 @@ namespace AHKCore
 				visitor = new defaultVisitor();
 			
 			int i = 0;
-			return variableAssign("this.zxc.qwefunc [ \"zxc \" ] [\"qwe\"]:=\"zxc\"", ref i).ToString();
+			return NUMBER("0x12345AF", ref i).ToString();
 		}
 	}
 

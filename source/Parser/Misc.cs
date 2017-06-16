@@ -51,10 +51,10 @@ namespace AHKCore
 			return _this;
 		}
 
-		string DOUBLE(string code, ref int origin)
+		DOUBLEClass DOUBLE(string code, ref int origin)
 		{
 			int pos = origin;
-			string pre = INT(code, ref pos);
+			var pre = INT(code, ref pos);
 			if (pre == null)
 				return null;
 
@@ -64,15 +64,15 @@ namespace AHKCore
 				return null;
 			pos++;
 			
-			string post = INT(code, ref pos);
+			var post = INT(code, ref pos);
 			if (post == null)
 				return null;
 			
 			origin = pos;
-			return pre + "." + post;
+			return visitor.DOUBLE(pre + "." + post);
 		}
 
-		string HEX(string code, ref int origin)
+		HEXClass HEX(string code, ref int origin)
 		{
 			int pos = origin;
 			const string hexID = "0x";
@@ -86,19 +86,19 @@ namespace AHKCore
 			while(code.Length > pos && "0123456789abcdefABCDEF".Contains(code[pos].ToString()))
 				pos++;
 			
-			string retVal = code.Substring(origin, pos - origin);
+			string retVal = code.Substring(origin + hexID.Length, pos - origin - hexID.Length);
 			origin = pos;
-			return retVal;
+			return visitor.HEX(retVal);
 		}
 
-		string INT(string code, ref int origin)
+		INTClass INT(string code, ref int origin)
 		{
 			int pos = origin;
 			while(code.Length > origin && "0123456789".Contains(code[origin].ToString()))
 				origin++;
 			if (origin == pos)
 				return null;
-			return code.Substring(pos, origin - pos);
+			return visitor.INT(code.Substring(pos, origin - pos));
 		}
 
 		/*
@@ -106,9 +106,9 @@ namespace AHKCore
 			HEX -> INT
 			DOUBLE -> INT
 		*/
-		string NUMBER(string code, ref int origin)
+		object NUMBER(string code, ref int origin)
 		{
-			return HEX(code, ref origin) ?? DOUBLE(code, ref origin) ?? INT(code, ref origin);
+			return HEX(code, ref origin) ?? (object) DOUBLE(code, ref origin) ?? INT(code, ref origin);
 		}
 
 		string CRLFWS(string code, ref int origin)
