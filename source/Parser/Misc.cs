@@ -51,6 +51,66 @@ namespace AHKCore
 			return _this;
 		}
 
+		string DOUBLE(string code, ref int origin)
+		{
+			int pos = origin;
+			string pre = INT(code, ref pos);
+			if (pre == null)
+				return null;
+
+			if (code.Length < pos + ".".Length)
+				return null;
+			if (code[pos] != '.')
+				return null;
+			pos++;
+			
+			string post = INT(code, ref pos);
+			if (post == null)
+				return null;
+			
+			origin = pos;
+			return pre + "." + post;
+		}
+
+		string HEX(string code, ref int origin)
+		{
+			int pos = origin;
+			const string hexID = "0x";
+
+			if (code.Length < pos + hexID.Length)
+				return null;
+			if (!code.Substring(pos, hexID.Length).Equals(hexID, StringComparison.OrdinalIgnoreCase))
+				return null;
+			pos += hexID.Length;
+
+			while(pos < code.Length && "0123456789abcdefABCDEF".Contains(code[pos].ToString()))
+				pos++;
+			
+			string retVal = code.Substring(origin, pos - origin);
+			origin = pos;
+			return retVal;
+		}
+
+		string INT(string code, ref int origin)
+		{
+			int pos = origin;
+			while(origin < code.Length && "0123456789".Contains(code[origin].ToString()))
+				origin++;
+			if (origin == pos)
+				return null;
+			return code.Substring(pos, origin - pos);
+		}
+
+		/*
+			Call Order :
+			HEX -> INT
+			DOUBLE -> INT
+		*/
+		string NUMBER(string code, ref int origin)
+		{
+			return HEX(code, ref origin) ?? DOUBLE(code, ref origin) ?? INT(code, ref origin);
+		}
+
 		string CRLFWS(string code, ref int origin)
 		{
 			bool retVal = false;
