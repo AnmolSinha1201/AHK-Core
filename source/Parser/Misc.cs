@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using static AHKCore.BaseVisitor;
 
 namespace AHKCore
 {
@@ -24,14 +25,14 @@ namespace AHKCore
 			return code.Substring(start, origin - start);
 		}
 
-		string STRING(string code, ref int origin)
+		STRINGClass STRING(string code, ref int origin)
 		{
 			Regex regex = new Regex(@"""(?>[^\\\n""]+|\\.)*""");
 			Match match = regex.Match(code, origin);
 			if (match.Success)
 			{
 				origin = match.Index + match.Length;
-				return match.Value;
+				return visitor.STRING(match.Value);
 			}
 			return null;
 		}
