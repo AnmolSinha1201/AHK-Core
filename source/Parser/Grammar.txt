@@ -1,16 +1,21 @@
-variableAssign : complexVariable WS* ':=' WS* expression ;
+variableAssign 
+	: complexVariable CRLFWS* 
+	(':=' | '+=' | '-=' | '*=' | '/=' | '//=' | '.=' | '|=' | '&=' | '^=' | '>>=' | '<<=') 
+	WS* expression ;
 
 /*
 	implemented as 
-	complexVariable : this? variableOrFunction ;
-
-	minus the ending-with-function case to reuse existing code.
+	complexVariable : this? variableOrFunction ; with ensurance it doesn't end with function
 */
 complexVariable 
 	: this? variableOrFunction '.' variable
 	| this? variableOrFunction WS* '[' WS* expression WS* ']' // variableOrFunction bracketUnwrap
 	| this? variable ;
 
+/*
+	implemented as
+	complexFunction : this? variableOrFunction (if doesn't end with function : WS* functionParameter)
+ */
 complexFunction
 	: this? variableOrFunction '.' functionCall
 	| this? variableOrFunction WS* '[' WS* expression WS* ']' WS* functionParameter 
