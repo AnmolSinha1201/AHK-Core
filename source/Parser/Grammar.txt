@@ -1,7 +1,4 @@
-variableAssign 
-	: complexVariable CRLFWS* 
-	(':=' | '+=' | '-=' | '*=' | '/=' | '//=' | '.=' | '|=' | '&=' | '^=' | '>>=' | '<<=') 
-	WS* expression ;
+variable : NAME ;
 
 /*
 	implemented as 
@@ -11,6 +8,28 @@ complexVariable
 	: this? variableOrFunction '.' variable
 	| this? variableOrFunction WS* '[' WS* expression WS* ']' // variableOrFunction bracketUnwrap
 	| this? variable ;
+
+variableAssign 
+	: complexVariable CRLFWS* 
+	(':=' | '+=' | '-=' | '*=' | '/=' | '//=' | '.=' | '|=' | '&=' | '^=' | '>>=' | '<<=') 
+	WS* expression ;
+
+
+
+variableOrFunction
+	: variable
+	| functionCall
+	| variableOrFunction '.' variableOrFunction
+	| variableOrFunction WS* '[' WS* expression WS* ']' ; // variableOrFunction bracketUnwrap
+
+bracketUnwrap : WS* '[' WS* expression WS* ']' ;
+
+
+
+functionCall : NAME WS* functionParameter ;
+functionParameter : '(' WS* (expression? | (expression (CRLFWS* ',' WS* expression)*)) ')' ;
+// no need to check WS right before bracket as CRLFWS is executed in case 2 & +ve case 1 AND WS in -ve case 1
+// functionParamter is abstracted so that it can be reused in complexFunctions
 
 /*
 	implemented as
@@ -23,20 +42,6 @@ complexFunction
 	| this? functionCall ;
 
 
-variableOrFunction
-	: variable
-	| functionCall
-	| variableOrFunction '.' variableOrFunction
-	| variableOrFunction WS* '[' WS* expression WS* ']' ; // variableOrFunction bracketUnwrap
-
-bracketUnwrap : WS* '[' WS* expression WS* ']' ;
-
-variable : NAME ;
-
-functionCall : NAME WS* functionParameter ;
-functionParameter : '(' WS* (expression? | (expression (CRLFWS* ',' WS* expression)*)) ')' ;
-// no need to check right before bracket as CRLFWS is executed in case 2 & +ve case 1 AND WS in -ve case 1
-// functionParamter is abstracted so that it can be reused in complexFunctions
 
 this : 'this.' ; // abstacted away for code reuse 
 WS : '\t' | ' ' ;
