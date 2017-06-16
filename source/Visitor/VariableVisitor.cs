@@ -63,10 +63,11 @@ namespace AHKCore
 		#region variableAssign
 		public class variableAssignClass
 		{
-			public string defaultValue, op, expression;
+			public string defaultValue, op;
 			public complexVariableClass variable;
+			public object expression;
 
-			public variableAssignClass(complexVariableClass variable, string op, string expression)
+			public variableAssignClass(complexVariableClass variable, string op, object expression)
 			{
 				this.variable = variable;
 				this.op = op;
@@ -77,7 +78,7 @@ namespace AHKCore
 			public override string ToString() => defaultValue;
 		}
 
-		public virtual variableAssignClass variableAssign(complexVariableClass variable, string op, string expression)
+		public virtual variableAssignClass variableAssign(complexVariableClass variable, string op, object expression)
 		{
 			return new variableAssignClass(variable, op, expression);
 		}

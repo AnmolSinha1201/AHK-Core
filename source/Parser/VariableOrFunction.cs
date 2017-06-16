@@ -76,7 +76,7 @@ namespace AHKCore
 			pos++;
 			WS(code, ref pos);
 
-			string retVal = Expression(code, ref pos);
+			object retVal = Expression(code, ref pos);
 			if (retVal == null)
 				return null;
 			
