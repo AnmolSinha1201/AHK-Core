@@ -54,6 +54,9 @@ namespace AHKCore
 		dotUnwrapClass dotUnwrap(string code, ref int origin)
 		{
 			int pos = origin;
+
+			if (code.Length < pos + ".".Length)
+				return null;
 			if (code[pos] != '.')
 				return null;
 			pos++;
@@ -71,6 +74,8 @@ namespace AHKCore
 			int pos = origin;
 
 			WS(code, ref pos);
+			if (code.Length < pos + "[".Length)
+				return null;
 			if (code[pos] != '[')
 				return null;
 			pos++;
@@ -81,6 +86,8 @@ namespace AHKCore
 				return null;
 			
 			WS(code, ref pos);
+			if (code.Length < pos + "]".Length)
+				return null;
 			if (code[pos] != ']')
 				return null;
 			pos++;
