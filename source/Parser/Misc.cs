@@ -14,7 +14,7 @@ namespace AHKCore
 			const string last = first + "0123456789";
 
 			int start = origin;
-			if (code.Length <= origin)
+			if (code.Length < origin + 1) // minimum size of NAME is 1
 				return null;
 			if (!first.Contains(code[origin].ToString()))
 				return null;
@@ -83,7 +83,7 @@ namespace AHKCore
 				return null;
 			pos += hexID.Length;
 
-			while(pos < code.Length && "0123456789abcdefABCDEF".Contains(code[pos].ToString()))
+			while(code.Length > pos && "0123456789abcdefABCDEF".Contains(code[pos].ToString()))
 				pos++;
 			
 			string retVal = code.Substring(origin, pos - origin);
@@ -94,7 +94,7 @@ namespace AHKCore
 		string INT(string code, ref int origin)
 		{
 			int pos = origin;
-			while(origin < code.Length && "0123456789".Contains(code[origin].ToString()))
+			while(code.Length > origin && "0123456789".Contains(code[origin].ToString()))
 				origin++;
 			if (origin == pos)
 				return null;
@@ -114,7 +114,7 @@ namespace AHKCore
 		string CRLFWS(string code, ref int origin)
 		{
 			bool retVal = false;
-			while (origin < code.Length && "\r\n\t ".Contains(code[origin].ToString()))
+			while (code.Length > origin && "\r\n\t ".Contains(code[origin].ToString()))
 			{
 				retVal = true;
 				origin++;
@@ -125,7 +125,7 @@ namespace AHKCore
 		string WS(string code, ref int origin)
 		{
 			bool retVal = false;
-			while (origin < code.Length && "\t ".Contains(code[origin].ToString()))
+			while (code.Length > origin && "\t ".Contains(code[origin].ToString()))
 			{
 				retVal = true;
 				origin++;
@@ -136,7 +136,7 @@ namespace AHKCore
 		string CRLF(string code, ref int origin)
 		{
 			bool retVal = false;
-			while (origin < code.Length && "\r\n".Contains(code[origin].ToString()))
+			while (code.Length > origin && "\r\n".Contains(code[origin].ToString()))
 			{
 				retVal = true;
 				origin++;
