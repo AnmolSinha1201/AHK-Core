@@ -68,7 +68,7 @@ namespace AHKCore
 		string opChecker(string code, ref int origin, string[] ops)
 		{
 			foreach (var op in ops)
-				if (code.Substring(origin, op.Length) == op)
+				if (code.Length > origin + op.Length && code.Substring(origin, op.Length) == op)
 				{
 					origin += op.Length;
 					return op;
