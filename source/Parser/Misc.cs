@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Linq;
 using static AHKCore.BaseVisitor;
 
 namespace AHKCore
@@ -142,6 +143,19 @@ namespace AHKCore
 				origin++;
 			}
 			return retVal ? "\n" : null;
+		}
+
+		string opChecker(string code, ref int origin, string[] ops)
+		{
+			ops = ops.OrderByDescending(op => op.Length).ToArray();
+			foreach (var op in ops)
+				if (code.Length > origin + op.Length && code.Substring(origin, op.Length) == op)
+				{
+					origin += op.Length;
+					return op;
+				}
+			
+			return null;
 		}
 	}
 

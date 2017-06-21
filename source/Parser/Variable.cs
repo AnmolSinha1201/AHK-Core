@@ -64,17 +64,5 @@ namespace AHKCore
 			origin = pos;
 			return visitor.variableAssign(variable, op, expression);
 		}
-
-		string opChecker(string code, ref int origin, string[] ops)
-		{
-			foreach (var op in ops)
-				if (code.Length > origin + op.Length && code.Substring(origin, op.Length) == op)
-				{
-					origin += op.Length;
-					return op;
-				}
-			
-			return null;
-		}
 	}
 }
