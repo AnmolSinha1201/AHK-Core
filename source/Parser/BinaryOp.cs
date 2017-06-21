@@ -1,21 +1,24 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static AHKCore.BaseVisitor;
 
 namespace AHKCore
 {
 	partial class Parser
 	{
-        string binaryOperation(string code, ref int origin)
+        binaryOperationClass binaryOperation(string code, ref int origin, object precursor)
         {
-            List<object> part2 = new List<object>();
-            object o;
+            List<binaryOpLink> binaryOpLinkList = new List<binaryOpLink>();
+            binaryOpLinkList.Add(new binaryOpLink(null, precursor));
+            binaryOpLink o;
+
             while ((o = mathematicalOperation(code, ref origin)) != null)
-                part2.Add(o);
-            return part2.FlattenAsChain();
+                binaryOpLinkList.Add(o);
+            return visitor.binaryOperation(binaryOpLinkList);
         }
 
-        string mathematicalOperation(string code, ref int origin)
+        binaryOpLink mathematicalOperation(string code, ref int origin)
         {
             int pos = origin;
             string[] ops = {"+", "-", "*", "/", "//", "**"};
@@ -30,7 +33,7 @@ namespace AHKCore
                 return null;
 
             origin = pos;
-            return $"{op} {expression}";
+            return new binaryOpLink(op, expression);
         }
 	}
 }

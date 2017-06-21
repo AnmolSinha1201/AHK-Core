@@ -7,7 +7,7 @@ namespace AHKCore
 	public abstract partial class BaseVisitor
 	{
 		#region binaryOp
-        class binaryOpLink
+        public class binaryOpLink
         {
             public string defaultValue, op;
             public object expression;
@@ -24,16 +24,23 @@ namespace AHKCore
         }
 
         // the first item of the list should always be a head. A head's op = null
-        class binaryOp
+        public class binaryOperationClass
         {
             public List<binaryOpLink> binaryOpLinkList= new List<binaryOpLink>();
             public string defaultValue;
 
-            public binaryOp(List<binaryOpLink> binaryOpLinkList)
+            public binaryOperationClass(List<binaryOpLink> binaryOpLinkList)
             {
                 this.binaryOpLinkList = binaryOpLinkList;
-                this.defaultValue
+                this.defaultValue = binaryOpLinkList.FlattenAsChain(" ");
             }
+
+            public override string ToString() => defaultValue;
+        }
+
+        public virtual binaryOperationClass binaryOperation(List<binaryOpLink> binaryOpLinkList)
+        {
+            return new binaryOperationClass(binaryOpLinkList);
         }
 		#endregion
 	}

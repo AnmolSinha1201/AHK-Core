@@ -12,7 +12,7 @@ namespace AHKCore
 				visitor = new defaultVisitor();
 			
 			int i = 0;
-			return NUMBER("0x12345AF", ref i).ToString();
+			return binaryOperation("+2+3//4", ref i, "1").ToString();
 		}
 	}
 
