@@ -43,6 +43,24 @@ complexFunction
 
 
 
+
+
+functionDeclaration : functionHead functionBody ;
+
+functionHead : NAME '(' WS* functionDeclaraionParameterList WS* ')' ;
+functionDeclaraionParameterList : noDefaultParameterList CRLFWS* ',' WS* defaultParameterList CRLFWS* ',' WS* variadicParameterList;
+noDefaultParameterList : noDefaultParam (CRLFWS* ',' WS* noDefaultParam)* ; //also ensure they are no other param type
+defaultParameterList : defaultParam (CRLFWS* ',' WS* defaultParam)  ;
+variadicParameterList : variadicParam ;
+
+noDefaultParam : variable ;
+defaultParam : variable CRLFWS* '=' WS* expression ;
+variadicParam :	variable CRLFWS* '*' ;
+
+functionBody : '{' CRLFWS* functionBodyBlock CRLFWS* '}' ;
+functionBodyBlock : ;
+
+
 expression : STRING | NUMBER binaryOperation ;
 
 binaryOperation : CRLFWS* mathematicalOperation ;
