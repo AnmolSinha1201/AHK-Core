@@ -87,7 +87,7 @@ namespace AHKCore
 				this.functionHead = functionHead;
 				this.functionBody = functionBody;
 				
-				this.defaultValue = $"{functionHead}\n{{{functionBody.FlattenAsChain("\n\t")}\n}}";
+				this.defaultValue = $"{functionHead}\n{{\n\t{functionBody.FlattenAsChain("\n\t")}\n}}";
 			}
 
 			public override string ToString() => defaultValue;
