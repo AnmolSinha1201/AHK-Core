@@ -178,5 +178,79 @@ namespace AHKCore
 			origin = pos;
 			return list1.Concat(list2).ToList();
 		}
+
+		/*
+			functionDeclaration : functionHead functionBody;
+		 */
+
+		functionDeclarationClass functionDeclaration(string code, ref int origin)
+		{
+			int pos = origin;
+			var fHead = functionHead(code, ref pos);
+			if (fHead == null)
+				return null;
+			
+			CRLFWS(code, ref pos);
+			var fBody = functionBody(code, ref pos);
+			if (fBody == null)
+				return null;
+			
+			origin = pos;
+			return visitor.functionDeclaration(fHead, fBody);
+		}
+
+		functionHeadClass functionHead(string code, ref int origin)
+		{
+			int pos = origin;
+
+			string functionName = NAME(code, ref pos);
+			if (functionName == null)
+				return null;
+
+			if (code.Length < pos + "(".Length) //end of string
+				return null;
+			if (code[pos] != '(') 
+				return null;
+			pos++;
+
+			WS(code, ref pos);
+			var functionParameters = functionDeclarationParamterList(code, ref pos);
+			WS(code, ref pos);
+
+			if (code.Length < pos + ")".Length) //end of string
+				return null;
+			if (code[pos] != ')') 
+				return null;
+			pos++;
+
+			origin = pos;
+			return visitor.functionHead(functionName, functionParameters);
+		}
+
+		List<object> functionBody(string code, ref int origin)
+		{
+			int pos = origin;
+
+			if (code.Length < pos + "{".Length) //end of string
+				return null;
+			if (code[pos] != '{') 
+				return null;
+			pos++;
+			
+			CRLFWS(code, ref pos);
+			var functionBody = functionBodyBlock(code, ref pos);
+			if (functionBody == null)
+				return null;
+			CRLFWS(code, ref pos);
+
+			if (code.Length < pos + "}".Length) //end of string
+				return null;
+			if (code[pos] != '}') 
+				return null;
+			pos++;
+
+			origin = pos;
+			return functionBody;
+		}
 	}
 }
