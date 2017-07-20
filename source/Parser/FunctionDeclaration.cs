@@ -62,11 +62,8 @@ namespace AHKCore
 
 
 		/*
-			Split noDefaultParamList from other types of param lists because nDPs can consume other parameter partials leaving
-			rest of the param list stuck.
+			noDefaultParam can consume partial grammar of other paramter types. Therefore ensure that parameter is no other type
 			Eg : var * ---> var will be consumed by nDP and will leave *
-
-			noDefaultParamList also ensures that the param is of no other type.
 
 			All listing functions are implemented as : PARAM (',' PARAM)* so that we can check ','s after each list. This
 			is necessary for stricter grammar conditions. Just putting them in a loop would be easier to implement but would
@@ -95,8 +92,8 @@ namespace AHKCore
 
 				if ((defaultParam(code, ref pos2) != null || variadicParam(code, ref pos2) != null) || (param = noDefaultParam(code, ref pos2)) == null)
 					break;
-				pos = pos2;
 
+				pos = pos2;
 				parameterInfoList.Add(param);
 			}
 
@@ -104,27 +101,16 @@ namespace AHKCore
 			return parameterInfoList;
 		}
 
-		
-		delegate parameterInfoClass functionParameterParserDelegate(string code, ref int origin);
-		List<parameterInfoClass> otherParameterList(string code, ref int origin)
+		List<parameterInfoClass> defaultParameterList(string code, ref int origin)
 		{
 			int pos = origin;
-			var parameterParserQueue = new Queue<functionParameterParserDelegate>();
-			parameterParserQueue.Enqueue(defaultParam);
-			parameterParserQueue.Enqueue(variadicParam);
 			var parameterInfoList = new List<parameterInfoClass>();
 			parameterInfoClass param;
 			
-			var parserFunction = parameterParserQueue.Dequeue();
-			if ((param = parserFunction(code, ref pos)) == null)
-			{
-				parserFunction = parameterParserQueue.Dequeue();
-				if ((param = parserFunction(code, ref pos)) == null)
-					return parameterInfoList;
-			}
+			if ((param = defaultParam(code, ref pos)) == null)
+				return parameterInfoList;
 			parameterInfoList.Add(param);
 
-			
 			while (true)
 			{
 				int pos2 = pos;
@@ -136,18 +122,24 @@ namespace AHKCore
 				pos2++;
 				WS(code, ref pos2);
 
-				if ((param = parserFunction(code, ref pos2)) == null)
-				{
-					if (parameterParserQueue.Count == 0)
-						break;
-					parserFunction = parameterParserQueue.Dequeue();
-					continue;
-				}
-				parameterInfoList.Add(param);
+				if ((param = defaultParam(code, ref pos2)) == null)
+					break;
+
 				pos = pos2;
+				parameterInfoList.Add(param);
 			}
 
 			origin = pos;
+			return parameterInfoList;
+		}
+
+		List<parameterInfoClass> variadicParameterList(string code, ref int origin)
+		{
+			var parameterInfoList = new List<parameterInfoClass>();
+			parameterInfoClass param;
+			
+			if ((param = variadicParam(code, ref origin)) != null)
+				parameterInfoList.Add(param);
 			return parameterInfoList;
 		}
 
@@ -160,8 +152,8 @@ namespace AHKCore
 		List<parameterInfoClass> functionDeclarationParamterList(string code, ref int origin)
 		{
 			int pos = origin;
-			var list1 = noDefaultParamList(code, ref pos);
 
+			var list1 = noDefaultParamList(code, ref pos);
 			if (list1.Count > 0) // check for ','s only if list1 is empty.
 			{
 				CRLFWS(code, ref pos);
@@ -173,10 +165,22 @@ namespace AHKCore
 				WS(code, ref pos);
 			}
 
-			var list2 = otherParameterList(code, ref pos);
+			var list2 = defaultParameterList(code, ref pos);
+			if (list2.Count > 0) // check for ','s only if list2 is empty.
+			{
+				CRLFWS(code, ref pos);
+				if (code.Length < pos + ",".Length) //end of string
+					return list1;
+				if (code[pos] != ',') 
+					return list1;
+				pos++;
+				WS(code, ref pos);
+			}
+
+			var list3 = variadicParameterList(code, ref pos);
 
 			origin = pos;
-			return list1.Concat(list2).ToList();
+			return list1.Concat(list2).Concat(list3).ToList();
 		}
 
 		/*
