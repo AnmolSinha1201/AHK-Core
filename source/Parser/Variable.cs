@@ -39,7 +39,7 @@ namespace AHKCore
 				return null;
 
 			origin = pos;
-			return visitor.complexVariable(_this,vorF);
+			return visitor.complexVariable(_this, vorF);
 		}
 
 		variableAssignClass variableAssign(string code, ref int origin)
@@ -51,7 +51,7 @@ namespace AHKCore
 				return null;
 			
 			CRLFWS(code, ref pos);
-			string[] ops = {":=", "+=", "-=", "*=", "/=", "//=", "+=", ".=", "|=", "&=", "^=", ">>=", "<<="};
+			string[] ops = {"=", ":=", "+=", "-=", "*=", "/=", "//=", "+=", ".=", "|=", "&=", "^=", ">>=", "<<="};
 			string op;
 			if ((op = opChecker(code, ref pos, ops)) == null)
 				return null;
