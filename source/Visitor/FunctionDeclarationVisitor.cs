@@ -52,5 +52,51 @@ namespace AHKCore
 			return new parameterInfoClass(variableName, isVariadic);
 		}
 		#endregion
+
+		#region functionHead
+		public class functionHeadClass
+		{
+			public string defaultValue, functionName;
+			public List<parameterInfoClass> functionParameters;
+
+			public functionHeadClass(string functionName, List<parameterInfoClass> functionParameters)
+			{
+				this.functionName = functionName;
+				this.functionParameters = functionParameters;
+				this.defaultValue = $"{functionName}({functionParameters.FlattenAsFunctionParam()})";
+			}
+
+			public override string ToString() => defaultValue;
+		}
+
+		public virtual functionHeadClass functionHead(string functionName, List<parameterInfoClass> functionParameters)
+		{
+			return new functionHeadClass(functionName, functionParameters);
+		}
+		#endregion
+
+		#region functionDeclaration
+		public class functionDeclarationClass
+		{
+			public string defaultValue;
+			public functionHeadClass functionHead;
+			public List<object> functionBody;
+
+			public functionDeclarationClass(functionHeadClass functionHead, List<object> functionBody)
+			{
+				this.functionHead = functionHead;
+				this.functionBody = functionBody;
+				
+				this.defaultValue = $"{functionHead}\n{{{functionBody.FlattenAsChain("\n\t")}\n}}";
+			}
+
+			public override string ToString() => defaultValue;
+		}
+
+		public virtual functionDeclarationClass functionDeclaration(functionHeadClass functionHead, List<object> functionBody)
+		{
+			return new functionDeclarationClass(functionHead, functionBody);
+		}
+		#endregion
 	}
 }
