@@ -241,10 +241,18 @@ namespace AHKCore
 				return null;
 			pos++;
 			
+			var functionBodyList = new List<object>();
 			CRLFWS(code, ref pos);
-			var functionBody = functionBodyBlock(code, ref pos);
-			if (functionBody == null)
-				return null;
+			while (true)
+			{
+				var functionBody = functionBodyBlock(code, ref pos);
+				if (functionBody == null)
+					break;
+				functionBodyList.AddConcat(functionBody);
+
+				if (CRLF(code, ref pos) == null) //compulsory CRLF so that various blocks can not be chained together
+					break;
+			}
 			CRLFWS(code, ref pos);
 
 			if (code.Length < pos + "}".Length) //end of string
@@ -254,7 +262,7 @@ namespace AHKCore
 			pos++;
 
 			origin = pos;
-			return functionBody;
+			return functionBodyList;
 		}
 	}
 }

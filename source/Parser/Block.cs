@@ -13,19 +13,15 @@ namespace AHKCore
 				visitor = new defaultVisitor();
 			
 			int i = 0;
-			return functionDeclaration("qwe(\tvar\t,var2\t\n,\tvar=123    \n, 		\tvar *\t)\t\n\t{}", ref i)?.ToString();
+			return functionDeclaration("qwe(\tvar\t,var2\t\n,\tvar=123    \n, 		\tvar *\t)\t\n\t{\nvar=123\nvar2=12345}", ref i)?.ToString();
 		}
-
-		/*
-			Each block will have its own driver loop so it can better control which parts are chainable and which are not.
-		 */
 
 		/*
 			Blocks which are allowed inside a function.
 		 */
-		List<object> functionBodyBlock(string code, ref int origin)
+		object functionBodyBlock(string code, ref int origin)
 		{
-			return new List<object>();
+			return variableAssign(code, ref origin);
 		}
 	}
 
