@@ -12,7 +12,7 @@ namespace AHKCore
 				visitor = new defaultVisitor();
 			
 			int i = 0;
-			return binaryOperation("+2+3//4", ref i, "1").ToString();
+			return functionDeclarationParamterList("var\t,var2\t\n,\tvar=123    \n, 		\tvar *", ref i)?.FlattenAsFunctionParam();
 		}
 	}
 
