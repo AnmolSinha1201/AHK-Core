@@ -179,5 +179,14 @@ namespace AHKCore
 			
 			return sb.ToString();
 		}
+
+		public static IEnumerable<T> AddConcat<T>(this List<T> l, object o)
+		{
+			if (o.GetType() == typeof(List<T>))
+				return l.Concat((List<T>)o);
+
+			l.Add((T)o);
+			return l;
+		}
 	}
 }
