@@ -23,6 +23,62 @@ namespace AHKCore
 		{
 			return variableAssign(code, ref origin);
 		}
+
+		Object loopBlock(string code, ref int origin)
+		{
+			return breakBlock(code, ref origin) ?? continueBLock(code, ref origin) ?? (object)functionBodyBlock(code, ref origin);
+		}
+
+		List<object> loopBodyBlock(string code, ref int origin)
+		{
+			return loopBodyBlockWithParentheses(code, ref origin) ?? loopBodyBlockWithoutParentheses(code, ref origin);
+		}
+
+		List<object> loopBodyBlockWithParentheses(string code, ref int origin)
+		{
+			int pos = origin;
+			var loopBlockList = new List<object>();
+
+			if (code.Length < pos + "{".Length)
+				return null;
+			if (code[pos] != '{')
+				return null;
+			pos++;
+
+			CRLFWS(code, ref pos);
+			while (true)
+			{
+				var lBody = loopBlock(code, ref pos);
+				if (lBody == null)
+					break;
+				loopBlockList.Add(lBody);
+
+				if (CRLF(code, ref pos) == null) //compulsory CRLF so that various blocks can not be chained together
+					break;
+			}
+			CRLFWS(code, ref pos);
+
+			if (code.Length < pos + "}".Length)
+				return null;
+			if (code[pos] != '}')
+				return null;
+			pos++;
+
+			origin = pos;
+			return loopBlockList;
+		}
+
+		List<object> loopBodyBlockWithoutParentheses(string code, ref int origin)
+		{
+			var loopBlockList = new List<object>();
+
+			var lBody = loopBlock(code, ref origin);
+			if (lBody == null)
+				return null;
+			loopBlockList.Add(lBody);
+
+			return loopBlockList;
+		}		
 	}
 
 	class defaultVisitor : BaseVisitor {}
