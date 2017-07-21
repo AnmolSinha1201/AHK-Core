@@ -78,7 +78,41 @@ namespace AHKCore
 			loopBlockList.Add(lBody);
 
 			return loopBlockList;
-		}		
+		}
+
+		object conditionalBlock(string code, ref int origin)
+		{
+			return conditionalBlockWithParentheses(code, ref origin) ?? conditionalBlockWithoutParentheses(code, ref origin);
+		}
+
+		object conditionalBlockWithParentheses(string code, ref int origin)
+		{
+			int pos = origin;
+
+			if (code.Length < pos + "(".Length)
+				return null;
+			if (code[pos] != '(')
+				return null;
+			pos++;
+
+			WS(code, ref pos);
+			var expression = Expression(code, ref pos);
+			WS(code, ref pos);
+
+			if (code.Length < pos + ")".Length)
+				return null;
+			if (code[pos] != ')')
+				return null;
+			pos++;
+
+			origin = pos;
+			return expression;
+		}
+
+		object conditionalBlockWithoutParentheses(string code, ref int origin)
+		{
+			return Expression(code, ref origin);
+		}
 	}
 
 	class defaultVisitor : BaseVisitor {}

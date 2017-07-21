@@ -63,6 +63,11 @@ functionBodyBlock : ;
 
 
 
+conditionalBlock : '(' WS* expression WS* ')' | expression ;
+
+
+
+
 loopBlock : 'break' | 'continue' | functionBodyBlock ;
 loopBodyBlock : loopBodyBlockWithParentheses | loopBodyBlockWithoutParentheses ;
 loopBodyBlockWithParentheses : '{' CRLFWS* (loopBlock CRLF)* CRLFWS* '}' ; //CRLF is compulsory
