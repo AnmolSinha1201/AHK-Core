@@ -33,5 +33,28 @@ namespace AHKCore
             return new continueBlockClass();
         }
         #endregion
+
+        #region loopLoop
+        public class loopLoopClass
+        {
+            public string defaultValue;
+            public object count;
+            public List<object> loopBody;
+
+            public loopLoopClass(object count, List<object> loopBody)
+            {
+                this.count = count;
+                this.loopBody = loopBody;
+                this.defaultValue = $"loop{(count == null? "" : ", " + count)}\n{{\n\t{loopBody.FlattenAsChain("\n\t")}\n}}";
+            }
+
+            public override string ToString() => defaultValue;
+        }
+
+        public virtual loopLoopClass loopLoop(object count, List<object> loopBody)
+        {
+            return new loopLoopClass(count, loopBody);
+        }
+        #endregion
 	}
 }

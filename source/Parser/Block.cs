@@ -13,7 +13,7 @@ namespace AHKCore
 				visitor = new defaultVisitor();
 			
 			int i = 0;
-			return functionDeclaration("qwe(\tvar\t,var2\t\n,\tvar=123    \n, 		\tvar *\t)\t\n\t{\nvar=123\nvar2=12345}", ref i)?.ToString();
+			return loopLoop("loop\n, 123{\n\tvar :=123\t\nvar2:=456}", ref i)?.ToString();
 		}
 
 		/*
@@ -53,8 +53,10 @@ namespace AHKCore
 					break;
 				loopBlockList.Add(lBody);
 
+				WS(code, ref pos);
 				if (CRLF(code, ref pos) == null) //compulsory CRLF so that various blocks can not be chained together
 					break;
+				CRLFWS(code, ref pos);
 			}
 			CRLFWS(code, ref pos);
 

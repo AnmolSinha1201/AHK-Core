@@ -26,5 +26,26 @@ namespace AHKCore
 			origin += _continue.Length;
 			return visitor.continueBlock();
         }
+
+		loopLoopClass loopLoop(string code, ref int origin)
+		{
+			int pos = origin;
+
+			var _command = commandBlock(code, ref pos);
+			if (_command == null)
+				return null;
+			
+			const string _loop = "loop";
+			if (!_command.commandBlockList[0].ToString().Equals(_loop, StringComparison.OrdinalIgnoreCase))
+				return null;
+
+			CRLFWS(code, ref pos);
+			var loopBody = loopBodyBlock(code, ref pos);
+			if (loopBody == null)
+				return null;
+			
+			origin = pos;
+			return visitor.loopLoop(_command.commandBlockList.Count > 1 ? _command.commandBlockList[1] : null, loopBody);
+		}
 	}
 }
