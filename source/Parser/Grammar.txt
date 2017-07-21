@@ -61,6 +61,16 @@ functionBody : '{' CRLFWS* functionBodyBlock CRLFWS* '}' ;
 functionBodyBlock : ;
 
 
+
+
+loopBlock : 'break' | 'continue' | functionBodyBlock ;
+loopBodyBlock : loopBodyBlockWithParentheses | loopBodyBlockWithoutParentheses ;
+loopBodyBlockWithParentheses : '{' CRLFWS* (loopBlock CRLF)* CRLFWS* '}' ; //CRLF is compulsory
+loopBodyBlockWithoutParentheses : loopBlock ;
+
+
+
+
 expression : STRING | NUMBER binaryOperation ;
 
 binaryOperation : CRLFWS* mathematicalOperation ;
