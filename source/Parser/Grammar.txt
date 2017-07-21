@@ -73,6 +73,16 @@ loopBodyBlock : loopBodyBlockWithParentheses | loopBodyBlockWithoutParentheses ;
 loopBodyBlockWithParentheses : '{' CRLFWS* (loopBlock CRLF)* CRLFWS* '}' ; //CRLF is compulsory
 loopBodyBlockWithoutParentheses : loopBlock ;
 
+loopLoop : 'loop'
+
+
+
+
+commandBlock : command subcommand CRLFWS* commandParams* ;
+command : NAME ;
+subcommand : (CRLFWS* ',')? WS* expression ; // must have a ',' if it has CRLFWS
+commandParams : ',' WS* expression ;
+
 
 
 
