@@ -157,6 +157,17 @@ namespace AHKCore
 			
 			return null;
 		}
+
+		string stringMatcher(string code, ref int origin, string toMatch)
+		{
+			if (code.Length < origin + toMatch.Length)
+				return null;
+			if (!code.Substring(origin, toMatch.Length).Equals(toMatch, StringComparison.OrdinalIgnoreCase))
+				return null;
+			origin += toMatch.Length;
+
+			return toMatch;
+		}
 	}
 
 	public static class listExtension
