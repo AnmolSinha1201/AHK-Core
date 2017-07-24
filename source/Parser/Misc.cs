@@ -43,13 +43,7 @@ namespace AHKCore
 		 */
 		string THIS(string code, ref int origin)
 		{
-			const string _this = "this.";
-			if (code.Length < origin + _this.Length)
-				return null;
-			if (!code.Substring(origin, _this.Length).Equals(_this, StringComparison.OrdinalIgnoreCase))
-				return null;
-			origin += _this.Length;
-			return _this;
+			return stringMatcher(code, ref origin, "this.");
 		}
 
 		DOUBLEClass DOUBLE(string code, ref int origin)
