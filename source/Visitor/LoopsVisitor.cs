@@ -56,5 +56,55 @@ namespace AHKCore
             return new loopLoopClass(count, loopBody);
         }
         #endregion
+
+        #region whileLoop
+        public class whileLoopClass
+        {
+            public string defaultValue;
+            public object condition;
+            public List<object> loopBody;
+
+            public whileLoopClass(object condition, List<object> loopBody)
+            {
+                this.condition = condition;
+                this.loopBody = loopBody;
+                this.defaultValue = $"while ({condition})\n{{\n\t{loopBody.FlattenAsChain("\n\t")}\n}}";
+            }
+
+            public override string ToString() => defaultValue;
+        }
+
+        public virtual whileLoopClass whileLoop(object condition, List<object> loopBody)
+        {
+            return new whileLoopClass(condition, loopBody);
+        }
+        #endregion
+
+        #region foreachLoop
+        public class foreachLoopClass
+        {
+            public string defaultValue;
+            public variableClass key, value;
+            public object iterationObject;
+            public List<object> loopBody;
+
+            public foreachLoopClass(variableClass key, variableClass value, object iterationObject, List<object> loopBody)
+            {
+                this.key = key;
+                this.value = value;
+                this.iterationObject = iterationObject;
+                this.loopBody = loopBody;
+
+                this.defaultValue = $"for {key}{(value == null ? "" : ", " + value)} in {iterationObject}\n{{\n\t{loopBody.FlattenAsChain("\n\t")}\n}}";
+            }
+
+            public override string ToString() => defaultValue;
+        }
+
+        public virtual foreachLoopClass foreachLoop(variableClass key, variableClass value, object iterationObject, List<object> loopBody)
+        {
+            return new foreachLoopClass(key, value, iterationObject, loopBody);
+        }
+        #endregion
 	}
 }
