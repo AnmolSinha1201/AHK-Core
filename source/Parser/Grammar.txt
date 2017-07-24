@@ -73,7 +73,13 @@ loopBodyBlock : loopBodyBlockWithParentheses | loopBodyBlockWithoutParentheses ;
 loopBodyBlockWithParentheses : '{' CRLFWS* (loopBlock CRLF)* CRLFWS* '}' ; //CRLF is compulsory
 loopBodyBlockWithoutParentheses : loopBlock ;
 
-loopLoop : 'loop'
+loopLoop : commandBlock CRLFWS* loopBodyBlock ; //command must be loop
+whileLoop : 'while' WS* conditionalBlock CRLFWS* loopBodyBlock ;
+foreachLoop : 'for' WS key (CRLFWS ',' WS* value)? WS 'in' iterationObject CRLFWS* loopBodyBlock ; //compulsory WS
+key : variable ;
+value : variable ;
+iterationObject : expression ;
+loops : loopLoop | whileLoop | foreachLoop ;
 
 
 
