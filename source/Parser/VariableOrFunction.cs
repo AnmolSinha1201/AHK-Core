@@ -55,11 +55,8 @@ namespace AHKCore
 		{
 			int pos = origin;
 
-			if (code.Length < pos + ".".Length)
+			if (stringMatcher(code, ref pos, ".") == null)
 				return null;
-			if (code[pos] != '.')
-				return null;
-			pos++;
 			object retVal = variableOrFunction(code, ref pos);
 				
 			if (retVal == null)
@@ -74,11 +71,8 @@ namespace AHKCore
 			int pos = origin;
 
 			WS(code, ref pos);
-			if (code.Length < pos + "[".Length)
+			if (stringMatcher(code, ref pos, "[") == null)
 				return null;
-			if (code[pos] != '[')
-				return null;
-			pos++;
 			WS(code, ref pos);
 
 			object retVal = Expression(code, ref pos);
@@ -86,11 +80,8 @@ namespace AHKCore
 				return null;
 			
 			WS(code, ref pos);
-			if (code.Length < pos + "]".Length)
+			if (stringMatcher(code, ref pos, "]") == null)
 				return null;
-			if (code[pos] != ']')
-				return null;
-			pos++;
 
 			origin = pos;
 			return visitor.bracketUnwrap(retVal);

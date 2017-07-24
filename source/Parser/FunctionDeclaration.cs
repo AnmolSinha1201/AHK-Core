@@ -26,11 +26,8 @@ namespace AHKCore
 				return null;
 
 			CRLFWS(code, ref pos);
-			if (code.Length < pos + "=".Length)
+			if (stringMatcher(code, ref pos, "=") == null)
 				return null;
-			if (code[pos] != '=')
-				return null;
-			pos++;
 			WS(code, ref pos);
 
 			var expression = Expression(code, ref pos);
@@ -50,11 +47,8 @@ namespace AHKCore
 				return null;
 
 			CRLFWS(code, ref pos);
-			if (code.Length < pos + "*".Length)
+			if (stringMatcher(code, ref pos, "*") == null)
 				return null;
-			if (code[pos] != '*')
-				return null;
-			pos++;
 			
 			origin = pos;
 			return visitor.parameterInfo(variableName, true);
@@ -83,11 +77,8 @@ namespace AHKCore
 			{
 				int pos2 = pos;
 				CRLFWS(code, ref pos2);
-				if (code.Length < pos2 + ",".Length) //end of string
+				if (stringMatcher(code, ref pos2, ",") == null)
 					break;
-				if (code[pos2] != ',')
-					break;
-				pos2++;
 				WS(code, ref pos2);
 
 				if ((defaultParam(code, ref pos2) != null || variadicParam(code, ref pos2) != null) || (param = noDefaultParam(code, ref pos2)) == null)
@@ -115,11 +106,8 @@ namespace AHKCore
 			{
 				int pos2 = pos;
 				CRLFWS(code, ref pos2);
-				if (code.Length < pos2 + ",".Length) //end of string
+				if (stringMatcher(code, ref pos2, ",") == null)
 					break;
-				if (code[pos2] != ',')
-					break;
-				pos2++;
 				WS(code, ref pos2);
 
 				if ((param = defaultParam(code, ref pos2)) == null)
@@ -157,11 +145,8 @@ namespace AHKCore
 			if (list1.Count > 0) // check for ','s only if list1 is empty.
 			{
 				CRLFWS(code, ref pos);
-				if (code.Length < pos + ",".Length) //end of string
+				if (stringMatcher(code, ref pos, ",") == null)
 					return list1;
-				if (code[pos] != ',') 
-					return list1;
-				pos++;
 				WS(code, ref pos);
 			}
 
@@ -169,11 +154,8 @@ namespace AHKCore
 			if (list2.Count > 0) // check for ','s only if list2 is empty.
 			{
 				CRLFWS(code, ref pos);
-				if (code.Length < pos + ",".Length) //end of string
+				if (stringMatcher(code, ref pos, ",") == null)
 					return list1;
-				if (code[pos] != ',') 
-					return list1;
-				pos++;
 				WS(code, ref pos);
 			}
 
@@ -211,21 +193,15 @@ namespace AHKCore
 			if (functionName == null)
 				return null;
 
-			if (code.Length < pos + "(".Length) //end of string
+			if (stringMatcher(code, ref pos, "(") == null)
 				return null;
-			if (code[pos] != '(') 
-				return null;
-			pos++;
 
 			WS(code, ref pos);
 			var functionParameters = functionDeclarationParamterList(code, ref pos);
 			WS(code, ref pos);
 
-			if (code.Length < pos + ")".Length) //end of string
+			if (stringMatcher(code, ref pos, ")") == null)
 				return null;
-			if (code[pos] != ')') 
-				return null;
-			pos++;
 
 			origin = pos;
 			return visitor.functionHead(functionName, functionParameters);
@@ -235,11 +211,8 @@ namespace AHKCore
 		{
 			int pos = origin;
 
-			if (code.Length < pos + "{".Length) //end of string
+			if (stringMatcher(code, ref pos, "{") == null)
 				return null;
-			if (code[pos] != '{') 
-				return null;
-			pos++;
 			
 			var functionBodyList = new List<object>();
 			CRLFWS(code, ref pos);
@@ -255,11 +228,8 @@ namespace AHKCore
 			}
 			CRLFWS(code, ref pos);
 
-			if (code.Length < pos + "}".Length) //end of string
+			if (stringMatcher(code, ref pos, "}") == null)
 				return null;
-			if (code[pos] != '}') 
-				return null;
-			pos++;
 
 			origin = pos;
 			return functionBodyList;

@@ -41,20 +41,14 @@ namespace AHKCore
 		{
 			int pos = origin;
 			
-			if (code.Length < pos + "(".Length)
+			if (stringMatcher(code, ref pos, "(") == null)
 				return null;
-			if (code[pos] != '(')
-				return null;
-			pos++;
 
 			WS(code, ref pos);
 			List<object> expressionList = functionParameterList(code, ref pos) ?? new List<object>();
 
-			if (code.Length < pos + ")".Length)
+			if (stringMatcher(code, ref pos, ")") == null)
 				return null;
-			if (code[pos] != ')')
-				return null;
-			pos++;
 
 			origin = pos;
 			return expressionList;
@@ -75,11 +69,8 @@ namespace AHKCore
 			{
 				CRLFWS(code, ref pos);
 
-				if (code.Length < pos + ",".Length)
+				if (stringMatcher(code, ref pos, ",") == null)
 					break;
-				if (code[pos] != ',')
-					break;
-				pos++;
 
 				WS(code, ref pos);
 				if ((o = Expression(code, ref pos)) == null)

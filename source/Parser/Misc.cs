@@ -53,11 +53,8 @@ namespace AHKCore
 			if (pre == null)
 				return null;
 
-			if (code.Length < pos + ".".Length)
+			if (stringMatcher(code, ref pos, ".") == null)
 				return null;
-			if (code[pos] != '.')
-				return null;
-			pos++;
 			
 			var post = INT(code, ref pos);
 			if (post == null)
@@ -72,11 +69,8 @@ namespace AHKCore
 			int pos = origin;
 			const string hexID = "0x";
 
-			if (code.Length < pos + hexID.Length)
+			if (stringMatcher(code, ref pos, hexID) == null)
 				return null;
-			if (!code.Substring(pos, hexID.Length).Equals(hexID, StringComparison.OrdinalIgnoreCase))
-				return null;
-			pos += hexID.Length;
 
 			while(code.Length > pos && "0123456789abcdefABCDEF".Contains(code[pos].ToString()))
 				pos++;

@@ -39,11 +39,8 @@ namespace AHKCore
 			int pos = origin;
 			var loopBlockList = new List<object>();
 
-			if (code.Length < pos + "{".Length)
+			if (stringMatcher(code, ref pos, "{") == null)
 				return null;
-			if (code[pos] != '{')
-				return null;
-			pos++;
 
 			CRLFWS(code, ref pos);
 			while (true)
@@ -60,11 +57,8 @@ namespace AHKCore
 			}
 			CRLFWS(code, ref pos);
 
-			if (code.Length < pos + "}".Length)
+			if (stringMatcher(code, ref pos, "}") == null)
 				return null;
-			if (code[pos] != '}')
-				return null;
-			pos++;
 
 			origin = pos;
 			return loopBlockList;
@@ -91,21 +85,15 @@ namespace AHKCore
 		{
 			int pos = origin;
 
-			if (code.Length < pos + "(".Length)
+			if (stringMatcher(code, ref pos, "(") == null)
 				return null;
-			if (code[pos] != '(')
-				return null;
-			pos++;
 
 			WS(code, ref pos);
 			var expression = Expression(code, ref pos);
 			WS(code, ref pos);
 
-			if (code.Length < pos + ")".Length)
+			if (stringMatcher(code, ref pos, ")") == null)
 				return null;
-			if (code[pos] != ')')
-				return null;
-			pos++;
 
 			origin = pos;
 			return expression;

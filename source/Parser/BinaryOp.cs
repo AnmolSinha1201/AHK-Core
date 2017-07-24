@@ -44,9 +44,7 @@ namespace AHKCore
             if (CRLFWS(code, ref pos) == null)
                 return null;
             
-            if (code.Length < pos + ".".Length) //end of string
-				return null;
-			if (code[pos] != '.') 
+            if (stringMatcher(code, ref pos, ".") == null)
 				return null;
 
             if (WS(code, ref pos) == null)

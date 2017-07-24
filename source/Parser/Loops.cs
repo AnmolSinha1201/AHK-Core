@@ -99,11 +99,8 @@ namespace AHKCore
 		{
 			int pos = origin;
 
-			if (code.Length < pos + ",".Length) //end of string
+			if (stringMatcher(code, ref pos, ",") == null)
 				return null;
-			if (code[pos] != ',')
-				return null;
-				pos++;
 			WS(code, ref pos);
 
 			var value = variable(code,ref pos);
