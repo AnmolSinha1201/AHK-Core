@@ -83,7 +83,7 @@ namespace AHKCore
 			if (WS(code, ref pos) == null)
 				return null;
 			
-			var iterationObject = variable(code,ref pos);
+			var iterationObject = Expression(code,ref pos);
 			if (iterationObject == null)
 				return null;
 			
