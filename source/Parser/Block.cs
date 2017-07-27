@@ -13,7 +13,7 @@ namespace AHKCore
 				visitor = new defaultVisitor();
 			
 			int i = 0;
-			return loops("for \tk\t\n\t,v \tin\t asd{\n\tvar :=123\t\nvar2:=4567}", ref i)?.ToString();
+			return ifElseBlock("if(123)var=123elsevar2=123", ref i)?.ToString();
 		}
 
 		/*
