@@ -13,7 +13,7 @@ namespace AHKCore
 				visitor = new defaultVisitor();
 			
 			int i = 0;
-			return ifElseBlock("if(123)var=123elsevar2=123", ref i)?.ToString();
+			return classDeclaration("class qwe{var=123\nvar2=456}", ref i)?.ToString();
 		}
 
 		/*
@@ -102,6 +102,34 @@ namespace AHKCore
 		object conditionalBlockWithoutParentheses(string code, ref int origin)
 		{
 			return Expression(code, ref origin);
+		}
+
+		List<object> classBlock(string code, ref int origin)
+		{
+			int pos = origin;
+			var blockList = new List<object>();
+
+			if (stringMatcher(code, ref pos, "{") == null)
+				return null;
+			CRLFWS(code, ref pos);
+
+			while (true)
+			{
+				var retVal = classDeclaration(code, ref pos) ?? functionDeclaration(code, ref pos) ?? (object) variableAssign(code, ref pos);
+				if (retVal == null)
+					break;
+				blockList.Add(retVal);
+
+				if (CRLF(code, ref pos) == null)
+					break;
+			}
+
+			WS(code, ref pos);
+			if (stringMatcher(code, ref pos, "}") == null)
+				return null;
+			
+			origin = pos;
+			return blockList;
 		}
 	}
 
