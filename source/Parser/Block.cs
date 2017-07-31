@@ -13,7 +13,30 @@ namespace AHKCore
 				visitor = new defaultVisitor();
 			
 			int i = 0;
-			return classDeclaration("class qwe{var=123\nvar2=456}", ref i)?.ToString();
+			return chunk("class qwe{var=123\nvar2=456}\nclass asd{var=123\nvar2=456}", ref i)?.FlattenAsChain("\n");
+		}
+
+		List<object> chunk(string code, ref int origin)
+		{
+			var chunkList = new List<object>();
+			while (true)
+			{
+				CRLFWS(code, ref origin);
+				var _block = block(code, ref origin);
+				if (_block == null)
+					break;
+				chunkList.Add(_block);
+				if (CRLF(code, ref origin) == null)
+					break;
+			}
+
+			return chunkList;
+		}
+
+		object block(string code, ref int origin)
+		{
+			return classDeclaration(code, ref origin) ?? functionDeclaration(code, ref origin) ?? 
+			(object) functionBodyBlock(code, ref origin);
 		}
 
 		/*
