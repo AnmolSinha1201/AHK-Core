@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AHKCore
 {
-	partial class Parser
+	public partial class Parser
 	{
 		public BaseVisitor visitor;
 		public string parse(string code)
