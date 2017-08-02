@@ -7,7 +7,7 @@ namespace AHKCore
         static void Main(string[] args)
         {
             var parser = new Parser();
-            Console.WriteLine(parser.parse(""));
+            Console.WriteLine(parser.Test()?.FlattenAsChain());
         }
     }
 }

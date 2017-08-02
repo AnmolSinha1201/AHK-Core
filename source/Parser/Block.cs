@@ -7,13 +7,19 @@ namespace AHKCore
 	public partial class Parser
 	{
 		public BaseVisitor visitor;
-		public string parse(string code)
+
+		public List<object> Test()
+		{
+			return parse("class qwe{var=123\nvar2=456}\nclass asd{var=123\nvar2=456}");
+		}
+
+		public List<object> parse(string code)
 		{
 			if (visitor == null)
 				visitor = new defaultVisitor();
 			
 			int i = 0;
-			return chunk("class qwe{var=123\nvar2=456}\nclass asd{var=123\nvar2=456}", ref i)?.FlattenAsChain("\n");
+			return chunk(code, ref i);
 		}
 
 		List<object> chunk(string code, ref int origin)
