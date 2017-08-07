@@ -83,5 +83,34 @@ namespace AHKCore
 			return new variableAssignClass(variable, op, expression);
 		}
 		#endregion
+
+		#region variableDeclaration
+		public class variableDeclarationClass
+		{
+			public string defaultValue;
+			public variableClass variableName;
+			public enum scope
+			{
+				SCOPE_LOCAL,
+				SCOPE_GLOBAL,
+				SCOPE_SUPERGLOBAL
+			}
+			public scope variableScope;
+
+			public variableDeclarationClass(variableClass variableName, scope variableScope)
+			{
+				this.variableName = variableName;
+				this.variableScope = variableScope;
+				this.defaultValue = (variableScope == scope.SCOPE_GLOBAL || variableScope == scope.SCOPE_SUPERGLOBAL ? "global " : "") + variableName;
+			}
+
+			public override string ToString() => defaultValue;
+		}
+
+		public virtual variableDeclarationClass variableDeclaration(variableClass variableName, variableDeclarationClass.scope variableScope)
+		{
+			return new variableDeclarationClass(variableName, variableScope);
+		}
+		#endregion
 	}
 }
