@@ -9,15 +9,33 @@ namespace AHKCore
 {
 	public static class Query
 	{
-		public static List<T2> OfTypeRecursive<T1, T2>(this List<T1> l, T2 type)
+		public static List<T> OfTypeRecursive<T>(this List<object> list)
 		{
-			var retList = l.OfType<T2>().ToList();
+			var retList = list.OfType<T>().ToList();
 			
-			foreach (var v in l)
-				if(v.GetType() == typeof(loopLoopClass))
-					retList.AddRange(((loopLoopClass)(object)v).loopBody.OfTypeRecursive(type));
-			
+			foreach (var v in list)
+				if (v is loopLoopClass)
+					retList.AddRange(((loopLoopClass)v).loopBody.OfTypeRecursive<T>());
+
 			return retList;
+		}
+
+		public static string Flatten<T>(this List<T> l, string delimiter = null)
+		{
+			StringBuilder sb = new StringBuilder();
+			foreach (var v in l)
+				sb.Append(sb.Length == 0 ? v.ToString() : delimiter + v.ToString());
+			
+			return sb.ToString();
+		}
+
+		public static IEnumerable<T> AddConcat<T>(this List<T> l, object o)
+		{
+			if (o.GetType() == typeof(List<T>))
+				return l.Concat((List<T>)o);
+
+			l.Add((T)o);
+			return l;
 		}
 
 	}
