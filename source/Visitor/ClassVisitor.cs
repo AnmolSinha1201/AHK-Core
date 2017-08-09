@@ -9,17 +9,18 @@ namespace AHKCore
 		#region classDeclaration
 		public class classDeclarationClass
 		{
-			public string defaultValue, className;
+			public string className;
 			public List<object> classBody;
 
 			public classDeclarationClass(string className, List<object> classBody)
 			{
 				this.className = className;
 				this.classBody = classBody;
-				this.defaultValue = $"class {className}\n{{\n\t{classBody.FlattenAsChain("\n\t")}\n}}";
 			}
 
-			public override string ToString() => defaultValue;
+			public override string ToString() => $"class {className}\n{{\n\t{classBody.Flatten("\n\t")}\n}}";
+
+			public List<object> innerList() => null;
 		}
 
 		public virtual classDeclarationClass classDeclaration(string className, List<object> classBody)

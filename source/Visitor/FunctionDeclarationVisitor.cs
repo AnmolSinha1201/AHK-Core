@@ -11,30 +11,26 @@ namespace AHKCore
 		{
 			public variableClass variableName;
 			public object expression;
-			public string defaultValue;
 			public bool isVariadic;
 
 			public parameterInfoClass(variableClass variableName)
 			{
 				this.variableName = variableName;
-				this.defaultValue = variableName.ToString();
 			}
 
 			public parameterInfoClass(variableClass variableName, object expression)
 			{
 				this.variableName = variableName;
 				this.expression = expression;
-				this.defaultValue = variableName + " = " + expression;
 			}
 
 			public parameterInfoClass(variableClass variableName, bool isVariadic)
 			{
 				this.variableName = variableName;
 				this.isVariadic = isVariadic;
-				this.defaultValue = variableName + "*";
 			}
 
-			public override string ToString() => defaultValue;
+			public override string ToString() => variableName + (expression != null? " = " + expression : (isVariadic? "*" : ""));
 		}
 
 		public virtual parameterInfoClass parameterInfo(variableClass variableName)
@@ -56,17 +52,16 @@ namespace AHKCore
 		#region functionHead
 		public class functionHeadClass
 		{
-			public string defaultValue, functionName;
+			public string functionName;
 			public List<parameterInfoClass> functionParameters;
 
 			public functionHeadClass(string functionName, List<parameterInfoClass> functionParameters)
 			{
 				this.functionName = functionName;
 				this.functionParameters = functionParameters;
-				this.defaultValue = $"{functionName}({functionParameters.FlattenAsFunctionParam()})";
 			}
 
-			public override string ToString() => defaultValue;
+			public override string ToString() => $"{functionName}({functionParameters.Flatten(", ")})";
 		}
 
 		public virtual functionHeadClass functionHead(string functionName, List<parameterInfoClass> functionParameters)
@@ -78,7 +73,6 @@ namespace AHKCore
 		#region functionDeclaration
 		public class functionDeclarationClass
 		{
-			public string defaultValue;
 			public functionHeadClass functionHead;
 			public List<object> functionBody;
 
@@ -86,11 +80,9 @@ namespace AHKCore
 			{
 				this.functionHead = functionHead;
 				this.functionBody = functionBody;
-				
-				this.defaultValue = $"{functionHead}\n{{\n\t{functionBody.FlattenAsChain("\n\t")}\n}}";
 			}
 
-			public override string ToString() => defaultValue;
+			public override string ToString() => $"{functionHead}\n{{\n\t{functionBody.Flatten("\n\t")}\n}}";
 		}
 
 		public virtual functionDeclarationClass functionDeclaration(functionHeadClass functionHead, List<object> functionBody)

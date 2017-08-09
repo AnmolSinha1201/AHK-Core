@@ -9,17 +9,16 @@ namespace AHKCore
         #region functionCall
 		public class functionCallClass
 		{
-			public string functionName, defaultValue;
+			public string functionName;
 			public List<object> functionParameterList;
 			
 			public functionCallClass(string functionName, List<object> functionParameterList)
 			{
 				this.functionName = functionName;
 				this.functionParameterList = functionParameterList;
-				this.defaultValue = $"{functionName} ({functionParameterList.FlattenAsFunctionParam()})";
 			}
 
-			public override string ToString() => defaultValue;
+			public override string ToString() => $"{functionName} ({functionParameterList.Flatten(", ")})";
 		}
 
         public virtual functionCallClass functionCall(string functionName, List<object> functionParameterList)
@@ -31,7 +30,7 @@ namespace AHKCore
 		#region complexFunctionCall
 		public class complexFunctionCallClass
 		{
-			public string defaultValue, _this;
+			public string _this;
 			public List<object> functionParameterList, chain, functionChain;
 			
 			public complexFunctionCallClass(string _this, List<object> varOrFuncChain, List<object> functionParameterList)
@@ -60,12 +59,10 @@ namespace AHKCore
 					varOrFuncChain.RemoveRange(i, varOrFuncChain.Count - i);
 				}
 				this.chain = varOrFuncChain;
-
-				this.defaultValue = $"{_this}{this.chain.FlattenAsChain()}" +
-				$"{functionChain.FlattenAsChain()} ({this.functionParameterList.FlattenAsFunctionParam()})";
 			}
 
-			public override string ToString() => defaultValue;
+			public override string ToString() => $"{_this}{this.chain.Flatten()}" +
+				$"{functionChain.Flatten()} ({this.functionParameterList.Flatten(", ")})";
 		}
 
         public virtual complexFunctionCallClass complexFunctionCall(string _this, List<object> varOrFuncChain, List<object> functionParameterList)

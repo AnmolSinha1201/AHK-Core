@@ -9,16 +9,14 @@ namespace AHKCore
 		#region commandBlock
 		public class commandBlockClass
 		{
-			public string defaultValue;
 			public List<object> commandBlockList;
 
 			public commandBlockClass(List<object> commandBlockList)
 			{
 				this.commandBlockList = commandBlockList;
-				this.defaultValue = commandBlockList.FlattenAsChain("\n");
 			}
 
-			public override string ToString() => defaultValue;
+			public override string ToString() => commandBlockList.Flatten("\n");
 		}
 
 		public virtual commandBlockClass commandBlock(List<object> commandBlockList)

@@ -10,15 +10,13 @@ namespace AHKCore
         public class dotUnwrapClass
 		{
 			public object variableOrFunction;
-			public string defaultValue;
 
 			public dotUnwrapClass(object variableOrFunction)
 			{
 				this.variableOrFunction = variableOrFunction;
-				this.defaultValue = "." + variableOrFunction;
 			}
 
-			public override string ToString() => defaultValue;
+			public override string ToString() => "." + variableOrFunction;
 		}
 
         public virtual dotUnwrapClass dotUnwrap(object variableOrFunction)
@@ -31,15 +29,13 @@ namespace AHKCore
 		public class bracketUnwrapClass
 		{
 			public object expression;
-			public string defaultValue;
 
 			public bracketUnwrapClass(object expression)
 			{
 				this.expression = expression;
-				this.defaultValue = "[" + expression + "]";
 			}
 
-			public override string ToString() => defaultValue;
+			public override string ToString() => "[" + expression + "]";
 		}
 
         public virtual bracketUnwrapClass bracketUnwrap(object expression)

@@ -9,15 +9,14 @@ namespace AHKCore
 		#region STRING
 		public class STRINGClass
 		{
-			public string STRING, defaultValue;
+			public string STRING;
 			
 			public STRINGClass(string STRING)
 			{
 				this.STRING = STRING;
-				this.defaultValue = STRING;
 			}
 
-			public override string ToString() => defaultValue;
+			public override string ToString() => STRING;
 		}
 
 		public virtual STRINGClass STRING(string STRING)
@@ -29,15 +28,14 @@ namespace AHKCore
 		#region DOUBLE
 		public class DOUBLEClass
 		{
-			public string DOUBLE, defaultValue;
+			public string DOUBLE;
 			
 			public DOUBLEClass(string DOUBLE)
 			{
 				this.DOUBLE = DOUBLE;
-				this.defaultValue = DOUBLE;
 			}
 
-			public override string ToString() => defaultValue;
+			public override string ToString() => DOUBLE;
 		}
 
 		public virtual DOUBLEClass DOUBLE(string DOUBLE)
@@ -49,15 +47,14 @@ namespace AHKCore
 		#region HEX
 		public class HEXClass
 		{
-			public string HEX, defaultValue;
+			public string HEX;
 			
 			public HEXClass(string HEX)
 			{
 				this.HEX = HEX;
-				this.defaultValue = HEX;
 			}
 
-			public override string ToString() => defaultValue;
+			public override string ToString() => HEX;
 		}
 
 		public virtual HEXClass HEX(string HEX)
@@ -69,15 +66,14 @@ namespace AHKCore
 		#region INT
 		public class INTClass
 		{
-			public string INT, defaultValue;
+			public string INT;
 			
 			public INTClass(string INT)
 			{
 				this.INT = INT;
-				this.defaultValue = INT;
 			}
 
-			public override string ToString() => defaultValue;
+			public override string ToString() => INT;
 		}
 
 		public virtual INTClass INT(string INT)

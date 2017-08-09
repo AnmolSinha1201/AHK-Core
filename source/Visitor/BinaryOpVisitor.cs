@@ -9,33 +9,29 @@ namespace AHKCore
 		#region binaryOp
         public class binaryOpLink
         {
-            public string defaultValue, op;
+            public string op;
             public object expression;
 
             public binaryOpLink(string op, object expression)
             {
                 this.op = op;
                 this.expression = expression;
-
-                this.defaultValue = (op == null? "" : op + " ") + expression;
             }
 
-            public override string ToString() => defaultValue;
+            public override string ToString() =>(op == null? "" : op + " ") + expression;
         }
 
         // the first item of the list should always be a head. A head's op = null
         public class binaryOperationClass
         {
-            public List<binaryOpLink> binaryOpLinkList= new List<binaryOpLink>();
-            public string defaultValue;
+            public List<binaryOpLink> binaryOpLinkList;
 
             public binaryOperationClass(List<binaryOpLink> binaryOpLinkList)
             {
                 this.binaryOpLinkList = binaryOpLinkList;
-                this.defaultValue = binaryOpLinkList.FlattenAsChain(" ");
             }
 
-            public override string ToString() => defaultValue;
+            public override string ToString() => binaryOpLinkList.Flatten(" ");
         }
 
         public virtual binaryOperationClass binaryOperation(List<binaryOpLink> binaryOpLinkList)

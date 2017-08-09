@@ -9,7 +9,6 @@ namespace AHKCore
 		#region ifElseBlock
 		public class ifElseBlockClass
 		{
-			public string defaultValue;
 			public ifBlockClass ifBlock;
 			public elseBlockClass elseBlock;
 
@@ -17,10 +16,9 @@ namespace AHKCore
 			{
 				this.ifBlock = ifBlock;
 				this.elseBlock = elseBlock;
-				this.defaultValue = $"{ifBlock}{(elseBlock == null ? "" : "\n" + elseBlock)}";
 			}
 
-			public override string ToString() => defaultValue;
+			public override string ToString() => $"{ifBlock}{(elseBlock == null ? "" : "\n" + elseBlock)}";
 		}
 
 		public virtual ifElseBlockClass ifElseBlock(ifBlockClass ifBlock, elseBlockClass elseBlock)
@@ -32,7 +30,6 @@ namespace AHKCore
 		#region ifBlock
 		public class ifBlockClass
 		{
-			public string defaultValue;
 			public object condition;
 			public List<object> body;
 
@@ -40,10 +37,9 @@ namespace AHKCore
 			{
 				this.condition = condition;
 				this.body = body;
-				this.defaultValue = $"if ({condition})\n{{\n\t{body.FlattenAsChain("\n\t")}\n}}";
 			}
 
-			public override string ToString() => defaultValue;
+			public override string ToString() => $"if ({condition})\n{{\n\t{body.Flatten("\n\t")}\n}}";
 		}
 
 		public virtual ifBlockClass ifBlock(object condition, List<object> body)
@@ -55,19 +51,20 @@ namespace AHKCore
 		#region elseBlock
 		public class elseBlockClass
 		{
-			public string defaultValue;
 			public List<object> body;
 
 			public elseBlockClass(List<object> body)
 			{
 				this.body = body;
-				if (body.Count == 1 && body[0].GetType() == typeof(ifBlockClass)) //to properly chain else ifs
-					this.defaultValue = $"else {body}";
-				else
-					this.defaultValue = $"else\n{{\n\t{body.FlattenAsChain("\n\t")}\n}}";
 			}
 
-			public override string ToString() => defaultValue;
+			public override string ToString()
+			{
+				if (body.Count == 1 && body[0].GetType() == typeof(ifBlockClass)) //to properly chain else ifs
+					return $"else {body}";
+				else
+					return $"else\n{{\n\t{body.Flatten("\n\t")}\n}}";
+			}
 		}
 
 		public virtual elseBlockClass elseBlock(List<object> body)

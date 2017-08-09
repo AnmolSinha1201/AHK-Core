@@ -9,15 +9,14 @@ namespace AHKCore
 		#region variable
 		public class variableClass
 		{
-			public string variableName, defaultValue;
+			public string variableName;
 
 			public variableClass(string variableName)
 			{
 				this.variableName = variableName;
-				this.defaultValue = variableName;
 			}
 
-			public override string ToString() => defaultValue;
+			public override string ToString() => variableName;
 		}
 
 		public virtual variableClass variable(string variableName)
@@ -29,7 +28,7 @@ namespace AHKCore
 		#region complexVariable
 		public class complexVariableClass
 		{
-			public string defaultValue, _this;
+			public string _this;
 			public List<object> chain, variableChain;
 			
 			public complexVariableClass(string _this, List<object> varOrFuncChain)
@@ -47,11 +46,9 @@ namespace AHKCore
 				variableChain.AddRange(varOrFuncChain.GetRange(i, varOrFuncChain.Count - i));
 				varOrFuncChain.RemoveRange(i, varOrFuncChain.Count - i);
 				this.chain = varOrFuncChain;
-
-				this.defaultValue = $"{_this}{this.chain.FlattenAsChain()}{variableChain.FlattenAsChain()}";
 			}
 
-			public override string ToString() => defaultValue;
+			public override string ToString() => $"{_this}{this.chain.Flatten()}{variableChain.Flatten()}";
 		}
 
         public virtual complexVariableClass complexVariable(string _this, List<object> varOrFuncChain)
@@ -63,7 +60,7 @@ namespace AHKCore
 		#region variableAssign
 		public class variableAssignClass
 		{
-			public string defaultValue, op;
+			public string op;
 			public complexVariableClass variable;
 			public object expression;
 
@@ -72,10 +69,9 @@ namespace AHKCore
 				this.variable = variable;
 				this.op = op;
 				this.expression = expression;
-				this.defaultValue = $"{variable} {op} {expression}";
 			}
 
-			public override string ToString() => defaultValue;
+			public override string ToString() => $"{variable} {op} {expression}";
 		}
 
 		public virtual variableAssignClass variableAssign(complexVariableClass variable, string op, object expression)
@@ -87,7 +83,6 @@ namespace AHKCore
 		#region variableDeclaration
 		public class variableDeclarationClass
 		{
-			public string defaultValue;
 			public variableClass variableName;
 			public enum scope
 			{
@@ -101,10 +96,10 @@ namespace AHKCore
 			{
 				this.variableName = variableName;
 				this.variableScope = variableScope;
-				this.defaultValue = (variableScope == scope.SCOPE_GLOBAL || variableScope == scope.SCOPE_SUPERGLOBAL ? "global " : "") + variableName;
 			}
 
-			public override string ToString() => defaultValue;
+			public override string ToString() =>
+			(variableScope == scope.SCOPE_GLOBAL || variableScope == scope.SCOPE_SUPERGLOBAL ? "global " : "") + variableName;
 		}
 
 		public virtual variableDeclarationClass variableDeclaration(variableClass variableName, variableDeclarationClass.scope variableScope)

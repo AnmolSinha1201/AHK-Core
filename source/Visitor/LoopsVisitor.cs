@@ -9,9 +9,7 @@ namespace AHKCore
         #region breakBlock
         public class breakBlockClass
         {
-            public string defaultValue = "break";
-
-            public override string ToString() => defaultValue;
+            public override string ToString() => "break";
         }
 
         public virtual breakBlockClass breakBlock()
@@ -23,9 +21,7 @@ namespace AHKCore
         #region continueBlock
         public class continueBlockClass
         {
-            public string defaultValue = "continue";
-
-            public override string ToString() => defaultValue;
+            public override string ToString() => "continue";
         }
 
         public virtual continueBlockClass continueBlock()
@@ -37,7 +33,6 @@ namespace AHKCore
         #region loopLoop
         public class loopLoopClass
         {
-            public string defaultValue;
             public object count;
             public List<object> loopBody;
 
@@ -45,10 +40,9 @@ namespace AHKCore
             {
                 this.count = count;
                 this.loopBody = loopBody;
-                this.defaultValue = $"loop{(count == null? "" : ", " + count)}\n{{\n\t{loopBody.FlattenAsChain("\n\t")}\n}}";
             }
 
-            public override string ToString() => defaultValue;
+            public override string ToString() => $"loop{(count == null? "" : ", " + count)}\n{{\n\t{loopBody.Flatten("\n\t")}\n}}";
         }
 
         public virtual loopLoopClass loopLoop(object count, List<object> loopBody)
@@ -60,7 +54,6 @@ namespace AHKCore
         #region whileLoop
         public class whileLoopClass
         {
-            public string defaultValue;
             public object condition;
             public List<object> loopBody;
 
@@ -68,10 +61,9 @@ namespace AHKCore
             {
                 this.condition = condition;
                 this.loopBody = loopBody;
-                this.defaultValue = $"while ({condition})\n{{\n\t{loopBody.FlattenAsChain("\n\t")}\n}}";
             }
 
-            public override string ToString() => defaultValue;
+            public override string ToString() => $"while ({condition})\n{{\n\t{loopBody.Flatten("\n\t")}\n}}";
         }
 
         public virtual whileLoopClass whileLoop(object condition, List<object> loopBody)
@@ -83,7 +75,6 @@ namespace AHKCore
         #region foreachLoop
         public class foreachLoopClass
         {
-            public string defaultValue;
             public variableClass key, value;
             public object iterationObject;
             public List<object> loopBody;
@@ -94,11 +85,10 @@ namespace AHKCore
                 this.value = value;
                 this.iterationObject = iterationObject;
                 this.loopBody = loopBody;
-
-                this.defaultValue = $"for {key}{(value == null ? "" : ", " + value)} in {iterationObject}\n{{\n\t{loopBody.FlattenAsChain("\n\t")}\n}}";
             }
 
-            public override string ToString() => defaultValue;
+            public override string ToString() => 
+            $"for {key}{(value == null ? "" : ", " + value)} in {iterationObject}\n{{\n\t{loopBody.Flatten("\n\t")}\n}}";
         }
 
         public virtual foreachLoopClass foreachLoop(variableClass key, variableClass value, object iterationObject, List<object> loopBody)
