@@ -8,7 +8,7 @@ namespace AHKCore
 	{
         /*
             - ISearchable exposes searchable parameters (variableName, op etc.) of a class (variableAssign) in the form of list.
-            - Every class of AHKCore should implement this interface. 
+            - Every class of AHKCore should implement this interface, except the classes which can not be subdivided ('break', 'NAME', 'variable').
             - In case no searchable parameter is to be exposed, return an empty 'List<object>'.
             - This would be used extensively by 'OfTypeRecusive<T>()'.
             - Read Only so external classes don't mess with it accidently. Messing with this would also affect 'OfTypeRecursive<T>()'.
