@@ -9,12 +9,13 @@ namespace AHKCore
 {
 	public static class Query
 	{
-		public static List<T> OfTypeRecursive<T>(this List<object> list) where T : ISearchable
+		public static List<T> OfTypeRecursive<T>(this List<object> list)
 		{
 			var retList = list.OfType<T>().ToList();
 			
 			foreach (var v in list.Except(retList.Cast<object>()))
-				retList.AddRange(((ISearchable)v).Searchables.OfTypeRecursive<T>());
+				if (v is ISearchable)
+					retList.AddRange(((ISearchable)v).Searchables.OfTypeRecursive<T>());
 
 			return retList;
 		}
