@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace AHKCore
@@ -7,7 +8,7 @@ namespace AHKCore
 	public abstract partial class BaseVisitor
 	{
         #region functionCall
-		public class functionCallClass
+		public class functionCallClass : ISearchable
 		{
 			public string functionName;
 			public List<object> functionParameterList;
@@ -19,6 +20,11 @@ namespace AHKCore
 			}
 
 			public override string ToString() => $"{functionName} ({functionParameterList.Flatten(", ")})";
+
+			public List<object> Searchables
+			{
+				get {return functionParameterList;}
+			}
 		}
 
         public virtual functionCallClass functionCall(string functionName, List<object> functionParameterList)
@@ -28,7 +34,7 @@ namespace AHKCore
         #endregion
 
 		#region complexFunctionCall
-		public class complexFunctionCallClass
+		public class complexFunctionCallClass : ISearchable
 		{
 			public string _this;
 			public List<object> functionParameterList, chain, functionChain;
@@ -63,6 +69,11 @@ namespace AHKCore
 
 			public override string ToString() => $"{_this}{this.chain.Flatten()}" +
 				$"{functionChain.Flatten()} ({this.functionParameterList.Flatten(", ")})";
+
+			public List<object> Searchables
+			{
+				get {return chain.Concat(functionChain).Concat(functionParameterList).ToList();}
+			}
 		}
 
         public virtual complexFunctionCallClass complexFunctionCall(string _this, List<object> varOrFuncChain, List<object> functionParameterList)

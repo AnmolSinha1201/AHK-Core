@@ -7,7 +7,7 @@ namespace AHKCore
 	public abstract partial class BaseVisitor
 	{
         #region dotUnwrap
-        public class dotUnwrapClass
+        public class dotUnwrapClass : ISearchable
 		{
 			public object variableOrFunction;
 
@@ -17,6 +17,11 @@ namespace AHKCore
 			}
 
 			public override string ToString() => "." + variableOrFunction;
+
+			public List<object> Searchables
+			{
+				get {return new List<object>() {variableOrFunction};}
+			}
 		}
 
         public virtual dotUnwrapClass dotUnwrap(object variableOrFunction)
@@ -26,7 +31,7 @@ namespace AHKCore
         #endregion
 
         #region bracketUnwrap
-		public class bracketUnwrapClass
+		public class bracketUnwrapClass : ISearchable
 		{
 			public object expression;
 
@@ -36,6 +41,11 @@ namespace AHKCore
 			}
 
 			public override string ToString() => "[" + expression + "]";
+
+			public List<object> Searchables
+			{
+				get {return new List<object>() {expression};}
+			}
 		}
 
         public virtual bracketUnwrapClass bracketUnwrap(object expression)

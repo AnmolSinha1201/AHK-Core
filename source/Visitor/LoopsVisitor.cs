@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace AHKCore
@@ -31,7 +32,7 @@ namespace AHKCore
         #endregion
 
         #region loopLoop
-        public class loopLoopClass
+        public class loopLoopClass : ISearchable
         {
             public object count;
             public List<object> loopBody;
@@ -43,6 +44,11 @@ namespace AHKCore
             }
 
             public override string ToString() => $"loop{(count == null? "" : ", " + count)}\n{{\n\t{loopBody.Flatten("\n\t")}\n}}";
+
+            public List<object> Searchables
+			{
+				get {return loopBody;}
+			}
         }
 
         public virtual loopLoopClass loopLoop(object count, List<object> loopBody)
@@ -52,7 +58,7 @@ namespace AHKCore
         #endregion
 
         #region whileLoop
-        public class whileLoopClass
+        public class whileLoopClass : ISearchable
         {
             public object condition;
             public List<object> loopBody;
@@ -64,6 +70,16 @@ namespace AHKCore
             }
 
             public override string ToString() => $"while ({condition})\n{{\n\t{loopBody.Flatten("\n\t")}\n}}";
+
+            public List<object> Searchables
+			{
+				get 
+                {
+                    var retList = new List<object>();
+                    retList.Add(condition);
+                    return retList.Concat(loopBody).ToList();
+                }
+			}
         }
 
         public virtual whileLoopClass whileLoop(object condition, List<object> loopBody)
@@ -73,7 +89,7 @@ namespace AHKCore
         #endregion
 
         #region foreachLoop
-        public class foreachLoopClass
+        public class foreachLoopClass : ISearchable
         {
             public variableClass key, value;
             public object iterationObject;
@@ -89,6 +105,18 @@ namespace AHKCore
 
             public override string ToString() => 
             $"for {key}{(value == null ? "" : ", " + value)} in {iterationObject}\n{{\n\t{loopBody.Flatten("\n\t")}\n}}";
+
+            public List<object> Searchables
+			{
+				get 
+                {
+                    var retList = new List<object>();
+                    retList.Add(key);
+                    retList.Add(value);
+                    retList.Add(iterationObject);
+                    return retList.Concat(loopBody).ToList();
+                }
+			}
         }
 
         public virtual foreachLoopClass foreachLoop(variableClass key, variableClass value, object iterationObject, List<object> loopBody)

@@ -7,7 +7,7 @@ namespace AHKCore
 	public abstract partial class BaseVisitor
 	{
 		#region classDeclaration
-		public class classDeclarationClass
+		public class classDeclarationClass : ISearchable
 		{
 			public string className;
 			public List<object> classBody;
@@ -20,7 +20,10 @@ namespace AHKCore
 
 			public override string ToString() => $"class {className}\n{{\n\t{classBody.Flatten("\n\t")}\n}}";
 
-			public List<object> innerList() => null;
+			public List<object> Searchables
+			{
+				get {return classBody;}
+			}
 		}
 
 		public virtual classDeclarationClass classDeclaration(string className, List<object> classBody)

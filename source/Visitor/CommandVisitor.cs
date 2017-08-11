@@ -7,7 +7,7 @@ namespace AHKCore
 	public abstract partial class BaseVisitor
 	{
 		#region commandBlock
-		public class commandBlockClass
+		public class commandBlockClass : ISearchable
 		{
 			public List<object> commandBlockList;
 
@@ -17,6 +17,11 @@ namespace AHKCore
 			}
 
 			public override string ToString() => commandBlockList.Flatten("\n");
+
+			public List<object> Searchables
+			{
+				get {return commandBlockList;}
+			}
 		}
 
 		public virtual commandBlockClass commandBlock(List<object> commandBlockList)

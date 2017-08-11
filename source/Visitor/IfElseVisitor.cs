@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace AHKCore
@@ -7,7 +8,7 @@ namespace AHKCore
 	public abstract partial class BaseVisitor
 	{
 		#region ifElseBlock
-		public class ifElseBlockClass
+		public class ifElseBlockClass : ISearchable
 		{
 			public ifBlockClass ifBlock;
 			public elseBlockClass elseBlock;
@@ -19,6 +20,11 @@ namespace AHKCore
 			}
 
 			public override string ToString() => $"{ifBlock}{(elseBlock == null ? "" : "\n" + elseBlock)}";
+
+			public List<object> Searchables
+			{
+				get {return new List<object>() {ifBlock, elseBlock};}
+			}
 		}
 
 		public virtual ifElseBlockClass ifElseBlock(ifBlockClass ifBlock, elseBlockClass elseBlock)
@@ -28,7 +34,7 @@ namespace AHKCore
 		#endregion
 
 		#region ifBlock
-		public class ifBlockClass
+		public class ifBlockClass : ISearchable
 		{
 			public object condition;
 			public List<object> body;
@@ -40,6 +46,16 @@ namespace AHKCore
 			}
 
 			public override string ToString() => $"if ({condition})\n{{\n\t{body.Flatten("\n\t")}\n}}";
+
+			public List<object> Searchables
+			{
+				get 
+				{
+					var retList = new List<object>();
+					retList.Add(condition);
+					return retList.Concat(body).ToList();
+				}
+			}
 		}
 
 		public virtual ifBlockClass ifBlock(object condition, List<object> body)
@@ -49,7 +65,7 @@ namespace AHKCore
 		#endregion
 
 		#region elseBlock
-		public class elseBlockClass
+		public class elseBlockClass : ISearchable
 		{
 			public List<object> body;
 
@@ -64,6 +80,11 @@ namespace AHKCore
 					return $"else {body}";
 				else
 					return $"else\n{{\n\t{body.Flatten("\n\t")}\n}}";
+			}
+
+			public List<object> Searchables
+			{
+				get {return body;}
 			}
 		}
 

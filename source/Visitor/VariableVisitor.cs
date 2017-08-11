@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace AHKCore
@@ -26,7 +27,7 @@ namespace AHKCore
 		#endregion
 
 		#region complexVariable
-		public class complexVariableClass
+		public class complexVariableClass : ISearchable
 		{
 			public string _this;
 			public List<object> chain, variableChain;
@@ -49,6 +50,11 @@ namespace AHKCore
 			}
 
 			public override string ToString() => $"{_this}{this.chain.Flatten()}{variableChain.Flatten()}";
+
+			public List<object> Searchables
+			{
+				get {return chain.Concat(variableChain).ToList();}
+			}
 		}
 
         public virtual complexVariableClass complexVariable(string _this, List<object> varOrFuncChain)
@@ -58,7 +64,7 @@ namespace AHKCore
 		#endregion
 
 		#region variableAssign
-		public class variableAssignClass
+		public class variableAssignClass : ISearchable
 		{
 			public string op;
 			public complexVariableClass variable;
@@ -72,6 +78,11 @@ namespace AHKCore
 			}
 
 			public override string ToString() => $"{variable} {op} {expression}";
+
+			public List<object> Searchables
+			{
+				get {return new List<object>() {variable, expression};}
+			}
 		}
 
 		public virtual variableAssignClass variableAssign(complexVariableClass variable, string op, object expression)
