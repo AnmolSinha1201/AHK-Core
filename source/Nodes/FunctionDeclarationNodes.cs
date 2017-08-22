@@ -7,7 +7,7 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-        public class parameterInfoClass : ISearchable
+		public class parameterInfoClass : ISearchable
 		{
 			public variableClass variableName;
 			public object expression;

@@ -6,7 +6,7 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-        public class dotUnwrapClass : ISearchable
+		public class dotUnwrapClass : ISearchable
 		{
 			public object variableOrFunction;
 
