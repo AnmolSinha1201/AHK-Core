@@ -13,9 +13,9 @@ namespace AHKCore
 			return context;
 		}
 
-        public virtual complexVariableClass complexVariable(complexVariableClass context)
+		public virtual complexVariableClass complexVariable(complexVariableClass context)
 		{
-            return context;
+			return context;
 		}
 
 		public virtual variableAssignClass variableAssign(variableAssignClass context)
