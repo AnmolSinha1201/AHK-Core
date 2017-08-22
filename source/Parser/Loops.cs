@@ -5,15 +5,15 @@ namespace AHKCore
 {
 	partial class Parser
 	{
-        breakBlockClass breakBlock(string code, ref int origin)
-        {
+		breakBlockClass breakBlock(string code, ref int origin)
+		{
 			return stringMatcher(code, ref origin, "break") == null ? null : visitor.breakBlock();
-        }
+		}
 
-        continueBlockClass continueBLock(string code, ref int origin)
-        {
+		continueBlockClass continueBLock(string code, ref int origin)
+		{
 			return stringMatcher(code, ref origin, "continue") == null ? null : visitor.continueBlock();
-        }
+		}
 
 		object loops(string code, ref int origin)
 		{
