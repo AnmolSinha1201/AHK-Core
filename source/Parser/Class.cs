@@ -26,7 +26,7 @@ namespace AHKCore
 				return null;
 			
 			origin = pos;
-			return visitor.classDeclaration(className, classBody);
+			return visitor.classDeclaration(new classDeclarationClass(className, classBody));
 		}
 	}
 }

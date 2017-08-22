@@ -33,7 +33,7 @@ namespace AHKCore
 			if (match.Success)
 			{
 				origin = match.Index + match.Length;
-				return visitor.STRING(match.Value);
+				return visitor.STRING(new STRINGClass(match.Value));
 			}
 			return null;
 		}
@@ -61,7 +61,7 @@ namespace AHKCore
 				return null;
 			
 			origin = pos;
-			return visitor.DOUBLE(pre + "." + post);
+			return visitor.DOUBLE(new DOUBLEClass(pre + "." + post));
 		}
 
 		HEXClass HEX(string code, ref int origin)
@@ -77,7 +77,7 @@ namespace AHKCore
 			
 			string retVal = code.Substring(origin + hexID.Length, pos - origin - hexID.Length);
 			origin = pos;
-			return visitor.HEX(retVal);
+			return visitor.HEX(new HEXClass(retVal));
 		}
 
 		INTClass INT(string code, ref int origin)
@@ -87,7 +87,7 @@ namespace AHKCore
 				origin++;
 			if (origin == pos)
 				return null;
-			return visitor.INT(code.Substring(pos, origin - pos));
+			return visitor.INT(new INTClass(code.Substring(pos, origin - pos)));
 		}
 
 		/*

@@ -36,7 +36,7 @@ namespace AHKCore
 			}
 
 			origin = pos;
-			return visitor.commandBlock(commandList);
+			return visitor.commandBlock(new commandBlockClass(commandList));
 		}
 
 		string command(string code, ref int origin)

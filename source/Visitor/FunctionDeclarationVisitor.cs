@@ -8,29 +8,19 @@ namespace AHKCore
 {
 	public abstract partial class BaseVisitor
 	{
-		public virtual parameterInfoClass parameterInfo(variableClass variableName)
+		public virtual parameterInfoClass parameterInfo(parameterInfoClass context)
 		{
-			return new parameterInfoClass(variableName);
+			return context;
 		}
 
-		public virtual parameterInfoClass parameterInfo(variableClass variableName, object expression)
+		public virtual functionHeadClass functionHead(functionHeadClass context)
 		{
-			return new parameterInfoClass(variableName, expression);
+			return context;
 		}
 
-		public virtual parameterInfoClass parameterInfo(variableClass variableName, bool isVariadic)
+		public virtual functionDeclarationClass functionDeclaration(functionDeclarationClass context)
 		{
-			return new parameterInfoClass(variableName, isVariadic);
-		}
-
-		public virtual functionHeadClass functionHead(string functionName, List<parameterInfoClass> functionParameters)
-		{
-			return new functionHeadClass(functionName, functionParameters);
-		}
-
-		public virtual functionDeclarationClass functionDeclaration(functionHeadClass functionHead, List<object> functionBody)
-		{
-			return new functionDeclarationClass(functionHead, functionBody);
+			return context;
 		}
 	}
 }

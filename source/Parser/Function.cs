@@ -33,7 +33,7 @@ namespace AHKCore
 				return null;
 			
 			origin = pos;
-			return visitor.functionCall(functionName, functionParams);
+			return visitor.functionCall(new functionCallClass(functionName, functionParams));
 		}
 
 		// just to "wrap" functionParameterList
@@ -101,7 +101,7 @@ namespace AHKCore
 			}
 
 			origin = pos;
-			return visitor.complexFunctionCall(_this, vOrF, fParam);
+			return visitor.complexFunctionCall(new complexFunctionCallClass(_this, vOrF, fParam));
 		}
 	}
 }

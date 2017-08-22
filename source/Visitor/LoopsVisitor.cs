@@ -18,19 +18,19 @@ namespace AHKCore
             return new continueBlockClass();
         }
 
-        public virtual loopLoopClass loopLoop(object count, List<object> loopBody)
+        public virtual loopLoopClass loopLoop(loopLoopClass context)
         {
-            return new loopLoopClass(count, loopBody);
+            return context;
         }
 
-        public virtual whileLoopClass whileLoop(object condition, List<object> loopBody)
+        public virtual whileLoopClass whileLoop(whileLoopClass context)
         {
-            return new whileLoopClass(condition, loopBody);
+            return context;
         }
 
-        public virtual foreachLoopClass foreachLoop(variableClass key, variableClass value, object iterationObject, List<object> loopBody)
+        public virtual foreachLoopClass foreachLoop(foreachLoopClass context)
         {
-            return new foreachLoopClass(key, value, iterationObject, loopBody);
+            return context;
         }
 	}
 }

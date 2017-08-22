@@ -7,24 +7,24 @@ namespace AHKCore
 {
 	public abstract partial class BaseVisitor
 	{
-		public virtual STRINGClass STRING(string STRING)
+		public virtual STRINGClass STRING(STRINGClass context)
 		{
-			return new STRINGClass(STRING);
+			return context;
 		}
 
-		public virtual DOUBLEClass DOUBLE(string DOUBLE)
+		public virtual DOUBLEClass DOUBLE(DOUBLEClass context)
 		{
-			return new DOUBLEClass(DOUBLE);
+			return context;
 		}
 
-		public virtual HEXClass HEX(string HEX)
+		public virtual HEXClass HEX(HEXClass context)
 		{
-			return new HEXClass(HEX);
+			return context;
 		}
 
-		public virtual INTClass INT(string INT)
+		public virtual INTClass INT(INTClass context)
 		{
-			return new INTClass(INT);
+			return context;
 		}
 	}
 }

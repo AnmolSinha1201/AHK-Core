@@ -7,9 +7,9 @@ namespace AHKCore
 {
 	public abstract partial class BaseVisitor
 	{
-		public virtual commandBlockClass commandBlock(List<object> commandBlockList)
+		public virtual commandBlockClass commandBlock(commandBlockClass context)
 		{
-			return new commandBlockClass(commandBlockList);
+			return context;
 		}
 	}
 }

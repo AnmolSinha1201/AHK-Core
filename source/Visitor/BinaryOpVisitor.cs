@@ -8,9 +8,9 @@ namespace AHKCore
 {
 	public abstract partial class BaseVisitor
 	{
-        public virtual binaryOperationClass binaryOperation(List<binaryOpLink> binaryOpLinkList)
+        public virtual binaryOperationClass binaryOperation(binaryOperationClass context)
         {
-            return new binaryOperationClass(binaryOpLinkList);
+            return context;
         }
 	}
 }

@@ -11,7 +11,7 @@ namespace AHKCore
 			if (variableName == null)
 				return null;
 
-			return visitor.variable(variableName);
+			return visitor.variable(new variableClass(variableName));
 		}
 
 		/*
@@ -39,7 +39,7 @@ namespace AHKCore
 				return null;
 
 			origin = pos;
-			return visitor.complexVariable(_this, vorF);
+			return visitor.complexVariable(new complexVariableClass(_this, vorF));
 		}
 
 		variableAssignClass variableAssign(string code, ref int origin)
@@ -62,7 +62,7 @@ namespace AHKCore
 				return null;
 
 			origin = pos;
-			return visitor.variableAssign(variable, op, expression);
+			return visitor.variableAssign(new variableAssignClass(variable, op, expression));
 		}
 	}
 }

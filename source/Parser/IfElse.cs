@@ -19,7 +19,7 @@ namespace AHKCore
             var _elseBlock = elseBlock(code, ref pos); //else block not compulsory
             
             origin = pos;
-            return visitor.ifElseBlock(_ifBlock, _elseBlock);
+            return visitor.ifElseBlock(new ifElseBlockClass(_ifBlock, _elseBlock));
         }
 
         ifBlockClass ifBlock(string code, ref int origin)
@@ -40,7 +40,7 @@ namespace AHKCore
                 return null;
             
             origin = pos;
-            return visitor.ifBlock(condition, body);
+            return visitor.ifBlock(new ifBlockClass(condition, body));
         }
 
         elseBlockClass elseBlock(string code, ref int origin)
@@ -56,7 +56,7 @@ namespace AHKCore
                 return null;
 
             origin = pos;
-            return visitor.elseBlock(body);
+            return visitor.elseBlock(new elseBlockClass(body));
         }
 	}
 }

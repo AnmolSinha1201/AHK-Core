@@ -7,9 +7,9 @@ namespace AHKCore
 {
 	public abstract partial class BaseVisitor
 	{
-		public virtual classDeclarationClass classDeclaration(string className, List<object> classBody)
+		public virtual classDeclarationClass classDeclaration(classDeclarationClass context)
 		{
-			return new classDeclarationClass(className, classBody);
+			return context;
 		}
 	}
 }

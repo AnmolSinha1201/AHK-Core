@@ -7,14 +7,14 @@ namespace AHKCore
 {
 	public abstract partial class BaseVisitor
 	{
-        public virtual dotUnwrapClass dotUnwrap(object variableOrFunction)
+        public virtual dotUnwrapClass dotUnwrap(dotUnwrapClass context)
         {
-            return new dotUnwrapClass(variableOrFunction);
+            return context;
         }
 
-        public virtual bracketUnwrapClass bracketUnwrap(object expression)
+        public virtual bracketUnwrapClass bracketUnwrap(bracketUnwrapClass context)
         {
-            return new bracketUnwrapClass(expression);
+            return context;
         }
 	}
 }

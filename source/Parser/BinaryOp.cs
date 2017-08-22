@@ -15,7 +15,7 @@ namespace AHKCore
 
             while ((o = mathematicalOperation(code, ref origin)) != null)
                 binaryOpLinkList.Add(o);
-            return visitor.binaryOperation(binaryOpLinkList);
+            return visitor.binaryOperation(new binaryOperationClass(binaryOpLinkList));
         }
 
         binaryOpLink mathematicalOperation(string code, ref int origin)

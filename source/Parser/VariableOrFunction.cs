@@ -63,7 +63,7 @@ namespace AHKCore
 				return null;
 			
 			origin = pos;
-			return visitor.dotUnwrap(retVal);
+			return visitor.dotUnwrap(new dotUnwrapClass(retVal));
 		}
 
 		bracketUnwrapClass bracketUnwrap(string code, ref int origin)
@@ -84,7 +84,7 @@ namespace AHKCore
 				return null;
 
 			origin = pos;
-			return visitor.bracketUnwrap(retVal);
+			return visitor.bracketUnwrap(new bracketUnwrapClass(retVal));
 		}
 	}
 }

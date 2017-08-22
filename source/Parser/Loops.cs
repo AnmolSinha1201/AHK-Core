@@ -38,7 +38,7 @@ namespace AHKCore
 				return null;
 			
 			origin = pos;
-			return visitor.loopLoop(_command.commandBlockList.Count > 1 ? _command.commandBlockList[1] : null, loopBody);
+			return visitor.loopLoop(new loopLoopClass(_command.commandBlockList.Count > 1 ? _command.commandBlockList[1] : null, loopBody));
 		}
 
 		whileLoopClass whileLoop(string code, ref int origin)
@@ -59,7 +59,7 @@ namespace AHKCore
 				return null;
 
 			origin = pos;
-			return visitor.whileLoop(condition, loopBody);			
+			return visitor.whileLoop(new whileLoopClass(condition, loopBody));			
 		}
 
 		foreachLoopClass foreachLoop(string code, ref int origin) //for is not a command
@@ -97,7 +97,7 @@ namespace AHKCore
 			if (loopBody == null)
 				return null;
 
-			return visitor.foreachLoop(key, value, iterationObject, loopBody);
+			return visitor.foreachLoop(new foreachLoopClass(key, value, iterationObject, loopBody));
 		}
 
 		variableClass valueFinder(string code, ref int origin)

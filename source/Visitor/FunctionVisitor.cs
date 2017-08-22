@@ -8,14 +8,14 @@ namespace AHKCore
 {
 	public abstract partial class BaseVisitor
 	{
-        public virtual functionCallClass functionCall(string functionName, List<object> functionParameterList)
+	  	public virtual functionCallClass functionCall(functionCallClass context)
 		{
-            return new functionCallClass(functionName, functionParameterList);
+			return context;
 		}
 
-        public virtual complexFunctionCallClass complexFunctionCall(string _this, List<object> varOrFuncChain, List<object> functionParameterList)
+	  	public virtual complexFunctionCallClass complexFunctionCall(complexFunctionCallClass context)
 		{
-            return new complexFunctionCallClass(_this, varOrFuncChain, functionParameterList);
+			return context;
 		}
 	}
 }

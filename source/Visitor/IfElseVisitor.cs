@@ -8,19 +8,19 @@ namespace AHKCore
 {
 	public abstract partial class BaseVisitor
 	{
-		public virtual ifElseBlockClass ifElseBlock(ifBlockClass ifBlock, elseBlockClass elseBlock)
+		public virtual ifElseBlockClass ifElseBlock(ifElseBlockClass context)
 		{
-			return new ifElseBlockClass(ifBlock, elseBlock);
+			return context;
 		}
 
-		public virtual ifBlockClass ifBlock(object condition, List<object> body)
+		public virtual ifBlockClass ifBlock(ifBlockClass context)
 		{
-			return new ifBlockClass(condition, body);
+			return context;
 		}
 
-		public virtual elseBlockClass elseBlock(List<object> body)
+		public virtual elseBlockClass elseBlock(elseBlockClass context)
 		{
-			return new elseBlockClass(body);
+			return context;
 		}
 	}
 }

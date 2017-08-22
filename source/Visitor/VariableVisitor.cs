@@ -8,24 +8,24 @@ namespace AHKCore
 {
 	public abstract partial class BaseVisitor
 	{
-		public virtual variableClass variable(string variableName)
+		public virtual variableClass variable(variableClass context)
 		{
-			return new variableClass(variableName);
+			return context;
 		}
 
-        public virtual complexVariableClass complexVariable(string _this, List<object> varOrFuncChain)
+        public virtual complexVariableClass complexVariable(complexVariableClass context)
 		{
-            return new complexVariableClass(_this, varOrFuncChain);
+            return context;
 		}
 
-		public virtual variableAssignClass variableAssign(complexVariableClass variable, string op, object expression)
+		public virtual variableAssignClass variableAssign(variableAssignClass context)
 		{
-			return new variableAssignClass(variable, op, expression);
+			return context;
 		}
 
-		public virtual variableDeclarationClass variableDeclaration(variableClass variableName, variableDeclarationClass.scope variableScope)
+		public virtual variableDeclarationClass variableDeclaration(variableDeclarationClass context)
 		{
-			return new variableDeclarationClass(variableName, variableScope);
+			return context;
 		}
 	}
 }

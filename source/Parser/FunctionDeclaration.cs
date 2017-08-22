@@ -14,7 +14,7 @@ namespace AHKCore
 			if (variableName == null)
 				return null;
 
-			return visitor.parameterInfo(variableName);
+			return visitor.parameterInfo(new parameterInfoClass(variableName));
 		}
 
 		parameterInfoClass defaultParam(string code, ref int origin)
@@ -35,7 +35,7 @@ namespace AHKCore
 				return null;
 			
 			origin = pos;
-			return visitor.parameterInfo(variableName, expression);
+			return visitor.parameterInfo(new parameterInfoClass(variableName, expression));
 		}
 
 		parameterInfoClass variadicParam(string code, ref int origin)
@@ -51,7 +51,7 @@ namespace AHKCore
 				return null;
 			
 			origin = pos;
-			return visitor.parameterInfo(variableName, true);
+			return visitor.parameterInfo(new parameterInfoClass(variableName, true));
 		}
 
 
@@ -182,7 +182,7 @@ namespace AHKCore
 				return null;
 			
 			origin = pos;
-			return visitor.functionDeclaration(fHead, fBody);
+			return visitor.functionDeclaration(new functionDeclarationClass(fHead, fBody));
 		}
 
 		functionHeadClass functionHead(string code, ref int origin)
@@ -204,7 +204,7 @@ namespace AHKCore
 				return null;
 
 			origin = pos;
-			return visitor.functionHead(functionName, functionParameters);
+			return visitor.functionHead(new functionHeadClass(functionName, functionParameters));
 		}
 
 		List<object> functionBody(string code, ref int origin)
