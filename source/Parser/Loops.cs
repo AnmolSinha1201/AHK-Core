@@ -1,5 +1,5 @@
 using System;
-using static AHKCore.BaseVisitor;
+using static AHKCore.Nodes;
 
 namespace AHKCore
 {

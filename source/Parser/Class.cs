@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using static AHKCore.BaseVisitor;
+using static AHKCore.Nodes;
 
 namespace AHKCore
 {
