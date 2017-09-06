@@ -11,6 +11,7 @@ namespace AHKCore
 		{
 			for (int i = 0; i < context.binaryOperationLinkList.Count; i++)
 				context.binaryOperationLinkList[i] = visitor.binaryOperationLink(context.binaryOperationLinkList[i]);
+				
 			return visitor.binaryOperation(context);
 		}
 	}
