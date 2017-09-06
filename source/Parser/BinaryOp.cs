@@ -9,16 +9,16 @@ namespace AHKCore
 	{
 		binaryOperationClass binaryOperation(string code, ref int origin, object precursor)
 		{
-			List<binaryOpLink> binaryOpLinkList = new List<binaryOpLink>();
-			binaryOpLinkList.Add(new binaryOpLink(null, precursor));
-			binaryOpLink o;
+			List<binaryOperationLinkClass> binaryOpLinkList = new List<binaryOperationLinkClass>();
+			binaryOpLinkList.Add(new binaryOperationLinkClass(null, precursor));
+			binaryOperationLinkClass o;
 
 			while ((o = mathematicalOperation(code, ref origin)) != null)
 				binaryOpLinkList.Add(o);
 			return visitor.binaryOperation(new binaryOperationClass(binaryOpLinkList));
 		}
 
-		binaryOpLink mathematicalOperation(string code, ref int origin)
+		binaryOperationLinkClass mathematicalOperation(string code, ref int origin)
 		{
 			int pos = origin;
 			string[] ops = {"+", "-", "*", "/", "//", "**"};
@@ -34,10 +34,10 @@ namespace AHKCore
 				return null;
 
 			origin = pos;
-			return new binaryOpLink(op, expression);
+			return visitor.binaryOperationLink(new binaryOperationLinkClass(op, expression));
 		}
 
-		binaryOpLink concatOperation(string code, ref int origin)
+		binaryOperationLinkClass concatOperation(string code, ref int origin)
 		{
 			int pos = origin;
 
@@ -55,10 +55,10 @@ namespace AHKCore
 				return null;
 			
 			origin = pos;
-			return new binaryOpLink(".", expression);
+			return visitor.binaryOperationLink(new binaryOperationLinkClass(".", expression));
 		}
 
-		binaryOpLink logicalOperation(string code, ref int origin)
+		binaryOperationLinkClass logicalOperation(string code, ref int origin)
 		{
 			int pos = origin;
 			string[] ops = {"<", ">", "=", "<=", ">=", "==", "!=", "&&", "||"};
@@ -74,10 +74,10 @@ namespace AHKCore
 				return null;
 
 			origin = pos;
-			return new binaryOpLink(op, expression);
+			return visitor.binaryOperationLink(new binaryOperationLinkClass(op, expression));
 		}
 
-		binaryOpLink bitwiseOperation(string code, ref int origin)
+		binaryOperationLinkClass bitwiseOperation(string code, ref int origin)
 		{
 			int pos = origin;
 			string[] ops = {"<<", ">>"};
@@ -93,7 +93,7 @@ namespace AHKCore
 				return null;
 
 			origin = pos;
-			return new binaryOpLink(op, expression);
+			return visitor.binaryOperationLink(new binaryOperationLinkClass(op, expression));
 		}
 	}
 }
