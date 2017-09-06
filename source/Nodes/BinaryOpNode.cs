@@ -7,12 +7,12 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-		public class binaryOpLink : ISearchable
+		public class binaryOperationLinkClass : ISearchable
 		{
 			public string op;
 			public object expression;
 
-			public binaryOpLink(string op, object expression)
+			public binaryOperationLinkClass(string op, object expression)
 			{
 				this.op = op;
 				this.expression = expression;
@@ -29,18 +29,18 @@ namespace AHKCore
 		// the first item of the list should always be a head. A head's op = null
 		public class binaryOperationClass : ISearchable
 		{
-			public List<binaryOpLink> binaryOpLinkList;
+			public List<binaryOperationLinkClass> binaryOperationLinkList;
 
-			public binaryOperationClass(List<binaryOpLink> binaryOpLinkList)
+			public binaryOperationClass(List<binaryOperationLinkClass> binaryOpLinkList)
 			{
-				this.binaryOpLinkList = binaryOpLinkList;
+				this.binaryOperationLinkList = binaryOpLinkList;
 			}
 
-			public override string ToString() => binaryOpLinkList.Flatten(" ");
+			public override string ToString() => binaryOperationLinkList.Flatten(" ");
 
 			public List<object> Searchables
 			{
-				get {return binaryOpLinkList.Cast<object>().ToList();}
+				get {return binaryOperationLinkList.Cast<object>().ToList();}
 			}
 		}
 	}
