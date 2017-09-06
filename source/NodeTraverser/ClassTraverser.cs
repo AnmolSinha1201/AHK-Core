@@ -11,6 +11,7 @@ namespace AHKCore
 		{
 			for (int i = 0; i < context.classBody.Count; i++)
 				context.classBody[i] = objectDispatcher(context.classBody[i]);
+				
 			return visitor.classDeclaration(context);
 		}
 	}
