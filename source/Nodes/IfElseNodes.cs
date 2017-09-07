@@ -11,6 +11,7 @@ namespace AHKCore
 		{
 			public ifBlockClass ifBlock;
 			public elseBlockClass elseBlock;
+			public object extraInfo;
 
 			public ifElseBlockClass(ifBlockClass ifBlock, elseBlockClass elseBlock)
 			{
@@ -28,7 +29,7 @@ namespace AHKCore
 
 		public class ifBlockClass : ISearchable
 		{
-			public object condition;
+			public object extraInfo, condition;
 			public List<object> body;
 
 			public ifBlockClass(object condition, List<object> body)
@@ -53,6 +54,7 @@ namespace AHKCore
 		public class elseBlockClass : ISearchable
 		{
 			public List<object> body;
+			public object extraInfo;
 
 			public elseBlockClass(List<object> body)
 			{

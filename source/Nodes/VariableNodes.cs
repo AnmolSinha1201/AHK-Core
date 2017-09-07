@@ -10,6 +10,7 @@ namespace AHKCore
 		public class variableClass
 		{
 			public string variableName;
+			public object extraInfo;
 
 			public variableClass(string variableName)
 			{
@@ -23,6 +24,7 @@ namespace AHKCore
 		{
 			public string _this;
 			public List<object> chain, variableChain;
+			public object extraInfo;
 			
 			public complexVariableClass(string _this, List<object> varOrFuncChain)
 			{
@@ -53,7 +55,7 @@ namespace AHKCore
 		{
 			public string op;
 			public complexVariableClass variable;
-			public object expression;
+			public object expression, extraInfo;
 
 			public variableAssignClass(complexVariableClass variable, string op, object expression)
 			{
@@ -73,6 +75,7 @@ namespace AHKCore
 		public class variableDeclarationClass
 		{
 			public variableClass variableName;
+			public object extraInfo;
 			public enum scope
 			{
 				SCOPE_LOCAL,

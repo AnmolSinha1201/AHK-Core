@@ -10,7 +10,7 @@ namespace AHKCore
 		public class binaryOperationLinkClass : ISearchable
 		{
 			public string op;
-			public object expression;
+			public object extraInfo, expression;
 
 			public binaryOperationLinkClass(string op, object expression)
 			{

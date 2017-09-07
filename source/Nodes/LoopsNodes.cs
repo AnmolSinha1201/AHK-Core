@@ -10,16 +10,18 @@ namespace AHKCore
 		public class breakBlockClass
 		{
 			public override string ToString() => "break";
+			public object extraInfo;
 		}
 
 		public class continueBlockClass
 		{
 			public override string ToString() => "continue";
+			public object extraInfo;
 		}
 
 		public class loopLoopClass : ISearchable
 		{
-			public object count;
+			public object count, extraInfo;
 			public List<object> loopBody;
 
 			public loopLoopClass(object count, List<object> loopBody)
@@ -38,7 +40,7 @@ namespace AHKCore
 
 		public class whileLoopClass : ISearchable
 		{
-			public object condition;
+			public object condition, extraInfo;
 			public List<object> loopBody;
 
 			public whileLoopClass(object condition, List<object> loopBody)
@@ -63,7 +65,7 @@ namespace AHKCore
 		public class foreachLoopClass : ISearchable
 		{
 			public variableClass key, value;
-			public object iterationObject;
+			public object iterationObject, extraInfo;
 			public List<object> loopBody;
 
 			public foreachLoopClass(variableClass key, variableClass value, object iterationObject, List<object> loopBody)

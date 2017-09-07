@@ -10,7 +10,7 @@ namespace AHKCore
 		public class parameterInfoClass : ISearchable
 		{
 			public variableClass variableName;
-			public object expression;
+			public object extraInfo, expression;
 			public bool isVariadic;
 
 			public parameterInfoClass(variableClass variableName)
@@ -42,6 +42,7 @@ namespace AHKCore
 		{
 			public string functionName;
 			public List<parameterInfoClass> functionParameters;
+			public object extraInfo;
 
 			public functionHeadClass(string functionName, List<parameterInfoClass> functionParameters)
 			{
@@ -61,6 +62,7 @@ namespace AHKCore
 		{
 			public functionHeadClass functionHead;
 			public List<object> functionBody;
+			public object extraInfo;
 
 			public functionDeclarationClass(functionHeadClass functionHead, List<object> functionBody)
 			{

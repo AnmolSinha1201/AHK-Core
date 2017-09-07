@@ -11,6 +11,7 @@ namespace AHKCore
 		{
 			public string functionName;
 			public List<object> functionParameterList;
+			public object extraInfo;
 			
 			public functionCallClass(string functionName, List<object> functionParameterList)
 			{
@@ -30,6 +31,7 @@ namespace AHKCore
 		{
 			public string _this;
 			public List<object> functionParameterList, chain, functionChain;
+			public object extraInfo;
 			
 			public complexFunctionCallClass(string _this, List<object> varOrFuncChain, List<object> functionParameterList)
 			{

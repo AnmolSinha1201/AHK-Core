@@ -8,7 +8,7 @@ namespace AHKCore
 	{
 		public class dotUnwrapClass : ISearchable
 		{
-			public object variableOrFunction;
+			public object variableOrFunction, extraInfo;
 
 			public dotUnwrapClass(object variableOrFunction)
 			{
@@ -25,7 +25,7 @@ namespace AHKCore
 
 		public class bracketUnwrapClass : ISearchable
 		{
-			public object expression;
+			public object expression, extraInfo;
 
 			public bracketUnwrapClass(object expression)
 			{

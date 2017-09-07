@@ -10,6 +10,7 @@ namespace AHKCore
 		{
 			public string className;
 			public List<object> classBody;
+			public object extraInfo;
 
 			public classDeclarationClass(string className, List<object> classBody)
 			{

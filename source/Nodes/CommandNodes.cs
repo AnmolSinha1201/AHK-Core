@@ -9,6 +9,7 @@ namespace AHKCore
 		public class commandBlockClass : ISearchable
 		{
 			public List<object> commandBlockList;
+			public object extraInfo;
 
 			public commandBlockClass(List<object> commandBlockList)
 			{
