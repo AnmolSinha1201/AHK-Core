@@ -5,14 +5,13 @@ using static AHKCore.Nodes;
 
 namespace AHKCore
 {
-	partial class NodeTraverser
+	public partial class NodeTraverser
 	{
 		public BaseVisitor visitor;
 
-		public NodeTraverser()
+		public NodeTraverser(BaseVisitor visitor = null)
 		{
-			if (visitor == null)
-				visitor = new defaultVisitor();
+			this.visitor = visitor ?? new defaultVisitor();
 		}
 
 		public List<object> TraverseNodes(List<object> AHKNodes)
