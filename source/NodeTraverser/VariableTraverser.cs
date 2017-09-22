@@ -12,6 +12,11 @@ namespace AHKCore
 			return visitor.variable(context);
 		}
 
+		variableDeclarationClass variableDeclaration(variableDeclarationClass context)
+		{
+			return visitor.variableDeclaration(context);
+		}
+
 		complexVariableClass complexVariable(complexVariableClass context)
 		{
 			for (int i = 0; i < context.chain.Count; i++)

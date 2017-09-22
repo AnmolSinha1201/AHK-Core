@@ -23,6 +23,9 @@ namespace AHKCore
 				case variableAssignClass v :
 					return variableAssign(v);
 
+				case variableDeclarationClass v :
+					return variableDeclaration(v);
+
 				case classDeclarationClass c :
 					return classDeclaration(c);
 
