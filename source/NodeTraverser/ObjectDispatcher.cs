@@ -36,7 +36,7 @@ namespace AHKCore
 					return functionCall(f);
 
 				default :
-					return null;
+					return o;
 			}
 		}
 	}
