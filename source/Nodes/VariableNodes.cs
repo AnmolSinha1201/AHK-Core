@@ -7,10 +7,9 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-		public class variableClass
+		public class variableClass : IExtraInfo
 		{
 			public string variableName;
-			public object extraInfo;
 
 			public variableClass(string variableName)
 			{
@@ -18,13 +17,14 @@ namespace AHKCore
 			}
 
 			public override string ToString() => variableName;
+
+			public object extraInfo {get; set;}
 		}
 
-		public class complexVariableClass : ISearchable
+		public class complexVariableClass : ISearchable, IExtraInfo
 		{
 			public string _this;
 			public List<object> chain, variableChain;
-			public object extraInfo;
 			
 			public complexVariableClass(string _this, List<object> varOrFuncChain)
 			{
@@ -49,13 +49,15 @@ namespace AHKCore
 			{
 				get {return chain.Concat(variableChain).ToList();}
 			}
+
+			public object extraInfo {get; set;}
 		}
 
-		public class variableAssignClass : ISearchable
+		public class variableAssignClass : ISearchable, IExtraInfo
 		{
 			public string op;
 			public complexVariableClass variable;
-			public object expression, extraInfo;
+			public object expression;
 
 			public variableAssignClass(complexVariableClass variable, string op, object expression)
 			{
@@ -70,12 +72,13 @@ namespace AHKCore
 			{
 				get {return new List<object>() {variable, expression};}
 			}
+
+			public object extraInfo {get; set;}
 		}
 
-		public class variableDeclarationClass
+		public class variableDeclarationClass : IExtraInfo
 		{
 			public variableClass variableName;
-			public object extraInfo;
 			public enum scope
 			{
 				SCOPE_LOCAL,
@@ -92,6 +95,8 @@ namespace AHKCore
 
 			public override string ToString() =>
 			(variableScope == scope.SCOPE_GLOBAL || variableScope == scope.SCOPE_SUPERGLOBAL ? "global " : "") + variableName;
+
+			public object extraInfo {get; set;}
 		}
 	}
 }

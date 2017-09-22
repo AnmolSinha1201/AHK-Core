@@ -6,10 +6,9 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-		public class STRINGClass
+		public class STRINGClass : IExtraInfo
 		{
 			public string STRING;
-			public object extraInfo;
 			
 			public STRINGClass(string STRING)
 			{
@@ -17,12 +16,13 @@ namespace AHKCore
 			}
 
 			public override string ToString() => STRING;
+
+			public object extraInfo {get; set;}
 		}
 
-		public class DOUBLEClass
+		public class DOUBLEClass : IExtraInfo
 		{
 			public string DOUBLE;
-			public object extraInfo;
 			
 			public DOUBLEClass(string DOUBLE)
 			{
@@ -30,12 +30,13 @@ namespace AHKCore
 			}
 
 			public override string ToString() => DOUBLE;
+
+			public object extraInfo {get; set;}
 		}
 
-		public class HEXClass
+		public class HEXClass : IExtraInfo
 		{
 			public string HEX;
-			public object extraInfo;
 			
 			public HEXClass(string HEX)
 			{
@@ -43,12 +44,13 @@ namespace AHKCore
 			}
 
 			public override string ToString() => HEX;
+
+			public object extraInfo {get; set;}
 		}
 
-		public class INTClass
+		public class INTClass : IExtraInfo
 		{
 			public string INT;
-			public object extraInfo;
 			
 			public INTClass(string INT)
 			{
@@ -56,6 +58,8 @@ namespace AHKCore
 			}
 
 			public override string ToString() => INT;
+
+			public object extraInfo {get; set;}
 		}
 	}
 }

@@ -6,10 +6,9 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-		public class commandBlockClass : ISearchable
+		public class commandBlockClass : ISearchable, IExtraInfo
 		{
 			public List<object> commandBlockList;
-			public object extraInfo;
 
 			public commandBlockClass(List<object> commandBlockList)
 			{
@@ -22,6 +21,8 @@ namespace AHKCore
 			{
 				get {return commandBlockList;}
 			}
+
+			public object extraInfo {get; set;}
 		}
 	}
 }

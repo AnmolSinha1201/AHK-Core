@@ -19,9 +19,9 @@ namespace AHKCore
 			public object extraInfo;
 		}
 
-		public class loopLoopClass : ISearchable
+		public class loopLoopClass : ISearchable, IExtraInfo
 		{
-			public object count, extraInfo;
+			public object count;
 			public List<object> loopBody;
 
 			public loopLoopClass(object count, List<object> loopBody)
@@ -36,11 +36,13 @@ namespace AHKCore
 			{
 				get {return loopBody;}
 			}
+
+			public object extraInfo {get; set;}
 		}
 
-		public class whileLoopClass : ISearchable
+		public class whileLoopClass : ISearchable, IExtraInfo
 		{
-			public object condition, extraInfo;
+			public object condition;
 			public List<object> loopBody;
 
 			public whileLoopClass(object condition, List<object> loopBody)
@@ -60,12 +62,14 @@ namespace AHKCore
 					return retList.Concat(loopBody).ToList();
 				}
 			}
+
+			public object extraInfo {get; set;}
 		}
 
-		public class foreachLoopClass : ISearchable
+		public class foreachLoopClass : ISearchable, IExtraInfo
 		{
 			public variableClass key, value;
-			public object iterationObject, extraInfo;
+			public object iterationObject;
 			public List<object> loopBody;
 
 			public foreachLoopClass(variableClass key, variableClass value, object iterationObject, List<object> loopBody)
@@ -90,6 +94,8 @@ namespace AHKCore
 					return retList.Concat(loopBody).ToList();
 				}
 			}
+
+			public object extraInfo {get; set;}
 		}
 	}
 }

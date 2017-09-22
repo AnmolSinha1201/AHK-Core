@@ -6,9 +6,9 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-		public class dotUnwrapClass : ISearchable
+		public class dotUnwrapClass : ISearchable, IExtraInfo
 		{
-			public object variableOrFunction, extraInfo;
+			public object variableOrFunction;
 
 			public dotUnwrapClass(object variableOrFunction)
 			{
@@ -21,11 +21,13 @@ namespace AHKCore
 			{
 				get {return new List<object>() {variableOrFunction};}
 			}
+
+			public object extraInfo {get; set;}
 		}
 
-		public class bracketUnwrapClass : ISearchable
+		public class bracketUnwrapClass : ISearchable, IExtraInfo
 		{
-			public object expression, extraInfo;
+			public object expression;
 
 			public bracketUnwrapClass(object expression)
 			{
@@ -38,6 +40,8 @@ namespace AHKCore
 			{
 				get {return new List<object>() {expression};}
 			}
+
+			public object extraInfo {get; set;}
 		}
 	}
 }

@@ -7,11 +7,10 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-		public class ifElseBlockClass : Nodes
+		public class ifElseBlockClass : ISearchable, IExtraInfo
 		{
 			public ifBlockClass ifBlock;
 			public elseBlockClass elseBlock;
-			public object extraInfo;
 
 			public ifElseBlockClass(ifBlockClass ifBlock, elseBlockClass elseBlock)
 			{
@@ -25,11 +24,13 @@ namespace AHKCore
 			{
 				get {return new List<object>() {ifBlock, elseBlock};}
 			}
+
+			public object extraInfo {get; set;}
 		}
 
-		public class ifBlockClass : ISearchable
+		public class ifBlockClass : ISearchable, IExtraInfo
 		{
-			public object extraInfo, condition;
+			public object condition;
 			public List<object> body;
 
 			public ifBlockClass(object condition, List<object> body)
@@ -49,12 +50,13 @@ namespace AHKCore
 					return retList.Concat(body).ToList();
 				}
 			}
+
+			public object extraInfo {get; set;}
 		}
 
-		public class elseBlockClass : ISearchable
+		public class elseBlockClass : ISearchable, IExtraInfo
 		{
 			public List<object> body;
-			public object extraInfo;
 
 			public elseBlockClass(List<object> body)
 			{
@@ -73,6 +75,8 @@ namespace AHKCore
 			{
 				get {return body;}
 			}
+
+			public object extraInfo {get; set;}
 		}
 	}
 }

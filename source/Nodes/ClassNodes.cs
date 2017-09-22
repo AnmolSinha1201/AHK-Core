@@ -6,11 +6,10 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-		public class classDeclarationClass : ISearchable
+		public class classDeclarationClass : ISearchable, IExtraInfo
 		{
 			public string className;
 			public List<object> classBody;
-			public object extraInfo;
 
 			public classDeclarationClass(string className, List<object> classBody)
 			{
@@ -24,6 +23,8 @@ namespace AHKCore
 			{
 				get {return classBody;}
 			}
+
+			public object extraInfo {get; set;}
 		}
 	}
 }

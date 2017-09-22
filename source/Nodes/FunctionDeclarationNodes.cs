@@ -7,10 +7,10 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-		public class parameterInfoClass : ISearchable
+		public class parameterInfoClass : ISearchable, IExtraInfo
 		{
 			public variableClass variableName;
-			public object extraInfo, expression;
+			public object expression;
 			public bool isVariadic;
 
 			public parameterInfoClass(variableClass variableName)
@@ -36,13 +36,14 @@ namespace AHKCore
 			{
 				get {return new List<object>{variableName, expression};}
 			}
+
+			public object extraInfo {get; set;}
 		}
 
-		public class functionHeadClass : ISearchable
+		public class functionHeadClass : ISearchable, IExtraInfo
 		{
 			public string functionName;
 			public List<parameterInfoClass> functionParameters;
-			public object extraInfo;
 
 			public functionHeadClass(string functionName, List<parameterInfoClass> functionParameters)
 			{
@@ -56,13 +57,14 @@ namespace AHKCore
 			{
 				get {return functionParameters.Cast<object>().ToList();}
 			}
+
+			public object extraInfo {get; set;}
 		}
 
-		public class functionDeclarationClass : ISearchable
+		public class functionDeclarationClass : ISearchable, IExtraInfo
 		{
 			public functionHeadClass functionHead;
 			public List<object> functionBody;
-			public object extraInfo;
 
 			public functionDeclarationClass(functionHeadClass functionHead, List<object> functionBody)
 			{
@@ -81,6 +83,8 @@ namespace AHKCore
 					return retList.Concat(functionBody).ToList();
 				}
 			}
+
+			public object extraInfo {get; set;}
 		}
 	}
 }

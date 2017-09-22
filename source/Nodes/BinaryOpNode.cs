@@ -7,10 +7,10 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-		public class binaryOperationLinkClass : ISearchable
+		public class binaryOperationLinkClass : ISearchable, IExtraInfo
 		{
 			public string op;
-			public object extraInfo, expression;
+			public object expression;
 
 			public binaryOperationLinkClass(string op, object expression)
 			{
@@ -24,6 +24,8 @@ namespace AHKCore
 			{
 				get {return new List<object>() {expression};}
 			}
+
+			public object extraInfo {get; set;}
 		}
 
 		// the first item of the list should always be a head. A head's op = null
