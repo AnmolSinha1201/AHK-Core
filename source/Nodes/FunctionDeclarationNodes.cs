@@ -65,6 +65,7 @@ namespace AHKCore
 		{
 			public functionHeadClass functionHead;
 			public List<object> functionBody;
+			public object returnType = null;
 
 			public functionDeclarationClass(functionHeadClass functionHead, List<object> functionBody)
 			{
