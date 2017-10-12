@@ -29,14 +29,9 @@ namespace AHKCore
 			return sb.ToString();
 		}
 
-		public static string Indent<T>(this List<T> l)
+		public static string Indent<T>(this string s)
 		{
-			var sb = new StringBuilder();
-
-			foreach (var v in l)
-				sb.Append((sb.Length == 0 ? "\t" : "\n\t") + String.Join("\n\t", v.ToString().Split("\n")));
-
-			return sb.ToString();
+			return string.Join("\n\t", s.Split("\n"));
 		}
 
 		public static IEnumerable<T> AddConcat<T>(this List<T> l, object o)
