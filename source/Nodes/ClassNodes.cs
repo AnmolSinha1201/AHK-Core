@@ -17,7 +17,7 @@ namespace AHKCore
 				this.classBody = classBody;
 			}
 
-			public override string ToString() => $"class {className}\n{{\n\t{classBody.Flatten("\n\t")}\n}}";
+			public override string ToString() => $"class {className}\n{{\n\t{classBody.Flatten("\n").Indent<string>()}\n}}";
 
 			public List<object> Searchables
 			{
