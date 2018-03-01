@@ -28,7 +28,7 @@ namespace AHKCore
 		/*
 			- IExtraInfo exposes extra user parameter of a class.
 			- extraInfo is just a placeholder which can be anything.
-			- Every class of AHKCore should implement this interface, except the classes which can not be subdivided ('break', 'NAME', 'variable').
+			- Every class of AHKCore should implement this interface.
 			- Value = null if nothing is to be exposed.
 			- Users can use this to attach some extra information to AST nodes which they can later use. Interface simply helps write a filter function.
 			- There is no restriction on type of extraInfo. It can be a simple string, or a complex delegate to be called. Users have to handle their own
