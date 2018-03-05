@@ -9,7 +9,7 @@ namespace AHKCore
 		- Variables is mainly used for state management.
 		- TODO: Make IndexedNodes compatible with NodeTraverser's objectDispatcher.
 	 */
-	public class IndexedNodes
+	public class IndexedNode
 	{
 		public Classes Classes = new Classes();
 		public Functions Functions = new Functions();

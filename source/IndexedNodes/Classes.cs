@@ -5,9 +5,9 @@ namespace AHKCore.IndexedNodesFragment
 {
 	public class Classes
 	{
-		Dictionary<string, IndexedNodes> ClassList = new Dictionary<string, IndexedNodes>();
+		Dictionary<string, IndexedNode> ClassList = new Dictionary<string, IndexedNode>();
 
-		public IndexedNodes this[string key]
+		public IndexedNode this[string key]
 		{
 			get
 			{
