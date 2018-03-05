@@ -9,11 +9,11 @@ namespace AHKCore
 {
 	public static class Query
 	{
-		public static List<T> OfTypeRecursive<T>(this List<object> list)
+		public static List<T> OfTypeRecursive<T>(this List<IAHKNode> list)
 		{
 			var retList = list.OfType<T>().ToList();
 			
-			foreach (var v in list.Except(retList.Cast<object>()))
+			foreach (var v in list.Except(retList.Cast<IAHKNode>()))
 				if (v is ISearchable)
 					retList.AddRange(((ISearchable)v).Searchables.OfTypeRecursive<T>());
 
@@ -34,7 +34,7 @@ namespace AHKCore
 			return string.Join("\n\t", s.Split("\n"));
 		}
 
-		public static IEnumerable<T> AddConcat<T>(this List<T> l, object o)
+		public static IEnumerable<T> AddConcat<T>(this List<T> l, IAHKNode o)
 		{
 			if (o.GetType() == typeof(List<T>))
 				return l.Concat((List<T>)o);

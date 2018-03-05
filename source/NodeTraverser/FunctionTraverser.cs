@@ -17,11 +17,11 @@ namespace AHKCore
 
 		complexFunctionCallClass complexFunctionCall(complexFunctionCallClass context)
 		{
-			for (int i = 0; i < context.functionChain.Count; i++)
-				context.functionChain[i] = objectDispatcher(context.functionChain[i]);
-
 			for (int i = 0; i < context.functionParameterList.Count; i++)
 				context.functionParameterList[i] = objectDispatcher(context.functionParameterList[i]);
+
+			for (int i = 0; i < context.chain.Count; i++)
+				context.chain[i] = objectDispatcher(context.chain[i]);
 			
 			return visitor.complexFunctionCall(context);
 		}

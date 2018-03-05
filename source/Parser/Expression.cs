@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using static AHKCore.Nodes;
 
 namespace AHKCore
 {
@@ -7,7 +8,7 @@ namespace AHKCore
 	{
 		/*
 		 */
-		object Expression(string code, ref int origin)
+		IAHKNode Expression(string code, ref int origin)
 		{
 			return STRING(code, ref origin) ?? NUMBER(code, ref origin) ?? complexVariable(code, ref origin);
 		}

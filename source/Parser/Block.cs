@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static AHKCore.Nodes;
 
 namespace AHKCore
 {
@@ -8,12 +9,12 @@ namespace AHKCore
 	{
 		public BaseVisitor visitor;
 
-		public List<object> Test()
+		public List<IAHKNode> Test()
 		{
 			return parse("class qwe{var=123\nvar2=456}\nclass asd{var=123\nvar2=456}");
 		}
 
-		public List<object> parse(string code)
+		public List<IAHKNode> parse(string code)
 		{
 			if (visitor == null)
 				visitor = new defaultVisitor();
@@ -22,9 +23,9 @@ namespace AHKCore
 			return chunk(code, ref i);
 		}
 
-		List<object> chunk(string code, ref int origin)
+		List<IAHKNode> chunk(string code, ref int origin)
 		{
-			var chunkList = new List<object>();
+			var chunkList = new List<IAHKNode>();
 			while (true)
 			{
 				CRLFWS(code, ref origin);
@@ -39,34 +40,34 @@ namespace AHKCore
 			return chunkList;
 		}
 
-		object block(string code, ref int origin)
+		IAHKNode block(string code, ref int origin)
 		{
 			return classDeclaration(code, ref origin) ?? functionDeclaration(code, ref origin) ?? 
-			(object) functionBodyBlock(code, ref origin);
+			functionBodyBlock(code, ref origin);
 		}
 
 		/*
 			Blocks which are allowed inside a function.
 		 */
-		object functionBodyBlock(string code, ref int origin)
+		IAHKNode functionBodyBlock(string code, ref int origin)
 		{
 			return variableAssign(code, ref origin);
 		}
 
-		Object loopBlock(string code, ref int origin)
+		IAHKNode loopBlock(string code, ref int origin)
 		{
-			return breakBlock(code, ref origin) ?? continueBLock(code, ref origin) ?? (object)functionBodyBlock(code, ref origin);
+			return breakBlock(code, ref origin) ?? continueBLock(code, ref origin) ?? functionBodyBlock(code, ref origin);
 		}
 
-		List<object> loopBodyBlock(string code, ref int origin)
+		List<IAHKNode> loopBodyBlock(string code, ref int origin)
 		{
 			return loopBodyBlockWithParentheses(code, ref origin) ?? loopBodyBlockWithoutParentheses(code, ref origin);
 		}
 
-		List<object> loopBodyBlockWithParentheses(string code, ref int origin)
+		List<IAHKNode> loopBodyBlockWithParentheses(string code, ref int origin)
 		{
 			int pos = origin;
-			var loopBlockList = new List<object>();
+			var loopBlockList = new List<IAHKNode>();
 
 			if (stringMatcher(code, ref pos, "{") == null)
 				return null;
@@ -93,9 +94,9 @@ namespace AHKCore
 			return loopBlockList;
 		}
 
-		List<object> loopBodyBlockWithoutParentheses(string code, ref int origin)
+		List<IAHKNode> loopBodyBlockWithoutParentheses(string code, ref int origin)
 		{
-			var loopBlockList = new List<object>();
+			var loopBlockList = new List<IAHKNode>();
 
 			var lBody = loopBlock(code, ref origin);
 			if (lBody == null)
@@ -105,12 +106,12 @@ namespace AHKCore
 			return loopBlockList;
 		}
 
-		object conditionalBlock(string code, ref int origin)
+		IAHKNode conditionalBlock(string code, ref int origin)
 		{
 			return conditionalBlockWithParentheses(code, ref origin) ?? conditionalBlockWithoutParentheses(code, ref origin);
 		}
 
-		object conditionalBlockWithParentheses(string code, ref int origin)
+		IAHKNode conditionalBlockWithParentheses(string code, ref int origin)
 		{
 			int pos = origin;
 
@@ -128,15 +129,15 @@ namespace AHKCore
 			return expression;
 		}
 
-		object conditionalBlockWithoutParentheses(string code, ref int origin)
+		IAHKNode conditionalBlockWithoutParentheses(string code, ref int origin)
 		{
 			return Expression(code, ref origin);
 		}
 
-		List<object> classBlock(string code, ref int origin)
+		List<IAHKNode> classBlock(string code, ref int origin)
 		{
 			int pos = origin;
-			var blockList = new List<object>();
+			var blockList = new List<IAHKNode>();
 
 			if (stringMatcher(code, ref pos, "{") == null)
 				return null;
@@ -144,7 +145,7 @@ namespace AHKCore
 
 			while (true)
 			{
-				var retVal = classDeclaration(code, ref pos) ?? functionDeclaration(code, ref pos) ?? (object) variableAssign(code, ref pos);
+				var retVal = classDeclaration(code, ref pos) ?? functionDeclaration(code, ref pos) ?? (IAHKNode) variableAssign(code, ref pos);
 				if (retVal == null)
 					break;
 				blockList.Add(retVal);

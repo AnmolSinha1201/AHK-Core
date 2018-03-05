@@ -7,7 +7,7 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-		public class ifElseBlockClass : ISearchable, IExtraInfo
+		public class ifElseBlockClass : ISearchable, IAHKNode
 		{
 			public ifBlockClass ifBlock;
 			public elseBlockClass elseBlock;
@@ -20,20 +20,20 @@ namespace AHKCore
 
 			public override string ToString() => $"{ifBlock}{(elseBlock == null ? "" : "\n" + elseBlock)}";
 
-			public List<object> Searchables
+			public List<IAHKNode> Searchables
 			{
-				get {return new List<object>() {ifBlock, elseBlock};}
+				get {return new List<IAHKNode>() {ifBlock, elseBlock};}
 			}
 
-			public object extraInfo {get; set;}
+			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class ifBlockClass : ISearchable, IExtraInfo
+		public class ifBlockClass : ISearchable, IAHKNode
 		{
-			public object condition;
-			public List<object> body;
+			public IAHKNode condition;
+			public List<IAHKNode> body;
 
-			public ifBlockClass(object condition, List<object> body)
+			public ifBlockClass(IAHKNode condition, List<IAHKNode> body)
 			{
 				this.condition = condition;
 				this.body = body;
@@ -41,24 +41,24 @@ namespace AHKCore
 
 			public override string ToString() => $"if ({condition})\n{{\n\t{body.Flatten("\n\t")}\n}}";
 
-			public List<object> Searchables
+			public List<IAHKNode> Searchables
 			{
 				get 
 				{
-					var retList = new List<object>();
+					var retList = new List<IAHKNode>();
 					retList.Add(condition);
 					return retList.Concat(body).ToList();
 				}
 			}
 
-			public object extraInfo {get; set;}
+			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class elseBlockClass : ISearchable, IExtraInfo
+		public class elseBlockClass : ISearchable, IAHKNode
 		{
-			public List<object> body;
+			public List<IAHKNode> body;
 
-			public elseBlockClass(List<object> body)
+			public elseBlockClass(List<IAHKNode> body)
 			{
 				this.body = body;
 			}
@@ -71,12 +71,12 @@ namespace AHKCore
 					return $"else\n{{\n\t{body.Flatten("\n\t")}\n}}";
 			}
 
-			public List<object> Searchables
+			public List<IAHKNode> Searchables
 			{
 				get {return body;}
 			}
 
-			public object extraInfo {get; set;}
+			public IAHKNode extraInfo {get; set;}
 		}
 	}
 }

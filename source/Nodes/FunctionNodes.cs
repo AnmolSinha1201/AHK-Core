@@ -7,12 +7,12 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-		public class functionCallClass : ISearchable, IExtraInfo
+		public class functionCallClass : ISearchable, IAHKNode
 		{
 			public string functionName;
-			public List<object> functionParameterList;
+			public List<IAHKNode> functionParameterList;
 			
-			public functionCallClass(string functionName, List<object> functionParameterList)
+			public functionCallClass(string functionName, List<IAHKNode> functionParameterList)
 			{
 				this.functionName = functionName;
 				this.functionParameterList = functionParameterList;
@@ -20,56 +20,39 @@ namespace AHKCore
 
 			public override string ToString() => $"{functionName} ({functionParameterList.Flatten(", ")})";
 
-			public List<object> Searchables
+			public List<IAHKNode> Searchables
 			{
 				get {return functionParameterList;}
 			}
 
-			public object extraInfo {get; set;}
+			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class complexFunctionCallClass : ISearchable, IExtraInfo
+		public class complexFunctionCallClass : ISearchable, IAHKNode
 		{
-			public string _this;
-			public List<object> functionParameterList, chain, functionChain;
+			public string _this, functionName;
+			public List<IAHKNode> functionParameterList, chain;
 			
-			public complexFunctionCallClass(string _this, List<object> varOrFuncChain, List<object> functionParameterList)
+			public complexFunctionCallClass(string _this, List<IAHKNode> varOrFuncChain, List<IAHKNode> functionParameterList)
 			{
 				this._this = _this;
-				functionChain = new List<object>();
 				
-				if (varOrFuncChain[varOrFuncChain.Count - 1].GetType() == typeof(functionCallClass))
-				{
-					var temp = (functionCallClass)varOrFuncChain[varOrFuncChain.Count - 1];
-					functionChain.Add(temp.functionName);
-					this.functionParameterList = temp.functionParameterList;
-					varOrFuncChain.RemoveAt(varOrFuncChain.Count - 1);
-				}
-				else
-				{
-					int i = 0;
-
-					/*
-						no need to check for i = 0. dotUnwrap can only be present after i = 1 (example : a.c["n"])
-						i = 0 means entire chain is the name (example : class["name"])
-					 */
-					for (i = varOrFuncChain.Count - 1; i > 0 && varOrFuncChain[i].GetType() != typeof(dotUnwrapClass); i--);
-					functionChain.AddRange(varOrFuncChain.GetRange(i, varOrFuncChain.Count - i));
-					this.functionParameterList = functionParameterList;
-					varOrFuncChain.RemoveRange(i, varOrFuncChain.Count - i);
-				}
+				var temp = (functionCallClass)varOrFuncChain[varOrFuncChain.Count - 1];
+				functionName = temp.functionName;
+				this.functionParameterList = temp.functionParameterList;
+				varOrFuncChain.RemoveAt(varOrFuncChain.Count - 1);
 				this.chain = varOrFuncChain;
 			}
 
 			public override string ToString() => $"{_this}{this.chain.Flatten()}" +
-				$"{functionChain.Flatten()} ({this.functionParameterList.Flatten(", ")})";
+				$"{this.functionName} ({this.functionParameterList.Flatten(", ")})";
 
-			public List<object> Searchables
+			public List<IAHKNode> Searchables
 			{
-				get {return chain.Concat(functionChain).Concat(functionParameterList).ToList();}
+				get {return chain.Concat(functionParameterList).ToList();}
 			}
 
-			public object extraInfo {get; set;}
+			public IAHKNode extraInfo {get; set;}
 		}
 	}
 }

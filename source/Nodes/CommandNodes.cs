@@ -6,23 +6,37 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-		public class commandBlockClass : ISearchable, IExtraInfo
+		public class commandBlockClass : ISearchable, IAHKNode
 		{
-			public List<object> commandBlockList;
+			public List<IAHKNode> commandBlockList;
 
-			public commandBlockClass(List<object> commandBlockList)
+			public commandBlockClass(List<IAHKNode> commandBlockList)
 			{
 				this.commandBlockList = commandBlockList;
 			}
 
 			public override string ToString() => commandBlockList.Flatten("\n");
 
-			public List<object> Searchables
+			public List<IAHKNode> Searchables
 			{
 				get {return commandBlockList;}
 			}
 
-			public object extraInfo {get; set;}
+			public IAHKNode extraInfo {get; set;}
+		}
+
+		public class commandClass: IAHKNode
+		{
+			public string command;
+
+			public commandClass(string command)
+			{
+				this.command = command;
+			}
+
+			public override string ToString() => command;
+
+			public IAHKNode extraInfo {get; set;}
 		}
 	}
 }

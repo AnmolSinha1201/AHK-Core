@@ -7,7 +7,7 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-		public class variableClass : IExtraInfo
+		public class variableClass : IAHKNode
 		{
 			public string variableName;
 
@@ -18,20 +18,20 @@ namespace AHKCore
 
 			public override string ToString() => variableName;
 
-			public object extraInfo {get; set;}
+			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class complexVariableClass : ISearchable, IExtraInfo
+		public class complexVariableClass : ISearchable, IAHKNode
 		{
 			public string _this;
-			public List<object> chain, variableChain;
+			public List<IAHKNode> chain, variableChain;
 			
-			public complexVariableClass(string _this, List<object> varOrFuncChain)
+			public complexVariableClass(string _this, List<IAHKNode> varOrFuncChain)
 			{
 				this._this = _this;
 				
 				int i = 0;
-				variableChain = new List<object>();
+				variableChain = new List<IAHKNode>();
 
 				/*
 					no need to check for i = 0. dotUnwrap can only be present after i = 1 (example : a.c["n"])
@@ -45,21 +45,21 @@ namespace AHKCore
 
 			public override string ToString() => $"{_this}{this.chain.Flatten()}{variableChain.Flatten()}";
 
-			public List<object> Searchables
+			public List<IAHKNode> Searchables
 			{
 				get {return chain.Concat(variableChain).ToList();}
 			}
 
-			public object extraInfo {get; set;}
+			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class variableAssignClass : ISearchable, IExtraInfo
+		public class variableAssignClass : ISearchable, IAHKNode
 		{
 			public string op;
 			public complexVariableClass variable;
-			public object expression;
+			public IAHKNode expression;
 
-			public variableAssignClass(complexVariableClass variable, string op, object expression)
+			public variableAssignClass(complexVariableClass variable, string op, IAHKNode expression)
 			{
 				this.variable = variable;
 				this.op = op;
@@ -68,15 +68,15 @@ namespace AHKCore
 
 			public override string ToString() => $"{variable} {op} {expression}";
 
-			public List<object> Searchables
+			public List<IAHKNode> Searchables
 			{
-				get {return new List<object>() {variable, expression};}
+				get {return new List<IAHKNode>() {variable, expression};}
 			}
 
-			public object extraInfo {get; set;}
+			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class variableDeclarationClass : IExtraInfo
+		public class variableDeclarationClass : IAHKNode
 		{
 			public variableClass variableName;
 			public enum scope
@@ -96,7 +96,7 @@ namespace AHKCore
 			public override string ToString() =>
 			(variableScope == scope.SCOPE_GLOBAL || variableScope == scope.SCOPE_SUPERGLOBAL ? "global " : "") + variableName;
 
-			public object extraInfo {get; set;}
+			public IAHKNode extraInfo {get; set;}
 		}
 	}
 }

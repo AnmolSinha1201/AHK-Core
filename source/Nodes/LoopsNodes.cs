@@ -7,24 +7,24 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-		public class breakBlockClass
+		public class breakBlockClass: IAHKNode
 		{
 			public override string ToString() => "break";
-			public object extraInfo;
+			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class continueBlockClass
+		public class continueBlockClass: IAHKNode
 		{
 			public override string ToString() => "continue";
-			public object extraInfo;
+			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class loopLoopClass : ISearchable, IExtraInfo
+		public class loopLoopClass : ISearchable, IAHKNode
 		{
-			public object count;
-			public List<object> loopBody;
+			public IAHKNode count;
+			public List<IAHKNode> loopBody;
 
-			public loopLoopClass(object count, List<object> loopBody)
+			public loopLoopClass(IAHKNode count, List<IAHKNode> loopBody)
 			{
 				this.count = count;
 				this.loopBody = loopBody;
@@ -32,20 +32,20 @@ namespace AHKCore
 
 			public override string ToString() => $"loop{(count == null? "" : ", " + count)}\n{{\n\t{loopBody.Flatten("\n\t")}\n}}";
 
-			public List<object> Searchables
+			public List<IAHKNode> Searchables
 			{
 				get {return loopBody;}
 			}
 
-			public object extraInfo {get; set;}
+			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class whileLoopClass : ISearchable, IExtraInfo
+		public class whileLoopClass : ISearchable, IAHKNode
 		{
-			public object condition;
-			public List<object> loopBody;
+			public IAHKNode condition;
+			public List<IAHKNode> loopBody;
 
-			public whileLoopClass(object condition, List<object> loopBody)
+			public whileLoopClass(IAHKNode condition, List<IAHKNode> loopBody)
 			{
 				this.condition = condition;
 				this.loopBody = loopBody;
@@ -53,26 +53,26 @@ namespace AHKCore
 
 			public override string ToString() => $"while ({condition})\n{{\n\t{loopBody.Flatten("\n\t")}\n}}";
 
-			public List<object> Searchables
+			public List<IAHKNode> Searchables
 			{
 				get 
 				{
-					var retList = new List<object>();
+					var retList = new List<IAHKNode>();
 					retList.Add(condition);
 					return retList.Concat(loopBody).ToList();
 				}
 			}
 
-			public object extraInfo {get; set;}
+			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class foreachLoopClass : ISearchable, IExtraInfo
+		public class foreachLoopClass : ISearchable, IAHKNode
 		{
 			public variableClass key, value;
-			public object iterationObject;
-			public List<object> loopBody;
+			public IAHKNode iterationObject;
+			public List<IAHKNode> loopBody;
 
-			public foreachLoopClass(variableClass key, variableClass value, object iterationObject, List<object> loopBody)
+			public foreachLoopClass(variableClass key, variableClass value, IAHKNode iterationObject, List<IAHKNode> loopBody)
 			{
 				this.key = key;
 				this.value = value;
@@ -83,11 +83,11 @@ namespace AHKCore
 			public override string ToString() => 
 			$"for {key}{(value == null ? "" : ", " + value)} in {iterationObject}\n{{\n\t{loopBody.Flatten("\n\t")}\n}}";
 
-			public List<object> Searchables
+			public List<IAHKNode> Searchables
 			{
 				get 
 				{
-					var retList = new List<object>();
+					var retList = new List<IAHKNode>();
 					retList.Add(key);
 					retList.Add(value);
 					retList.Add(iterationObject);
@@ -95,7 +95,7 @@ namespace AHKCore
 				}
 			}
 
-			public object extraInfo {get; set;}
+			public IAHKNode extraInfo {get; set;}
 		}
 	}
 }

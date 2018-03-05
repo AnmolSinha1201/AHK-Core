@@ -7,10 +7,10 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-		public class parameterInfoClass : ISearchable, IExtraInfo
+		public class parameterInfoClass : ISearchable, IAHKNode
 		{
 			public variableClass variableName;
-			public object expression;
+			public IAHKNode expression;
 			public bool isVariadic;
 
 			public parameterInfoClass(variableClass variableName)
@@ -18,7 +18,7 @@ namespace AHKCore
 				this.variableName = variableName;
 			}
 
-			public parameterInfoClass(variableClass variableName, object expression)
+			public parameterInfoClass(variableClass variableName, IAHKNode expression)
 			{
 				this.variableName = variableName;
 				this.expression = expression;
@@ -32,15 +32,15 @@ namespace AHKCore
 
 			public override string ToString() => variableName + (expression != null? " = " + expression : (isVariadic? "*" : ""));
 
-			public List<object> Searchables
+			public List<IAHKNode> Searchables
 			{
-				get {return new List<object>{variableName, expression};}
+				get {return new List<IAHKNode>{variableName, expression};}
 			}
 
-			public object extraInfo {get; set;}
+			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class functionHeadClass : ISearchable, IExtraInfo
+		public class functionHeadClass : ISearchable, IAHKNode
 		{
 			public string functionName;
 			public List<parameterInfoClass> functionParameters;
@@ -53,21 +53,21 @@ namespace AHKCore
 
 			public override string ToString() => $"{functionName}({functionParameters.Flatten(", ")})";
 
-			public List<object> Searchables
+			public List<IAHKNode> Searchables
 			{
-				get {return functionParameters.Cast<object>().ToList();}
+				get {return functionParameters.Cast<IAHKNode>().ToList();}
 			}
 
-			public object extraInfo {get; set;}
+			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class functionDeclarationClass : ISearchable, IExtraInfo
+		public class functionDeclarationClass : ISearchable, IAHKNode
 		{
 			public functionHeadClass functionHead;
-			public List<object> functionBody;
-			public object returnType = null;
+			public List<IAHKNode> functionBody;
+			public IAHKNode returnType = null;
 
-			public functionDeclarationClass(functionHeadClass functionHead, List<object> functionBody)
+			public functionDeclarationClass(functionHeadClass functionHead, List<IAHKNode> functionBody)
 			{
 				this.functionHead = functionHead;
 				this.functionBody = functionBody;
@@ -75,17 +75,17 @@ namespace AHKCore
 
 			public override string ToString() => $"{functionHead}\n{{\n\t{functionBody.Flatten("\n\t")}\n}}";
 
-			public List<object> Searchables
+			public List<IAHKNode> Searchables
 			{
 				get 
 				{
-					var retList = new List<object>();
+					var retList = new List<IAHKNode>();
 					retList.Add(functionHead);
 					return retList.Concat(functionBody).ToList();
 				}
 			}
 
-			public object extraInfo {get; set;}
+			public IAHKNode extraInfo {get; set;}
 		}
 	}
 }

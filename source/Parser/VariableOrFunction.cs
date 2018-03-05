@@ -21,10 +21,10 @@ namespace AHKCore
 			dotUnwrap : '.' variableOrFunction ;
 			bracketUnwrap : WS* '[' WS* expression WS* ']' ;
 		 */
-		List<object> variableOrFunctionChaining(string code, ref int origin)
+		List<IAHKNode> variableOrFunctionChaining(string code, ref int origin)
 		{
-			var chain = new List<object>();
-			object retVal =  variableOrFunction(code, ref origin);
+			var chain = new List<IAHKNode>();
+			IAHKNode retVal =  variableOrFunction(code, ref origin);
 			if (retVal == null)
 				return null; 
 			chain.Add(retVal);
@@ -33,7 +33,7 @@ namespace AHKCore
 			{
 				if (origin == code.Length)
 					break;
-				retVal = (object) dotUnwrap(code, ref origin) ?? bracketUnwrap(code, ref origin);
+				retVal = dotUnwrap(code, ref origin) ?? (IAHKNode) bracketUnwrap(code, ref origin);
 				if (retVal == null)
 					break;
 				chain.Add(retVal);
@@ -46,9 +46,9 @@ namespace AHKCore
 			Call Order :
 			- functionCall -> variable (to prevent variable from consuming functionName)
 		 */
-		object variableOrFunction(string code, ref int origin)
+		IAHKNode variableOrFunction(string code, ref int origin)
 		{
-			return (object) functionCall(code, ref origin) ?? variable(code, ref origin);
+			return (IAHKNode) functionCall(code, ref origin) ?? variable(code, ref origin);
 		}
 
 		dotUnwrapClass dotUnwrap(string code, ref int origin)
@@ -57,7 +57,7 @@ namespace AHKCore
 
 			if (stringMatcher(code, ref pos, ".") == null)
 				return null;
-			object retVal = variableOrFunction(code, ref pos);
+			IAHKNode retVal = variableOrFunction(code, ref pos);
 				
 			if (retVal == null)
 				return null;
@@ -75,7 +75,7 @@ namespace AHKCore
 				return null;
 			WS(code, ref pos);
 
-			object retVal = Expression(code, ref pos);
+			IAHKNode retVal = Expression(code, ref pos);
 			if (retVal == null)
 				return null;
 			

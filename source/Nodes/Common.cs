@@ -19,7 +19,7 @@ namespace AHKCore
 		 */
 		public interface ISearchable
 		{
-			List<object> Searchables
+			List<IAHKNode> Searchables
 			{
 				get;
 			}
@@ -36,7 +36,17 @@ namespace AHKCore
 		 */
 		public interface IExtraInfo
 		{
-			object extraInfo {get; set;}
+			IAHKNode extraInfo {get; set;}
 		}
+
+		/*
+			- Basic interface to identify AHK nodes.
+			- All AHKNodes have to implement this interface.
+			- Helps by making code easier to read by reducing typecasting required (such as for getting extra info).
+			- If any other interface is required to be added to all AHK nodes, we can simply add it to IAHKNode.
+			- Can later be turned to abstract class if a common behavior is to be expected of all nodes.
+		 */
+		public interface IAHKNode: IExtraInfo
+		{}
 	}
 }

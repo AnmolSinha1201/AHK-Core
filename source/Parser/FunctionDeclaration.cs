@@ -207,14 +207,14 @@ namespace AHKCore
 			return visitor.functionHead(new functionHeadClass(functionName, functionParameters));
 		}
 
-		List<object> functionBody(string code, ref int origin)
+		List<IAHKNode> functionBody(string code, ref int origin)
 		{
 			int pos = origin;
 
 			if (stringMatcher(code, ref pos, "{") == null)
 				return null;
 			
-			var functionBodyList = new List<object>();
+			var functionBodyList = new List<IAHKNode>();
 			CRLFWS(code, ref pos);
 			while (true)
 			{

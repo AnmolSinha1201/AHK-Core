@@ -6,42 +6,42 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-		public class dotUnwrapClass : ISearchable, IExtraInfo
+		public class dotUnwrapClass : ISearchable, IAHKNode
 		{
-			public object variableOrFunction;
+			public IAHKNode variableOrFunction;
 
-			public dotUnwrapClass(object variableOrFunction)
+			public dotUnwrapClass(IAHKNode variableOrFunction)
 			{
 				this.variableOrFunction = variableOrFunction;
 			}
 
 			public override string ToString() => "." + variableOrFunction;
 
-			public List<object> Searchables
+			public List<IAHKNode> Searchables
 			{
-				get {return new List<object>() {variableOrFunction};}
+				get {return new List<IAHKNode>() {variableOrFunction};}
 			}
 
-			public object extraInfo {get; set;}
+			public IAHKNode extraInfo {get; set;}
 		}
 
 		public class bracketUnwrapClass : ISearchable, IExtraInfo
 		{
-			public object expression;
+			public IAHKNode expression;
 
-			public bracketUnwrapClass(object expression)
+			public bracketUnwrapClass(IAHKNode expression)
 			{
 				this.expression = expression;
 			}
 
 			public override string ToString() => "[" + expression + "]";
 
-			public List<object> Searchables
+			public List<IAHKNode> Searchables
 			{
-				get {return new List<object>() {expression};}
+				get {return new List<IAHKNode>() {expression};}
 			}
 
-			public object extraInfo {get; set;}
+			public IAHKNode extraInfo {get; set;}
 		}
 	}
 }

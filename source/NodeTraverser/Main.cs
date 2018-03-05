@@ -14,7 +14,7 @@ namespace AHKCore
 			this.visitor = visitor ?? new defaultVisitor();
 		}
 
-		public List<object> TraverseNodes(List<object> AHKNodes)
+		public List<IAHKNode> TraverseNodes(List<IAHKNode> AHKNodes)
 		{
 			for (int i = 0; i < AHKNodes.Count; i++)
 				AHKNodes[i] = objectDispatcher(AHKNodes[i]);

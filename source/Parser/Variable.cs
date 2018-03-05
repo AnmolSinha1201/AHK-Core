@@ -57,7 +57,7 @@ namespace AHKCore
 				return null;
 			WS(code, ref pos);
 
-			object expression = Expression(code, ref pos);
+			IAHKNode expression = Expression(code, ref pos);
 			if (expression == null)
 				return null;
 

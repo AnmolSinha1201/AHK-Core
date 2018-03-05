@@ -6,12 +6,12 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-		public class classDeclarationClass : ISearchable, IExtraInfo
+		public class classDeclarationClass : ISearchable, IAHKNode
 		{
 			public string className;
-			public List<object> classBody;
+			public List<IAHKNode> classBody;
 
-			public classDeclarationClass(string className, List<object> classBody)
+			public classDeclarationClass(string className, List<IAHKNode> classBody)
 			{
 				this.className = className;
 				this.classBody = classBody;
@@ -19,12 +19,12 @@ namespace AHKCore
 
 			public override string ToString() => $"class {className}\n{{\n\t{classBody.Flatten("\n").Indent<string>()}\n}}";
 
-			public List<object> Searchables
+			public List<IAHKNode> Searchables
 			{
 				get {return classBody;}
 			}
 
-			public object extraInfo {get; set;}
+			public IAHKNode extraInfo {get; set;}
 		}
 	}
 }
