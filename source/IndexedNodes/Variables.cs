@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace AHKCore.IndexedNodesFragment
 {
-	class Variables
+	public class Variables
 	{
 		Dictionary<string, object> VariableList = new Dictionary<string, object>();
 

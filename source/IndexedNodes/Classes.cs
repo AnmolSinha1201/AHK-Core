@@ -3,7 +3,7 @@ using static AHKCore.Nodes;
 
 namespace AHKCore.IndexedNodesFragment
 {
-	class Classes
+	public class Classes
 	{
 		Dictionary<string, IndexedNodes> ClassList = new Dictionary<string, IndexedNodes>();
 
