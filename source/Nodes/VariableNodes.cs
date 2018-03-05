@@ -22,26 +22,19 @@ namespace AHKCore
 		public class complexVariableClass : BaseAHKNode
 		{
 			public string _this;
-			public List<BaseAHKNode> chain, variableChain;
+			public List<BaseAHKNode> chain;
+			public variableClass variable;
 			
 			public complexVariableClass(string _this, List<BaseAHKNode> varOrFuncChain)
 			{
 				this._this = _this;
 				
-				int i = 0;
-				variableChain = new List<BaseAHKNode>();
-
-				/*
-					no need to check for i = 0. dotUnwrap can only be present after i = 1 (example : a.c["n"])
-					i = 0 means entire chain is the name (example : class["name"])
-				*/
-				for (i = varOrFuncChain.Count - 1; i > 0 && varOrFuncChain[i].GetType() != typeof(dotUnwrapClass); i--);
-				variableChain.AddRange(varOrFuncChain.GetRange(i, varOrFuncChain.Count - i));
-				varOrFuncChain.RemoveRange(i, varOrFuncChain.Count - i);
+				variable = (variableClass)varOrFuncChain.Last();
+				varOrFuncChain.RemoveAt(varOrFuncChain.Count - 1);
 				this.chain = varOrFuncChain;
 			}
 
-			public override string ToString() => $"{_this}{this.chain.Flatten()}{variableChain.Flatten()}";
+			public override string ToString() => $"{_this}{this.chain.Flatten()}{variable}";
 		}
 
 		public class variableAssignClass : BaseAHKNode

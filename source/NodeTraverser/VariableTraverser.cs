@@ -22,8 +22,7 @@ namespace AHKCore
 			for (int i = 0; i < context.chain.Count; i++)
 				context.chain[i] = objectDispatcher(context.chain[i]);
 			
-			for (int i = 0; i < context.chain.Count; i++)
-				context.variableChain[i] = objectDispatcher(context.variableChain[i]);
+			context.variable = visitor.variable(context.variable);
 
 			return visitor.complexVariable(context);
 		}
