@@ -35,6 +35,18 @@ namespace AHKCore
 				case functionCallClass f :
 					return functionCall(f);
 
+				case INTClass i :
+					return INT(i);
+
+				case DOUBLEClass d :
+					return DOUBLE(d);
+
+				case HEXClass h :
+					return HEX(h);
+				
+				case STRINGClass s :
+					return STRING(s);
+
 				default :
 					return o;
 			}
