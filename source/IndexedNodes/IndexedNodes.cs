@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using AHKCore.IndexedNodesFragment;
+using static AHKCore.Nodes;
 
 namespace AHKCore
 {
@@ -13,6 +14,6 @@ namespace AHKCore
 		public Classes Classes = new Classes();
 		public Functions Functions = new Functions();
 		public Variables Variables = new Variables();
-		public List<object> AutoExecute = new List<object>();
+		public List<BaseAHKNode> AutoExecute = new List<BaseAHKNode>();
 	}
 }
