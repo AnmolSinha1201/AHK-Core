@@ -17,7 +17,7 @@ namespace AHKCore
 		 */
 		public interface IExtraInfo
 		{
-			BaseAHKNode extraInfo {get; set;}
+			object extraInfo {get; set;}
 		}
 
 		/*
@@ -29,7 +29,7 @@ namespace AHKCore
 		 */
 		public abstract class BaseAHKNode: IExtraInfo
 		{
-			public BaseAHKNode extraInfo {get; set;}
+			public object extraInfo {get; set;}
 		}
 	}
 }
