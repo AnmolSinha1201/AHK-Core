@@ -7,7 +7,6 @@ namespace AHKCore
 		- AutoExecute will contain everything else which could not be indexed, i.e. eveything other than
 			functionDeclarations, classes.
 		- Variables is mainly used for state management.
-		- TODO: Make IndexedNodes compatible with NodeTraverser's objectDispatcher.
 	 */
 	public class IndexedNode
 	{

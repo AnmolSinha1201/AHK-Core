@@ -16,7 +16,7 @@ namespace AHKCore
 			- It is preferred to call the traverser function instead of calling visitors directly (even for simple types) just for the sake
 				of consistency.
 		 */
-		object objectDispatcher(object o)
+		public object objectDispatcher(object o)
 		{
 			switch (o)
 			{
