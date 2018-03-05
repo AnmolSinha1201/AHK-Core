@@ -6,7 +6,7 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-		public class dotUnwrapClass : ISearchable, IAHKNode
+		public class dotUnwrapClass : IAHKNode
 		{
 			public IAHKNode variableOrFunction;
 
@@ -17,15 +17,10 @@ namespace AHKCore
 
 			public override string ToString() => "." + variableOrFunction;
 
-			public List<IAHKNode> Searchables
-			{
-				get {return new List<IAHKNode>() {variableOrFunction};}
-			}
-
 			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class bracketUnwrapClass : ISearchable, IExtraInfo
+		public class bracketUnwrapClass : IExtraInfo
 		{
 			public IAHKNode expression;
 
@@ -35,11 +30,6 @@ namespace AHKCore
 			}
 
 			public override string ToString() => "[" + expression + "]";
-
-			public List<IAHKNode> Searchables
-			{
-				get {return new List<IAHKNode>() {expression};}
-			}
 
 			public IAHKNode extraInfo {get; set;}
 		}

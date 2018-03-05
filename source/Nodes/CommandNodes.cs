@@ -6,7 +6,7 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-		public class commandBlockClass : ISearchable, IAHKNode
+		public class commandBlockClass : IAHKNode
 		{
 			public List<IAHKNode> commandBlockList;
 
@@ -16,11 +16,6 @@ namespace AHKCore
 			}
 
 			public override string ToString() => commandBlockList.Flatten("\n");
-
-			public List<IAHKNode> Searchables
-			{
-				get {return commandBlockList;}
-			}
 
 			public IAHKNode extraInfo {get; set;}
 		}

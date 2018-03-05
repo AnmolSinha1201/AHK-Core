@@ -21,7 +21,7 @@ namespace AHKCore
 			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class complexVariableClass : ISearchable, IAHKNode
+		public class complexVariableClass : IAHKNode
 		{
 			public string _this;
 			public List<IAHKNode> chain, variableChain;
@@ -45,15 +45,10 @@ namespace AHKCore
 
 			public override string ToString() => $"{_this}{this.chain.Flatten()}{variableChain.Flatten()}";
 
-			public List<IAHKNode> Searchables
-			{
-				get {return chain.Concat(variableChain).ToList();}
-			}
-
 			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class variableAssignClass : ISearchable, IAHKNode
+		public class variableAssignClass : IAHKNode
 		{
 			public string op;
 			public complexVariableClass variable;
@@ -67,11 +62,6 @@ namespace AHKCore
 			}
 
 			public override string ToString() => $"{variable} {op} {expression}";
-
-			public List<IAHKNode> Searchables
-			{
-				get {return new List<IAHKNode>() {variable, expression};}
-			}
 
 			public IAHKNode extraInfo {get; set;}
 		}

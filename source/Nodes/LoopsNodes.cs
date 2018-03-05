@@ -19,7 +19,7 @@ namespace AHKCore
 			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class loopLoopClass : ISearchable, IAHKNode
+		public class loopLoopClass : IAHKNode
 		{
 			public IAHKNode count;
 			public List<IAHKNode> loopBody;
@@ -32,15 +32,10 @@ namespace AHKCore
 
 			public override string ToString() => $"loop{(count == null? "" : ", " + count)}\n{{\n\t{loopBody.Flatten("\n\t")}\n}}";
 
-			public List<IAHKNode> Searchables
-			{
-				get {return loopBody;}
-			}
-
 			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class whileLoopClass : ISearchable, IAHKNode
+		public class whileLoopClass : IAHKNode
 		{
 			public IAHKNode condition;
 			public List<IAHKNode> loopBody;
@@ -53,20 +48,10 @@ namespace AHKCore
 
 			public override string ToString() => $"while ({condition})\n{{\n\t{loopBody.Flatten("\n\t")}\n}}";
 
-			public List<IAHKNode> Searchables
-			{
-				get 
-				{
-					var retList = new List<IAHKNode>();
-					retList.Add(condition);
-					return retList.Concat(loopBody).ToList();
-				}
-			}
-
 			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class foreachLoopClass : ISearchable, IAHKNode
+		public class foreachLoopClass : IAHKNode
 		{
 			public variableClass key, value;
 			public IAHKNode iterationObject;
@@ -82,18 +67,6 @@ namespace AHKCore
 
 			public override string ToString() => 
 			$"for {key}{(value == null ? "" : ", " + value)} in {iterationObject}\n{{\n\t{loopBody.Flatten("\n\t")}\n}}";
-
-			public List<IAHKNode> Searchables
-			{
-				get 
-				{
-					var retList = new List<IAHKNode>();
-					retList.Add(key);
-					retList.Add(value);
-					retList.Add(iterationObject);
-					return retList.Concat(loopBody).ToList();
-				}
-			}
 
 			public IAHKNode extraInfo {get; set;}
 		}

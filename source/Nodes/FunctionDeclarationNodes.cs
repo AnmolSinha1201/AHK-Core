@@ -7,7 +7,7 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-		public class parameterInfoClass : ISearchable, IAHKNode
+		public class parameterInfoClass : IAHKNode
 		{
 			public variableClass variableName;
 			public IAHKNode expression;
@@ -32,15 +32,10 @@ namespace AHKCore
 
 			public override string ToString() => variableName + (expression != null? " = " + expression : (isVariadic? "*" : ""));
 
-			public List<IAHKNode> Searchables
-			{
-				get {return new List<IAHKNode>{variableName, expression};}
-			}
-
 			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class functionHeadClass : ISearchable, IAHKNode
+		public class functionHeadClass : IAHKNode
 		{
 			public string functionName;
 			public List<parameterInfoClass> functionParameters;
@@ -53,15 +48,10 @@ namespace AHKCore
 
 			public override string ToString() => $"{functionName}({functionParameters.Flatten(", ")})";
 
-			public List<IAHKNode> Searchables
-			{
-				get {return functionParameters.Cast<IAHKNode>().ToList();}
-			}
-
 			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class functionDeclarationClass : ISearchable, IAHKNode
+		public class functionDeclarationClass : IAHKNode
 		{
 			public functionHeadClass functionHead;
 			public List<IAHKNode> functionBody;
@@ -74,16 +64,6 @@ namespace AHKCore
 			}
 
 			public override string ToString() => $"{functionHead}\n{{\n\t{functionBody.Flatten("\n\t")}\n}}";
-
-			public List<IAHKNode> Searchables
-			{
-				get 
-				{
-					var retList = new List<IAHKNode>();
-					retList.Add(functionHead);
-					return retList.Concat(functionBody).ToList();
-				}
-			}
 
 			public IAHKNode extraInfo {get; set;}
 		}

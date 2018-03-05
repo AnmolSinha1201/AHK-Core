@@ -9,17 +9,6 @@ namespace AHKCore
 {
 	public static class Query
 	{
-		public static List<T> OfTypeRecursive<T>(this List<IAHKNode> list)
-		{
-			var retList = list.OfType<T>().ToList();
-			
-			foreach (var v in list.Except(retList.Cast<IAHKNode>()))
-				if (v is ISearchable)
-					retList.AddRange(((ISearchable)v).Searchables.OfTypeRecursive<T>());
-
-			return retList;
-		}
-
 		public static string Flatten<T>(this List<T> l, string delimiter = null)
 		{
 			StringBuilder sb = new StringBuilder();

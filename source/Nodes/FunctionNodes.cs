@@ -7,7 +7,7 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-		public class functionCallClass : ISearchable, IAHKNode
+		public class functionCallClass : IAHKNode
 		{
 			public string functionName;
 			public List<IAHKNode> functionParameterList;
@@ -20,15 +20,10 @@ namespace AHKCore
 
 			public override string ToString() => $"{functionName} ({functionParameterList.Flatten(", ")})";
 
-			public List<IAHKNode> Searchables
-			{
-				get {return functionParameterList;}
-			}
-
 			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class complexFunctionCallClass : ISearchable, IAHKNode
+		public class complexFunctionCallClass : IAHKNode
 		{
 			public string _this, functionName;
 			public List<IAHKNode> functionParameterList, chain;
@@ -46,11 +41,6 @@ namespace AHKCore
 
 			public override string ToString() => $"{_this}{this.chain.Flatten()}" +
 				$"{this.functionName} ({this.functionParameterList.Flatten(", ")})";
-
-			public List<IAHKNode> Searchables
-			{
-				get {return chain.Concat(functionParameterList).ToList();}
-			}
 
 			public IAHKNode extraInfo {get; set;}
 		}

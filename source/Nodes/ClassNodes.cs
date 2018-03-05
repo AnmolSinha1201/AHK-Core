@@ -6,7 +6,7 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-		public class classDeclarationClass : ISearchable, IAHKNode
+		public class classDeclarationClass : IAHKNode
 		{
 			public string className;
 			public List<IAHKNode> classBody;
@@ -18,11 +18,6 @@ namespace AHKCore
 			}
 
 			public override string ToString() => $"class {className}\n{{\n\t{classBody.Flatten("\n").Indent<string>()}\n}}";
-
-			public List<IAHKNode> Searchables
-			{
-				get {return classBody;}
-			}
 
 			public IAHKNode extraInfo {get; set;}
 		}
