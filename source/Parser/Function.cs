@@ -28,7 +28,7 @@ namespace AHKCore
 				return null;
 
 			WS(code, ref pos);
-			List<IAHKNode> functionParams = functionParameter(code, ref pos);
+			List<BaseAHKNode> functionParams = functionParameter(code, ref pos);
 			if (functionParams == null)
 				return null;
 			
@@ -37,7 +37,7 @@ namespace AHKCore
 		}
 
 		// just to "wrap" functionParameterList
-		List<IAHKNode> functionParameter(string code, ref int origin)
+		List<BaseAHKNode> functionParameter(string code, ref int origin)
 		{
 			int pos = origin;
 			
@@ -45,7 +45,7 @@ namespace AHKCore
 				return null;
 
 			WS(code, ref pos);
-			List<IAHKNode> expressionList = functionParameterList(code, ref pos) ?? new List<IAHKNode>();
+			List<BaseAHKNode> expressionList = functionParameterList(code, ref pos) ?? new List<BaseAHKNode>();
 
 			if (stringMatcher(code, ref pos, ")") == null)
 				return null;
@@ -55,11 +55,11 @@ namespace AHKCore
 		}
 
 		// functionParameterList is separated so that it can use its visitor and return a list instead of string.
-		List<IAHKNode> functionParameterList(string code, ref int origin)
+		List<BaseAHKNode> functionParameterList(string code, ref int origin)
 		{
 			int pos = origin;
-			List<IAHKNode> expressionList = new List<IAHKNode>();
-			IAHKNode o;
+			List<BaseAHKNode> expressionList = new List<BaseAHKNode>();
+			BaseAHKNode o;
 			
 			if ((o = Expression(code, ref pos)) == null)
 				return null;
@@ -91,7 +91,7 @@ namespace AHKCore
 			if (vOrF == null)
 				return null;
 			
-			List<IAHKNode> fParam = null;
+			List<BaseAHKNode> fParam = null;
 			if (vOrF[vOrF.Count - 1].GetType() != typeof(functionCallClass))
 			{
 				WS(code, ref pos);

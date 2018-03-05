@@ -15,9 +15,9 @@ namespace AHKCore
 			return stringMatcher(code, ref origin, "continue") == null ? null : visitor.continueBlock();
 		}
 
-		IAHKNode loops(string code, ref int origin)
+		BaseAHKNode loops(string code, ref int origin)
 		{
-			return loopLoop(code, ref origin) ?? whileLoop(code, ref origin) ?? (IAHKNode)foreachLoop(code, ref origin);
+			return loopLoop(code, ref origin) ?? whileLoop(code, ref origin) ?? (BaseAHKNode)foreachLoop(code, ref origin);
 		}
 
 		loopLoopClass loopLoop(string code, ref int origin)

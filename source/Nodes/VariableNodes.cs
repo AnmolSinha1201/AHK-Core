@@ -7,7 +7,7 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-		public class variableClass : IAHKNode
+		public class variableClass : BaseAHKNode
 		{
 			public string variableName;
 
@@ -17,21 +17,19 @@ namespace AHKCore
 			}
 
 			public override string ToString() => variableName;
-
-			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class complexVariableClass : IAHKNode
+		public class complexVariableClass : BaseAHKNode
 		{
 			public string _this;
-			public List<IAHKNode> chain, variableChain;
+			public List<BaseAHKNode> chain, variableChain;
 			
-			public complexVariableClass(string _this, List<IAHKNode> varOrFuncChain)
+			public complexVariableClass(string _this, List<BaseAHKNode> varOrFuncChain)
 			{
 				this._this = _this;
 				
 				int i = 0;
-				variableChain = new List<IAHKNode>();
+				variableChain = new List<BaseAHKNode>();
 
 				/*
 					no need to check for i = 0. dotUnwrap can only be present after i = 1 (example : a.c["n"])
@@ -44,17 +42,15 @@ namespace AHKCore
 			}
 
 			public override string ToString() => $"{_this}{this.chain.Flatten()}{variableChain.Flatten()}";
-
-			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class variableAssignClass : IAHKNode
+		public class variableAssignClass : BaseAHKNode
 		{
 			public string op;
 			public complexVariableClass variable;
-			public IAHKNode expression;
+			public BaseAHKNode expression;
 
-			public variableAssignClass(complexVariableClass variable, string op, IAHKNode expression)
+			public variableAssignClass(complexVariableClass variable, string op, BaseAHKNode expression)
 			{
 				this.variable = variable;
 				this.op = op;
@@ -62,11 +58,9 @@ namespace AHKCore
 			}
 
 			public override string ToString() => $"{variable} {op} {expression}";
-
-			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class variableDeclarationClass : IAHKNode
+		public class variableDeclarationClass : BaseAHKNode
 		{
 			public variableClass variableName;
 			public enum scope
@@ -85,8 +79,6 @@ namespace AHKCore
 
 			public override string ToString() =>
 			(variableScope == scope.SCOPE_GLOBAL || variableScope == scope.SCOPE_SUPERGLOBAL ? "global " : "") + variableName;
-
-			public IAHKNode extraInfo {get; set;}
 		}
 	}
 }

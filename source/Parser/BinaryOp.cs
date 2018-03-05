@@ -7,7 +7,7 @@ namespace AHKCore
 {
 	partial class Parser
 	{
-		binaryOperationClass binaryOperation(string code, ref int origin, IAHKNode precursor)
+		binaryOperationClass binaryOperation(string code, ref int origin, BaseAHKNode precursor)
 		{
 			List<binaryOperationLinkClass> binaryOpLinkList = new List<binaryOperationLinkClass>();
 			binaryOpLinkList.Add(new binaryOperationLinkClass(null, precursor));

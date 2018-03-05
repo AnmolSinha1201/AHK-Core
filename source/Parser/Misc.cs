@@ -95,9 +95,9 @@ namespace AHKCore
 			HEX -> INT
 			DOUBLE -> INT
 		*/
-		IAHKNode NUMBER(string code, ref int origin)
+		BaseAHKNode NUMBER(string code, ref int origin)
 		{
-			return HEX(code, ref origin) ?? (IAHKNode)DOUBLE(code, ref origin) ?? INT(code, ref origin);
+			return HEX(code, ref origin) ?? (BaseAHKNode)DOUBLE(code, ref origin) ?? INT(code, ref origin);
 		}
 
 		string CRLFWS(string code, ref int origin)

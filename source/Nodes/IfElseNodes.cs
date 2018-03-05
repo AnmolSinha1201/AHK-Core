@@ -7,7 +7,7 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-		public class ifElseBlockClass : IAHKNode
+		public class ifElseBlockClass : BaseAHKNode
 		{
 			public ifBlockClass ifBlock;
 			public elseBlockClass elseBlock;
@@ -19,31 +19,27 @@ namespace AHKCore
 			}
 
 			public override string ToString() => $"{ifBlock}{(elseBlock == null ? "" : "\n" + elseBlock)}";
-
-			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class ifBlockClass : IAHKNode
+		public class ifBlockClass : BaseAHKNode
 		{
-			public IAHKNode condition;
-			public List<IAHKNode> body;
+			public BaseAHKNode condition;
+			public List<BaseAHKNode> body;
 
-			public ifBlockClass(IAHKNode condition, List<IAHKNode> body)
+			public ifBlockClass(BaseAHKNode condition, List<BaseAHKNode> body)
 			{
 				this.condition = condition;
 				this.body = body;
 			}
 
 			public override string ToString() => $"if ({condition})\n{{\n\t{body.Flatten("\n\t")}\n}}";
-
-			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class elseBlockClass : IAHKNode
+		public class elseBlockClass : BaseAHKNode
 		{
-			public List<IAHKNode> body;
+			public List<BaseAHKNode> body;
 
-			public elseBlockClass(List<IAHKNode> body)
+			public elseBlockClass(List<BaseAHKNode> body)
 			{
 				this.body = body;
 			}
@@ -55,8 +51,6 @@ namespace AHKCore
 				else
 					return $"else\n{{\n\t{body.Flatten("\n\t")}\n}}";
 			}
-			
-			public IAHKNode extraInfo {get; set;}
 		}
 	}
 }

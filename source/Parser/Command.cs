@@ -10,7 +10,7 @@ namespace AHKCore
 		commandBlockClass commandBlock(string code, ref int origin)
 		{
 			int pos = origin;
-			var commandList = new List<IAHKNode>();
+			var commandList = new List<BaseAHKNode>();
 
 			var _command = command(code, ref pos);
 			if (_command == null)
@@ -47,7 +47,7 @@ namespace AHKCore
 		/*
 			must have a "," if it has CRLF
 		 */
-		IAHKNode subCommand(string code, ref int origin)
+		BaseAHKNode subCommand(string code, ref int origin)
 		{
 			int pos = origin;
 			bool hasComma = false;
@@ -75,7 +75,7 @@ namespace AHKCore
 			return expression;
 		}
 
-		IAHKNode commandParam(string code, ref int origin)
+		BaseAHKNode commandParam(string code, ref int origin)
 		{
 			int pos = origin;
 

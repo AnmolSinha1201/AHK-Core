@@ -6,32 +6,28 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-		public class dotUnwrapClass : IAHKNode
+		public class dotUnwrapClass : BaseAHKNode
 		{
-			public IAHKNode variableOrFunction;
+			public BaseAHKNode variableOrFunction;
 
-			public dotUnwrapClass(IAHKNode variableOrFunction)
+			public dotUnwrapClass(BaseAHKNode variableOrFunction)
 			{
 				this.variableOrFunction = variableOrFunction;
 			}
 
 			public override string ToString() => "." + variableOrFunction;
-
-			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class bracketUnwrapClass : IExtraInfo
+		public class bracketUnwrapClass : BaseAHKNode
 		{
-			public IAHKNode expression;
+			public BaseAHKNode expression;
 
-			public bracketUnwrapClass(IAHKNode expression)
+			public bracketUnwrapClass(BaseAHKNode expression)
 			{
 				this.expression = expression;
 			}
 
 			public override string ToString() => "[" + expression + "]";
-
-			public IAHKNode extraInfo {get; set;}
 		}
 	}
 }

@@ -7,28 +7,26 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-		public class functionCallClass : IAHKNode
+		public class functionCallClass : BaseAHKNode
 		{
 			public string functionName;
-			public List<IAHKNode> functionParameterList;
+			public List<BaseAHKNode> functionParameterList;
 			
-			public functionCallClass(string functionName, List<IAHKNode> functionParameterList)
+			public functionCallClass(string functionName, List<BaseAHKNode> functionParameterList)
 			{
 				this.functionName = functionName;
 				this.functionParameterList = functionParameterList;
 			}
 
 			public override string ToString() => $"{functionName} ({functionParameterList.Flatten(", ")})";
-
-			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class complexFunctionCallClass : IAHKNode
+		public class complexFunctionCallClass : BaseAHKNode
 		{
 			public string _this, functionName;
-			public List<IAHKNode> functionParameterList, chain;
+			public List<BaseAHKNode> functionParameterList, chain;
 			
-			public complexFunctionCallClass(string _this, List<IAHKNode> varOrFuncChain, List<IAHKNode> functionParameterList)
+			public complexFunctionCallClass(string _this, List<BaseAHKNode> varOrFuncChain, List<BaseAHKNode> functionParameterList)
 			{
 				this._this = _this;
 				
@@ -41,8 +39,6 @@ namespace AHKCore
 
 			public override string ToString() => $"{_this}{this.chain.Flatten()}" +
 				$"{this.functionName} ({this.functionParameterList.Flatten(", ")})";
-
-			public IAHKNode extraInfo {get; set;}
 		}
 	}
 }

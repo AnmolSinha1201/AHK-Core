@@ -9,12 +9,12 @@ namespace AHKCore
 	{
 		public BaseVisitor visitor;
 
-		public List<IAHKNode> Test()
+		public List<BaseAHKNode> Test()
 		{
 			return parse("class qwe{var=123\nvar2=456}\nclass asd{var=123\nvar2=456}");
 		}
 
-		public List<IAHKNode> parse(string code)
+		public List<BaseAHKNode> parse(string code)
 		{
 			if (visitor == null)
 				visitor = new defaultVisitor();
@@ -23,9 +23,9 @@ namespace AHKCore
 			return chunk(code, ref i);
 		}
 
-		List<IAHKNode> chunk(string code, ref int origin)
+		List<BaseAHKNode> chunk(string code, ref int origin)
 		{
-			var chunkList = new List<IAHKNode>();
+			var chunkList = new List<BaseAHKNode>();
 			while (true)
 			{
 				CRLFWS(code, ref origin);
@@ -40,7 +40,7 @@ namespace AHKCore
 			return chunkList;
 		}
 
-		IAHKNode block(string code, ref int origin)
+		BaseAHKNode block(string code, ref int origin)
 		{
 			return classDeclaration(code, ref origin) ?? functionDeclaration(code, ref origin) ?? 
 			functionBodyBlock(code, ref origin);
@@ -49,25 +49,25 @@ namespace AHKCore
 		/*
 			Blocks which are allowed inside a function.
 		 */
-		IAHKNode functionBodyBlock(string code, ref int origin)
+		BaseAHKNode functionBodyBlock(string code, ref int origin)
 		{
 			return variableAssign(code, ref origin);
 		}
 
-		IAHKNode loopBlock(string code, ref int origin)
+		BaseAHKNode loopBlock(string code, ref int origin)
 		{
 			return breakBlock(code, ref origin) ?? continueBLock(code, ref origin) ?? functionBodyBlock(code, ref origin);
 		}
 
-		List<IAHKNode> loopBodyBlock(string code, ref int origin)
+		List<BaseAHKNode> loopBodyBlock(string code, ref int origin)
 		{
 			return loopBodyBlockWithParentheses(code, ref origin) ?? loopBodyBlockWithoutParentheses(code, ref origin);
 		}
 
-		List<IAHKNode> loopBodyBlockWithParentheses(string code, ref int origin)
+		List<BaseAHKNode> loopBodyBlockWithParentheses(string code, ref int origin)
 		{
 			int pos = origin;
-			var loopBlockList = new List<IAHKNode>();
+			var loopBlockList = new List<BaseAHKNode>();
 
 			if (stringMatcher(code, ref pos, "{") == null)
 				return null;
@@ -94,9 +94,9 @@ namespace AHKCore
 			return loopBlockList;
 		}
 
-		List<IAHKNode> loopBodyBlockWithoutParentheses(string code, ref int origin)
+		List<BaseAHKNode> loopBodyBlockWithoutParentheses(string code, ref int origin)
 		{
-			var loopBlockList = new List<IAHKNode>();
+			var loopBlockList = new List<BaseAHKNode>();
 
 			var lBody = loopBlock(code, ref origin);
 			if (lBody == null)
@@ -106,12 +106,12 @@ namespace AHKCore
 			return loopBlockList;
 		}
 
-		IAHKNode conditionalBlock(string code, ref int origin)
+		BaseAHKNode conditionalBlock(string code, ref int origin)
 		{
 			return conditionalBlockWithParentheses(code, ref origin) ?? conditionalBlockWithoutParentheses(code, ref origin);
 		}
 
-		IAHKNode conditionalBlockWithParentheses(string code, ref int origin)
+		BaseAHKNode conditionalBlockWithParentheses(string code, ref int origin)
 		{
 			int pos = origin;
 
@@ -129,15 +129,15 @@ namespace AHKCore
 			return expression;
 		}
 
-		IAHKNode conditionalBlockWithoutParentheses(string code, ref int origin)
+		BaseAHKNode conditionalBlockWithoutParentheses(string code, ref int origin)
 		{
 			return Expression(code, ref origin);
 		}
 
-		List<IAHKNode> classBlock(string code, ref int origin)
+		List<BaseAHKNode> classBlock(string code, ref int origin)
 		{
 			int pos = origin;
-			var blockList = new List<IAHKNode>();
+			var blockList = new List<BaseAHKNode>();
 
 			if (stringMatcher(code, ref pos, "{") == null)
 				return null;
@@ -145,7 +145,7 @@ namespace AHKCore
 
 			while (true)
 			{
-				var retVal = classDeclaration(code, ref pos) ?? functionDeclaration(code, ref pos) ?? (IAHKNode) variableAssign(code, ref pos);
+				var retVal = classDeclaration(code, ref pos) ?? functionDeclaration(code, ref pos) ?? (BaseAHKNode) variableAssign(code, ref pos);
 				if (retVal == null)
 					break;
 				blockList.Add(retVal);

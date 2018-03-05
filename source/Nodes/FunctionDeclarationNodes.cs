@@ -7,10 +7,10 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-		public class parameterInfoClass : IAHKNode
+		public class parameterInfoClass : BaseAHKNode
 		{
 			public variableClass variableName;
-			public IAHKNode expression;
+			public BaseAHKNode expression;
 			public bool isVariadic;
 
 			public parameterInfoClass(variableClass variableName)
@@ -18,7 +18,7 @@ namespace AHKCore
 				this.variableName = variableName;
 			}
 
-			public parameterInfoClass(variableClass variableName, IAHKNode expression)
+			public parameterInfoClass(variableClass variableName, BaseAHKNode expression)
 			{
 				this.variableName = variableName;
 				this.expression = expression;
@@ -31,11 +31,9 @@ namespace AHKCore
 			}
 
 			public override string ToString() => variableName + (expression != null? " = " + expression : (isVariadic? "*" : ""));
-
-			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class functionHeadClass : IAHKNode
+		public class functionHeadClass : BaseAHKNode
 		{
 			public string functionName;
 			public List<parameterInfoClass> functionParameters;
@@ -47,25 +45,21 @@ namespace AHKCore
 			}
 
 			public override string ToString() => $"{functionName}({functionParameters.Flatten(", ")})";
-
-			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class functionDeclarationClass : IAHKNode
+		public class functionDeclarationClass : BaseAHKNode
 		{
 			public functionHeadClass functionHead;
-			public List<IAHKNode> functionBody;
-			public IAHKNode returnType = null;
+			public List<BaseAHKNode> functionBody;
+			public BaseAHKNode returnType = null;
 
-			public functionDeclarationClass(functionHeadClass functionHead, List<IAHKNode> functionBody)
+			public functionDeclarationClass(functionHeadClass functionHead, List<BaseAHKNode> functionBody)
 			{
 				this.functionHead = functionHead;
 				this.functionBody = functionBody;
 			}
 
 			public override string ToString() => $"{functionHead}\n{{\n\t{functionBody.Flatten("\n\t")}\n}}";
-
-			public IAHKNode extraInfo {get; set;}
 		}
 	}
 }

@@ -6,7 +6,7 @@ namespace AHKCore
 {
 	public partial class NodeIndexer
 	{
-		public IndexedNode IndexNodes(List<IAHKNode> AHKNodes)
+		public IndexedNode IndexNodes(List<BaseAHKNode> AHKNodes)
 		{
 			var indexed = new IndexedNode();
 			

@@ -7,57 +7,51 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-		public class breakBlockClass: IAHKNode
+		public class breakBlockClass: BaseAHKNode
 		{
 			public override string ToString() => "break";
-			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class continueBlockClass: IAHKNode
+		public class continueBlockClass: BaseAHKNode
 		{
 			public override string ToString() => "continue";
-			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class loopLoopClass : IAHKNode
+		public class loopLoopClass : BaseAHKNode
 		{
-			public IAHKNode count;
-			public List<IAHKNode> loopBody;
+			public BaseAHKNode count;
+			public List<BaseAHKNode> loopBody;
 
-			public loopLoopClass(IAHKNode count, List<IAHKNode> loopBody)
+			public loopLoopClass(BaseAHKNode count, List<BaseAHKNode> loopBody)
 			{
 				this.count = count;
 				this.loopBody = loopBody;
 			}
 
 			public override string ToString() => $"loop{(count == null? "" : ", " + count)}\n{{\n\t{loopBody.Flatten("\n\t")}\n}}";
-
-			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class whileLoopClass : IAHKNode
+		public class whileLoopClass : BaseAHKNode
 		{
-			public IAHKNode condition;
-			public List<IAHKNode> loopBody;
+			public BaseAHKNode condition;
+			public List<BaseAHKNode> loopBody;
 
-			public whileLoopClass(IAHKNode condition, List<IAHKNode> loopBody)
+			public whileLoopClass(BaseAHKNode condition, List<BaseAHKNode> loopBody)
 			{
 				this.condition = condition;
 				this.loopBody = loopBody;
 			}
 
 			public override string ToString() => $"while ({condition})\n{{\n\t{loopBody.Flatten("\n\t")}\n}}";
-
-			public IAHKNode extraInfo {get; set;}
 		}
 
-		public class foreachLoopClass : IAHKNode
+		public class foreachLoopClass : BaseAHKNode
 		{
 			public variableClass key, value;
-			public IAHKNode iterationObject;
-			public List<IAHKNode> loopBody;
+			public BaseAHKNode iterationObject;
+			public List<BaseAHKNode> loopBody;
 
-			public foreachLoopClass(variableClass key, variableClass value, IAHKNode iterationObject, List<IAHKNode> loopBody)
+			public foreachLoopClass(variableClass key, variableClass value, BaseAHKNode iterationObject, List<BaseAHKNode> loopBody)
 			{
 				this.key = key;
 				this.value = value;
@@ -67,8 +61,6 @@ namespace AHKCore
 
 			public override string ToString() => 
 			$"for {key}{(value == null ? "" : ", " + value)} in {iterationObject}\n{{\n\t{loopBody.Flatten("\n\t")}\n}}";
-
-			public IAHKNode extraInfo {get; set;}
 		}
 	}
 }
