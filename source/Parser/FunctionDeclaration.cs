@@ -221,7 +221,7 @@ namespace AHKCore
 				var functionBody = functionBodyBlock(code, ref pos);
 				if (functionBody == null)
 					break;
-				functionBodyList.AddConcat(functionBody);
+				functionBodyList.Add(functionBody);
 
 				if (CRLF(code, ref pos) == null) //compulsory CRLF so that various blocks can not be chained together
 					break;

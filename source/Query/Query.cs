@@ -22,15 +22,5 @@ namespace AHKCore
 		{
 			return string.Join("\n\t", s.Split("\n"));
 		}
-
-		public static IEnumerable<T> AddConcat<T>(this List<T> l, IAHKNode o)
-		{
-			if (o.GetType() == typeof(List<T>))
-				return l.Concat((List<T>)o);
-
-			l.Add((T)o);
-			return l;
-		}
-
 	}
 }
