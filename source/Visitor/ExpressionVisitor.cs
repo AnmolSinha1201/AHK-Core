@@ -4,7 +4,7 @@ namespace AHKCore
 {
 	public abstract partial class BaseVisitor
 	{
-		public virtual expressionClass expression(expressionClass context)
+		public virtual BaseAHKNode expression(BaseAHKNode context)
 		{
 			return context;
 		}

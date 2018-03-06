@@ -7,9 +7,9 @@ namespace AHKCore
 {
 	partial class NodeTraverser
 	{
-		expressionClass expression(expressionClass context)
+		BaseAHKNode expression(BaseAHKNode context)
 		{
-			context.value = objectDispatcher(context.value);
+			context = objectDispatcher(context);
 			return visitor.expression(context);
 		}
 	}
