@@ -40,17 +40,17 @@ namespace AHKCore
 		public class variableAssignClass : BaseAHKNode
 		{
 			public string op;
-			public complexVariableClass variable;
+			public complexVariableClass complexVariable;
 			public BaseAHKNode expression;
 
 			public variableAssignClass(complexVariableClass variable, string op, BaseAHKNode expression)
 			{
-				this.variable = variable;
+				this.complexVariable = variable;
 				this.op = op;
 				this.expression = expression;
 			}
 
-			public override string ToString() => $"{variable} {op} {expression}";
+			public override string ToString() => $"{complexVariable} {op} {expression}";
 		}
 
 		public class variableDeclarationClass : BaseAHKNode
