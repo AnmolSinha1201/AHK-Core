@@ -30,7 +30,7 @@ namespace AHKCore
 		variableAssignClass variableAssign(variableAssignClass context)
 		{
 			context.complexVariable = complexVariable(context.complexVariable);
-			context.expression = objectDispatcher(context.expression);
+			context.expression = expression(context.expression);
 
 			return visitor.variableAssign(context);
 		}
