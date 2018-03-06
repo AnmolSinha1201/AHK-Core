@@ -32,8 +32,11 @@ namespace AHKCore
 				case functionDeclarationClass f :
 					return functionDeclaration(f);
 
-				case functionCallClass f :
-					return functionCall(f);
+				case complexFunctionCallClass c :
+					return complexFunctionCall(c);
+
+				case complexVariableClass c :
+					return complexVariable(c);
 
 				case INTClass i :
 					return INT(i);
