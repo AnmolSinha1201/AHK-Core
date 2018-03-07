@@ -23,13 +23,13 @@ namespace AHKCore
 		{
 			public string _this;
 			public List<BaseAHKNode> chain;
-			public variableClass variable;
+			public BaseAHKNode variable;
 			
 			public complexVariableClass(string _this, List<BaseAHKNode> varOrFuncChain)
 			{
 				this._this = _this;
 				
-				variable = (variableClass)varOrFuncChain.Last();
+				variable = varOrFuncChain.Last();
 				varOrFuncChain.RemoveAt(varOrFuncChain.Count - 1);
 				this.chain = varOrFuncChain;
 			}
