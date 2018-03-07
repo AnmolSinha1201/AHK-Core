@@ -23,22 +23,33 @@ namespace AHKCore
 
 		public class complexFunctionCallClass : BaseAHKNode
 		{
-			public string _this, functionName;
-			public List<BaseAHKNode> functionParameterList, chain;
+			public string _this;
+			public List<BaseAHKNode> chain;
+			public BaseAHKNode function;
+			public List<BaseAHKNode> functionParameterList;
 			
+			/*
+				- If last element is a functionCall, it will be executed by traverser.
+				- If it is a bracketUnwrap, execute it manually using functionParameterList.
+				- This is done to avoid using extraInfo in explicitly.
+			*/
 			public complexFunctionCallClass(string _this, List<BaseAHKNode> varOrFuncChain, List<BaseAHKNode> functionParameterList)
 			{
 				this._this = _this;
 				
-				var temp = (functionCallClass)varOrFuncChain[varOrFuncChain.Count - 1];
-				functionName = temp.functionName;
-				this.functionParameterList = temp.functionParameterList;
+				function = varOrFuncChain.Last();
 				varOrFuncChain.RemoveAt(varOrFuncChain.Count - 1);
+
+				if (function.GetType() == typeof(functionCallClass))
+					this.functionParameterList = ((functionCallClass)function).functionParameterList;
+				else
+					this.functionParameterList = functionParameterList;
+				
 				this.chain = varOrFuncChain;
 			}
 
 			public override string ToString() => $"{_this}{this.chain.Flatten()}" +
-				$"{this.functionName} ({this.functionParameterList.Flatten(", ")})";
+				(function.GetType() == typeof(functionCallClass)? function.ToString() : $"{function} ({functionParameterList})");
 		}
 	}
 }

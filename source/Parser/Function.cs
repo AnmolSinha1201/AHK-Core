@@ -92,7 +92,7 @@ namespace AHKCore
 				return null;
 			
 			List<BaseAHKNode> fParam = null;
-			if (vOrF[vOrF.Count - 1].GetType() != typeof(functionCallClass))
+			if (vOrF[vOrF.Count - 1].GetType() != typeof(functionCallClass)) //only for bracketUnwrap
 			{
 				WS(code, ref pos);
 				fParam = functionParameter(code, ref pos);
