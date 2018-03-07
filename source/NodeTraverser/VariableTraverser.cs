@@ -20,9 +20,9 @@ namespace AHKCore
 		complexVariableClass complexVariable(complexVariableClass context)
 		{
 			for (int i = 0; i < context.chain.Count; i++)
-				context.chain[i] = visitor.expression(context.chain[i]);
+				context.chain[i] = expression(context.chain[i]);
 			
-			context.variable = visitor.expression(context.variable);
+			context.variable = expression(context.variable);
 
 			return visitor.complexVariable(context);
 		}
