@@ -9,8 +9,8 @@ namespace AHKCore
 	{
 		functionCallClass functionCall(functionCallClass context)
 		{
-			for (int i = 0; i < context.functionParameterList.Count; i++)
-				context.functionParameterList[i] = objectDispatcher(context.functionParameterList[i]);
+			// for (int i = 0; i < context.functionParameterList.Count; i++)
+			// 	context.functionParameterList[i] = objectDispatcher(context.functionParameterList[i]);
 
 			return visitor.functionCall(context);
 		}
