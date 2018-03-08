@@ -146,7 +146,10 @@ namespace AHKCore
 			{
 				CRLFWS(code, ref pos);
 				if (stringMatcher(code, ref pos, ",") == null)
+				{
+					origin = pos;
 					return list1;
+				}
 				WS(code, ref pos);
 			}
 
@@ -155,7 +158,10 @@ namespace AHKCore
 			{
 				CRLFWS(code, ref pos);
 				if (stringMatcher(code, ref pos, ",") == null)
+				{
+					origin = pos;
 					return list1;
+				}
 				WS(code, ref pos);
 			}
 
