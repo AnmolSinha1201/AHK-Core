@@ -160,7 +160,7 @@ namespace AHKCore
 				if (stringMatcher(code, ref pos, ",") == null)
 				{
 					origin = pos;
-					return list1;
+					return list1.Concat(list2).ToList();
 				}
 				WS(code, ref pos);
 			}
