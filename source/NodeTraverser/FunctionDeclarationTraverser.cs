@@ -7,7 +7,7 @@ namespace AHKCore
 {
 	partial class NodeTraverser
 	{
-		functionDeclarationClass functionDeclaration(functionDeclarationClass context)
+		public virtual functionDeclarationClass functionDeclaration(functionDeclarationClass context)
 		{
 			context.functionHead = functionHead(context.functionHead);
 
@@ -17,7 +17,7 @@ namespace AHKCore
 			return visitor.functionDeclaration(context);
 		}
 
-		functionHeadClass functionHead(functionHeadClass context)
+		public virtual functionHeadClass functionHead(functionHeadClass context)
 		{
 			for (int i = 0; i < context.functionParameters.Count; i++)
 				context.functionParameters[i] = visitor.parameterInfo(context.functionParameters[i]);

@@ -7,7 +7,7 @@ namespace AHKCore
 {
 	partial class NodeTraverser
 	{
-		functionCallClass functionCall(functionCallClass context)
+		public virtual functionCallClass functionCall(functionCallClass context)
 		{
 			// for (int i = 0; i < context.functionParameterList.Count; i++)
 			// 	context.functionParameterList[i] = objectDispatcher(context.functionParameterList[i]);
@@ -20,7 +20,7 @@ namespace AHKCore
 				- If it is a bracketUnwrap, execute it manually using functionParameterList.
 				- This is done to avoid using extraInfo in explicitly.
 			*/
-		complexFunctionCallClass complexFunctionCall(complexFunctionCallClass context)
+		public virtual complexFunctionCallClass complexFunctionCall(complexFunctionCallClass context)
 		{
 			for (int i = 0; i < context.functionParameterList.Count; i++)
 				context.functionParameterList[i] = objectDispatcher(context.functionParameterList[i]);

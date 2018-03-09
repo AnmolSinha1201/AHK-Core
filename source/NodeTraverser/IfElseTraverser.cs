@@ -7,7 +7,7 @@ namespace AHKCore
 {
 	partial class NodeTraverser
 	{
-		ifElseBlockClass ifElseBlock(ifElseBlockClass context)
+		public virtual ifElseBlockClass ifElseBlock(ifElseBlockClass context)
 		{
 			context.ifBlock = ifBlock(context.ifBlock);
 			context.elseBlock = elseBlock(context.elseBlock);
@@ -15,7 +15,7 @@ namespace AHKCore
 			return visitor.ifElseBlock(context);
 		}
 
-		ifBlockClass ifBlock(ifBlockClass context)
+		public virtual ifBlockClass ifBlock(ifBlockClass context)
 		{
 			context.condition = objectDispatcher(context.condition);
 
@@ -25,7 +25,7 @@ namespace AHKCore
 			return visitor.ifBlock(context);
 		}
 
-		elseBlockClass elseBlock(elseBlockClass context)
+		public virtual elseBlockClass elseBlock(elseBlockClass context)
 		{
 			for (int i = 0; i < context.body.Count; i++)
 				context.body[i] = objectDispatcher(context.body[i]);

@@ -7,7 +7,7 @@ namespace AHKCore
 {
 	partial class NodeTraverser
 	{
-		classDeclarationClass classDeclaration(classDeclarationClass context)
+		public virtual classDeclarationClass classDeclaration(classDeclarationClass context)
 		{
 			for (int i = 0; i < context.classBody.Count; i++)
 				context.classBody[i] = objectDispatcher(context.classBody[i]);

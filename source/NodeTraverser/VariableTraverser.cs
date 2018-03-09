@@ -7,17 +7,17 @@ namespace AHKCore
 {
 	partial class NodeTraverser
 	{
-		variableClass variable(variableClass context)
+		public virtual variableClass variable(variableClass context)
 		{
 			return visitor.variable(context);
 		}
 
-		variableDeclarationClass variableDeclaration(variableDeclarationClass context)
+		public virtual variableDeclarationClass variableDeclaration(variableDeclarationClass context)
 		{
 			return visitor.variableDeclaration(context);
 		}
 
-		complexVariableClass complexVariable(complexVariableClass context)
+		public virtual complexVariableClass complexVariable(complexVariableClass context)
 		{
 			for (int i = 0; i < context.chain.Count; i++)
 				context.chain[i] = expression(context.chain[i]);
@@ -27,7 +27,7 @@ namespace AHKCore
 			return visitor.complexVariable(context);
 		}
 
-		variableAssignClass variableAssign(variableAssignClass context)
+		public virtual variableAssignClass variableAssign(variableAssignClass context)
 		{
 			context.complexVariable = complexVariable(context.complexVariable);
 			context.expression = expression(context.expression);

@@ -7,7 +7,7 @@ namespace AHKCore
 {
 	partial class NodeTraverser
 	{
-		commandBlockClass commandBlock(commandBlockClass context)
+		public virtual commandBlockClass commandBlock(commandBlockClass context)
 		{			
 			for (int i = 1; i < context.commandBlockList.Count; i++)
 				context.commandBlockList[i] = objectDispatcher(context.commandBlockList[i]);

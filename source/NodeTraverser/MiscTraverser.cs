@@ -7,22 +7,22 @@ namespace AHKCore
 {
 	partial class NodeTraverser
 	{
-		INTClass INT(INTClass context)
+		public virtual INTClass INT(INTClass context)
 		{
 			return visitor.INT(context);
 		}
 
-		HEXClass HEX(HEXClass context)
+		public virtual HEXClass HEX(HEXClass context)
 		{
 			return visitor.HEX(context);
 		}
 
-		DOUBLEClass DOUBLE(DOUBLEClass context)
+		public virtual DOUBLEClass DOUBLE(DOUBLEClass context)
 		{
 			return visitor.DOUBLE(context);
 		}
 
-		STRINGClass STRING(STRINGClass context)
+		public virtual STRINGClass STRING(STRINGClass context)
 		{
 			return visitor.STRING(context);
 		}
