@@ -4,7 +4,7 @@ namespace AHKCore.IndexedNodesFragment
 {
 	public class Variables
 	{
-		Dictionary<string, object> VariableList = new Dictionary<string, object>();
+		Dictionary<string, VariableValue> VariableList = new Dictionary<string, VariableValue>();
 
 		public object this[string key]
 		{
@@ -12,12 +12,17 @@ namespace AHKCore.IndexedNodesFragment
 			{
 				if (VariableList.ContainsKey(key.ToLower()))
 					return VariableList[key.ToLower()];
-				return null;
+				return VariableList[key.ToLower()] = new VariableValue();
 			}
 			set
-			{ 
-				VariableList[key.ToLower()] = value; 
+			{
+				VariableList[key.ToLower()] = new VariableValue() {Value = value}; 
 			}
+		}
+
+		public class VariableValue: AHKCore.Nodes.BaseAHKNode
+		{
+			public object Value;
 		}
 	}
 }
