@@ -61,5 +61,16 @@ namespace AHKCore
 
 			public override string ToString() => $"{functionHead}\n{{\n\t{functionBody.Flatten("\n\t")}\n}}";
 		}
+
+		public class returnBlockClass : BaseAHKNode
+		{
+			public BaseAHKNode expression;
+			public returnBlockClass(BaseAHKNode expression = null)
+			{
+				this.expression = expression;
+			}
+
+			public override string ToString() => $"return {expression}";
+		}
 	}
 }

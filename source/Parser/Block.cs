@@ -51,7 +51,8 @@ namespace AHKCore
 		 */
 		BaseAHKNode functionBodyBlock(string code, ref int origin)
 		{
-			return variableAssign(code, ref origin) ?? (BaseAHKNode)complexFunctionCall(code, ref origin);
+			return variableAssign(code, ref origin) ?? (BaseAHKNode)complexFunctionCall(code, ref origin)
+			?? returnBlock(code, ref origin);
 		}
 
 		BaseAHKNode loopBlock(string code, ref int origin)
@@ -160,6 +161,22 @@ namespace AHKCore
 			
 			origin = pos;
 			return blockList;
+		}
+
+		returnBlockClass returnBlock(string code, ref int origin)
+		{
+			int pos = origin;
+
+			if (stringMatcher(code, ref pos, "return")== null)
+				return null;
+
+			WS(code, ref pos);
+			stringMatcher(code, ref pos,  ",");
+			WS(code, ref pos);
+			var expression = Expression(code, ref pos);
+
+			origin = pos;
+			return visitor.returnBlock(new returnBlockClass(expression));
 		}
 	}
 

@@ -56,6 +56,9 @@ namespace AHKCore
 				case STRINGClass s :
 					return STRING(s);
 
+				case returnBlockClass r :
+					return returnBlock(r);
+
 				default :
 					return o;
 			}

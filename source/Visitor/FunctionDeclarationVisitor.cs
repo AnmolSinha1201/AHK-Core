@@ -22,5 +22,10 @@ namespace AHKCore
 		{
 			return context;
 		}
+
+		public virtual returnBlockClass returnBlock(returnBlockClass context)
+		{
+			return context;
+		}
 	}
 }

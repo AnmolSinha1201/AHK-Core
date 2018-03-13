@@ -24,5 +24,13 @@ namespace AHKCore
 
 			return visitor.functionHead(context);
 		}
+
+		public virtual returnBlockClass returnBlock(returnBlockClass context)
+		{
+			if (context.expression != null)
+				context.expression = expression(context.expression);
+			
+			return visitor.returnBlock(context);
+		}
 	}
 }
