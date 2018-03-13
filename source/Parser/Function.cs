@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using static AHKCore.Nodes;
+using System.Linq;
 
 namespace AHKCore
 {
@@ -91,8 +92,15 @@ namespace AHKCore
 			if (vOrF == null)
 				return null;
 			
+			/*
+				Last item should either be bracketUnwrap (so next would be its parameters),
+				or dotUnwrap or functionCall. Check if dotUnwrap-ed item is a functionCall.
+			 */
+			if (vOrF.Last() is variableClass || (vOrF.Last() is dotUnwrapClass d && !(d.variableOrFunction is functionCallClass)))
+				return null;
+			
 			List<BaseAHKNode> fParam = null;
-			if (vOrF[vOrF.Count - 1].GetType() == typeof(bracketUnwrapClass))
+			if (vOrF.Last() is bracketUnwrapClass)
 			{
 				WS(code, ref pos);
 				fParam = functionParameter(code, ref pos);
