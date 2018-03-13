@@ -20,6 +20,11 @@ namespace AHKCore.IndexedNodesFragment
 			}
 		}
 
+		public bool Exists(string variableName)
+		{
+			return VariableList.ContainsKey(variableName.ToLower());
+		}
+
 		public class VariableValue: AHKCore.Nodes.BaseAHKNode
 		{
 			public object Value;
