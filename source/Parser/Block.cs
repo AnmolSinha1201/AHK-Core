@@ -43,7 +43,7 @@ namespace AHKCore
 		BaseAHKNode block(string code, ref int origin)
 		{
 			return classDeclaration(code, ref origin) ?? functionDeclaration(code, ref origin) ?? 
-			functionBodyBlock(code, ref origin);
+			functionBodyBlock(code, ref origin) ?? directive(code, ref origin);
 		}
 
 		/*
