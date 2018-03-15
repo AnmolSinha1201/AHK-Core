@@ -23,12 +23,17 @@ namespace AHKCore
 					break;
 
 					default: 
-					indexed.AutoExecute.Add(o);
+					indexed.AutoExecute.Add(othersFilter(o));
 					break;
 				}
 			}
 			
 			return indexed;
-		} 
+		}
+
+		public virtual BaseAHKNode othersFilter(BaseAHKNode context)
+		{
+			return context;
+		}
 	}
 }
