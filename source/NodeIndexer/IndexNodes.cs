@@ -22,8 +22,10 @@ namespace AHKCore
 					indexed.Functions[f.functionHead.functionName].Add(f);
 					break;
 
-					default: 
-					indexed.AutoExecute.Add(othersFilter(o));
+					default:
+					var other = othersFilter(o);
+					if (other != null)
+						indexed.AutoExecute.Add(other);
 					break;
 				}
 			}
