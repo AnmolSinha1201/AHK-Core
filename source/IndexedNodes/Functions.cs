@@ -21,5 +21,10 @@ namespace AHKCore.IndexedNodesFragment
 				return FunctionList[key.ToLower()];
 			}
 		}
+
+		public bool Exists(string functionName)
+		{
+			return FunctionList.ContainsKey(functionName.ToLower());
+		}
 	}
 }
