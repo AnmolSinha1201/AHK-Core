@@ -6,7 +6,7 @@ namespace AHKCore.IndexedNodesFragment
 	{
 		Dictionary<string, VariableValue> VariableList = new Dictionary<string, VariableValue>();
 
-		public object this[string key]
+		public VariableValue this[string key]
 		{
 			get
 			{
