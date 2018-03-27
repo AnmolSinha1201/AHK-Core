@@ -14,6 +14,7 @@ namespace AHKCore
 
 			if (code[pos] != '#')
 				return null;
+			pos++;
 			WS(code, ref pos);
 			var directive = NAME(code, ref pos);
 			if (directive == null)
@@ -27,7 +28,6 @@ namespace AHKCore
 			int start = pos;
 			while(code[pos] != '\n' && code[pos] != '\r')
 				pos++;
-			pos--; //step back so that line contains exact content and not CRLF. Chunk will handle CRLF.
 
 			var param = code.Substring(start, pos - start);
 			if (string.IsNullOrEmpty(param))
