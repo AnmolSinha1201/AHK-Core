@@ -40,10 +40,20 @@ namespace AHKCore
 				function = varOrFuncChain.Last();
 				varOrFuncChain.RemoveAt(varOrFuncChain.Count - 1);
 
-				if (function.GetType() == typeof(functionCallClass))
-					this.functionParameterList = ((functionCallClass)function).functionParameterList;
-				else
-					this.functionParameterList = functionParameterList;
+				switch (function)
+				{
+					case functionCallClass o:
+						this.functionParameterList = o.functionParameterList;
+					break;
+
+					case dotUnwrapClass o:
+						this.functionParameterList = ((functionCallClass)o.variableOrFunction).functionParameterList;
+					break;
+
+					default: //for bracketUnwrap
+						this.functionParameterList = functionParameterList;
+					break;
+				}
 				
 				this.chain = varOrFuncChain;
 			}
