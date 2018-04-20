@@ -20,5 +20,10 @@ namespace AHKCore.IndexedNodesFragment
 				ClassList[key.ToLower()] = value;
 			}
 		}
+
+		public bool Exists(string className)
+		{
+			return ClassList.ContainsKey(className.ToLower());
+		}
 	}
 }
