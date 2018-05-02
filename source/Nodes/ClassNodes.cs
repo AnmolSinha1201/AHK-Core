@@ -19,5 +19,19 @@ namespace AHKCore
 
 			public override string ToString() => $"class {className}\n{{\n\t{classBody.Flatten("\n").Indent<string>()}\n}}";
 		}
+
+		public class newObjectClass : BaseAHKNode
+		{
+			public BaseAHKNode className;
+			public List<BaseAHKNode> chain;
+
+			public newObjectClass(List<BaseAHKNode> chain, BaseAHKNode className)
+			{
+				this.className = className;
+				this.chain = chain;
+			}
+
+			public override string ToString() => $"new {chain.Flatten()}{(chain.Count == 0? "" : ".")}{className}";
+		}
 	}
 }

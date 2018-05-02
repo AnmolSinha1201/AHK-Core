@@ -11,5 +11,10 @@ namespace AHKCore
 		{
 			return context;
 		}
+
+		public virtual newObjectClass newObject(newObjectClass context)
+		{
+			return context;
+		}
 	}
 }

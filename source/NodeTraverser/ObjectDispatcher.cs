@@ -16,9 +16,9 @@ namespace AHKCore
 			- It is preferred to call the traverser function instead of calling visitors directly (even for simple types) just for the sake
 				of consistency.
 		 */
-		public virtual BaseAHKNode objectDispatcher(BaseAHKNode o)
+		public virtual BaseAHKNode objectDispatcher(BaseAHKNode node)
 		{
-			switch (o)
+			switch (node)
 			{
 				case variableAssignClass v :
 					return variableAssign(v);
@@ -59,8 +59,11 @@ namespace AHKCore
 				case returnBlockClass r :
 					return returnBlock(r);
 
+				case newObjectClass o :
+					return newObject(o);
+
 				default :
-					return o;
+					return node;
 			}
 		}
 	}
