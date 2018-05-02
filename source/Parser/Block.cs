@@ -51,8 +51,10 @@ namespace AHKCore
 		 */
 		BaseAHKNode functionBodyBlock(string code, ref int origin)
 		{
-			return variableAssign(code, ref origin) ?? (BaseAHKNode)complexFunctionCall(code, ref origin)
-			?? returnBlock(code, ref origin);
+			return variableAssign(code, ref origin) 
+			?? complexFunctionCall(code, ref origin)
+			?? returnBlock(code, ref origin)
+			?? (BaseAHKNode)null;
 		}
 
 		BaseAHKNode loopBlock(string code, ref int origin)
