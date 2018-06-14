@@ -8,5 +8,10 @@ namespace AHKCore
 		{
 			return context;
 		}
+
+		public virtual parenthesesExpressionClass parenthesesExpression(parenthesesExpressionClass context)
+		{
+			return context;
+		}
 	}
 }

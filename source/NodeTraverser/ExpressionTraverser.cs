@@ -12,5 +12,11 @@ namespace AHKCore
 			context = objectDispatcher(context);
 			return visitor.expression(context);
 		}
+
+		public virtual parenthesesExpressionClass parenthesesExpression(parenthesesExpressionClass context)
+		{
+			objectDispatcher(context.expression);
+			return context;
+		}
 	}
 }

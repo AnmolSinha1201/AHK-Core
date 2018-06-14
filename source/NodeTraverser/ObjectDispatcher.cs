@@ -62,6 +62,12 @@ namespace AHKCore
 				case newObjectClass o :
 					return newObject(o);
 
+				case binaryOperationClass o:
+					return binaryOperation(o);
+
+				case parenthesesExpressionClass o:
+					return parenthesesExpression(o);
+
 				default :
 					return node;
 			}
