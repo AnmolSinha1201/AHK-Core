@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using static AHKCore.Nodes;
 
@@ -9,16 +10,25 @@ namespace AHKCore
 	{
 		binaryOperationClass binaryOperation(string code, ref int origin, BaseAHKNode precursor)
 		{
-			List<binaryOperationLinkClass> binaryOpLinkList = new List<binaryOperationLinkClass>();
-			binaryOpLinkList.Add(new binaryOperationLinkClass(null, precursor));
-			binaryOperationLinkClass o;
+			var binaryOpList = new List<BaseAHKNode>();
+			binaryOpList.Add(precursor);
+			
+			while(true)
+			{
+				var link = mathematicalOperation(code, ref origin) ?? concatOperation(code, ref origin)
+					?? logicalOperation(code, ref origin) ?? bitwiseOperation(code, ref origin);
+				
+				if (link == null)
+					break;
+				binaryOpList.AddRange(link);
+			}
 
-			while ((o = mathematicalOperation(code, ref origin)) != null)
-				binaryOpLinkList.Add(o);
-			return visitor.binaryOperation(new binaryOperationClass(binaryOpLinkList));
+			if (binaryOpList.Count == 1) // only percursor added
+				return null;
+			return visitor.binaryOperation(new binaryOperationClass(binaryOpList));
 		}
 
-		binaryOperationLinkClass mathematicalOperation(string code, ref int origin)
+		List<BaseAHKNode> mathematicalOperation(string code, ref int origin)
 		{
 			int pos = origin;
 			string[] ops = {"+", "-", "*", "/", "//", "**"};
@@ -34,10 +44,10 @@ namespace AHKCore
 				return null;
 
 			origin = pos;
-			return visitor.binaryOperationLink(new binaryOperationLinkClass(op, expression));
+			return BinaryExpressionAppender(new opClass(op), expression);
 		}
 
-		binaryOperationLinkClass concatOperation(string code, ref int origin)
+		List<BaseAHKNode> concatOperation(string code, ref int origin)
 		{
 			int pos = origin;
 
@@ -55,10 +65,10 @@ namespace AHKCore
 				return null;
 			
 			origin = pos;
-			return visitor.binaryOperationLink(new binaryOperationLinkClass(".", expression));
+			return BinaryExpressionAppender(new opClass("."), expression);
 		}
 
-		binaryOperationLinkClass logicalOperation(string code, ref int origin)
+		List<BaseAHKNode> logicalOperation(string code, ref int origin)
 		{
 			int pos = origin;
 			string[] ops = {"<", ">", "=", "<=", ">=", "==", "!=", "&&", "||"};
@@ -74,10 +84,10 @@ namespace AHKCore
 				return null;
 
 			origin = pos;
-			return visitor.binaryOperationLink(new binaryOperationLinkClass(op, expression));
+			return BinaryExpressionAppender(new opClass(op), expression);
 		}
 
-		binaryOperationLinkClass bitwiseOperation(string code, ref int origin)
+		List<BaseAHKNode> bitwiseOperation(string code, ref int origin)
 		{
 			int pos = origin;
 			string[] ops = {"<<", ">>"};
@@ -93,7 +103,18 @@ namespace AHKCore
 				return null;
 
 			origin = pos;
-			return visitor.binaryOperationLink(new binaryOperationLinkClass(op, expression));
+			return BinaryExpressionAppender(new opClass(op), expression);
+		}
+
+		List<BaseAHKNode> BinaryExpressionAppender(opClass op, BaseAHKNode item)
+		{
+			var retList = new List<BaseAHKNode>() { op };
+			if (item is binaryOperationClass o)
+				retList.AddRange(o.binaryOperationList);
+			else
+				retList.Add(item);
+
+			return retList;
 		}
 	}
 }

@@ -7,31 +7,30 @@ namespace AHKCore
 {
 	public abstract partial class Nodes
 	{
-		public class binaryOperationLinkClass : BaseAHKNode
+		// to be used with binary operations
+		public class opClass : BaseAHKNode
 		{
 			public string op;
-			public BaseAHKNode expression;
 
-			public binaryOperationLinkClass(string op, BaseAHKNode expression)
+			public opClass(string op)
 			{
 				this.op = op;
-				this.expression = expression;
 			}
 
-			public override string ToString() =>(op == null? "" : op + " ") + expression;
+			public override string ToString() => op;
 		}
 
 		// the first item of the list should always be a head. A head's op = null
 		public class binaryOperationClass : BaseAHKNode
 		{
-			public List<binaryOperationLinkClass> binaryOperationLinkList;
+			public List<BaseAHKNode> binaryOperationList;
 
-			public binaryOperationClass(List<binaryOperationLinkClass> binaryOpLinkList)
+			public binaryOperationClass(List<BaseAHKNode> binaryOpLinkList)
 			{
-				this.binaryOperationLinkList = binaryOpLinkList;
+				this.binaryOperationList = binaryOpLinkList;
 			}
 
-			public override string ToString() => binaryOperationLinkList.Flatten(" ");
+			public override string ToString() => binaryOperationList.Flatten(" ");
 		}
 	}
 }

@@ -12,10 +12,5 @@ namespace AHKCore
 		{
 			return context;
 		}
-
-		public virtual binaryOperationLinkClass binaryOperationLink(binaryOperationLinkClass context)
-		{
-			return context;
-		}
 	}
 }

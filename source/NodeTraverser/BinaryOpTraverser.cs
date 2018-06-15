@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using static AHKCore.Nodes;
+using System.Linq;
 
 namespace AHKCore
 {
@@ -9,8 +10,8 @@ namespace AHKCore
 	{
 		public virtual binaryOperationClass binaryOperation(binaryOperationClass context)
 		{
-			for (int i = 0; i < context.binaryOperationLinkList.Count; i++)
-				context.binaryOperationLinkList[i] = visitor.binaryOperationLink(context.binaryOperationLinkList[i]);
+			context.binaryOperationList.Where(i => !(i is opClass)).ToList()
+				.ForEach(o => objectDispatcher(o));
 				
 			return visitor.binaryOperation(context);
 		}
