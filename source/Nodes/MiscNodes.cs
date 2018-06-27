@@ -20,38 +20,38 @@ namespace AHKCore
 
 		public class DOUBLEClass : BaseAHKNode
 		{
-			public string DOUBLE;
+			public double DOUBLE;
 			
 			public DOUBLEClass(string DOUBLE)
 			{
-				this.DOUBLE = DOUBLE;
+				this.DOUBLE = double.Parse(DOUBLE);
 			}
 
-			public override string ToString() => DOUBLE;
+			public override string ToString() => (DOUBLE % 1) <= double.Epsilon * 100 ? ((int)DOUBLE).ToString() : DOUBLE.ToString();
 		}
 
 		public class HEXClass : BaseAHKNode
 		{
-			public string HEX;
+			public Int64 HEX;
 			
 			public HEXClass(string HEX)
 			{
-				this.HEX = HEX;
+				this.HEX = Int64.Parse(HEX);
 			}
 
-			public override string ToString() => HEX;
+			public override string ToString() => HEX.ToString();
 		}
 
 		public class INTClass : BaseAHKNode
 		{
-			public string INT;
+			public Int64 INT;
 			
 			public INTClass(string INT)
 			{
-				this.INT = INT;
+				this.INT = Int64.Parse(INT);
 			}
 
-			public override string ToString() => INT;
+			public override string ToString() => INT.ToString();
 		}
 	}
 }
