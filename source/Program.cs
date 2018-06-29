@@ -7,7 +7,7 @@ namespace AHKCore
         static void Main(string[] args)
         {
             var parser = new Parser();
-            var nodes = parser.parse("var1=123\nvar2=\"text2\"\nvar=var1&&var2");
+            var nodes = parser.parse("var1=1<<1+1");
 
             var indexer = new NodeIndexer();
             var indexed = indexer.IndexNodes(nodes);

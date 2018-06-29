@@ -20,6 +20,9 @@ namespace AHKCore
 			?? complexFunctionCall(code, ref origin) ?? complexVariable(code, ref origin)
 			?? (BaseAHKNode)null;
 
+			if (part1 == null)
+				return null;
+			
 			var part2 = binaryOperation(code, ref origin, part1);
 			if (part2 != null)
 				return part2;
