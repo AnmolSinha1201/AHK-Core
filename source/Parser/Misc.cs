@@ -28,14 +28,37 @@ namespace AHKCore
 
 		STRINGClass STRING(string code, ref int origin)
 		{
-			Regex regex = new Regex(@"""(?>[^\\\n""]+|\\.)*""");
-			Match match = regex.Match(code, origin);
-			if (match.Success)
+			int pos = origin;
+
+			if (code[pos] != '"')
+				return null;
+			pos++;
+			
+			var escapableChars = new char[] {'n'};
+			while (true)
 			{
-				origin = match.Index + match.Length;
-				return visitor.STRING(new STRINGClass(match.Value));
+				if (pos >= code.Length)
+					return null;
+				if (code[pos] == '"')
+				{
+					pos++;
+					break;
+				}
+				else if (code[pos] == '`') //escape char
+				{
+					pos++;
+					if (escapableChars.Contains(code[pos]))
+						pos++;
+					else
+					{} //error
+				}
+				else // normal characters
+					pos++;
 			}
-			return null;
+
+			var start = origin;
+			origin = pos;
+			return visitor.STRING(new STRINGClass(code.Substring(start, pos - start)));
 		}
 
 		/*

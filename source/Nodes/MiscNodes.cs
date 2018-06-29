@@ -12,7 +12,8 @@ namespace AHKCore
 			
 			public STRINGClass(string STRING)
 			{
-				this.STRING = STRING;
+				// remove quotes
+				this.STRING = STRING.Substring(1, STRING.Length - 2);
 			}
 
 			public override string ToString() => STRING;
