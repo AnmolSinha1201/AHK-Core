@@ -27,7 +27,7 @@ namespace AHKCore
 			- If any other interface is required to be added to all AHK nodes, we can simply add it to IAHKNode.
 			- Can later be turned to abstract class if a common behavior is to be expected of all nodes.
 		 */
-		public abstract class BaseAHKNode: IExtraInfo
+		public class BaseAHKNode: IExtraInfo
 		{
 			public object extraInfo {get; set;}
 		}
