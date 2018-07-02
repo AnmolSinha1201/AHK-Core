@@ -160,7 +160,7 @@ namespace AHKCore
 		{
 			ops = ops.OrderByDescending(op => op.Length).ToArray();
 			foreach (var op in ops)
-				if (code.Length > origin + op.Length && code.Substring(origin, op.Length) == op)
+				if (code.Length >= origin + op.Length && code.Substring(origin, op.Length) == op)
 				{
 					origin += op.Length;
 					return op;
