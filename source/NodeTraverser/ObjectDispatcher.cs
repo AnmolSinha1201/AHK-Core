@@ -68,6 +68,9 @@ namespace AHKCore
 				case parenthesesExpressionClass o:
 					return parenthesesExpression(o);
 
+				case unaryOperationClass o:
+					return unaryOperation(o);
+
 				default :
 					return node;
 			}

@@ -11,12 +11,14 @@ namespace AHKCore
 			-	complexFunctionCall -> complexVariable (variable can consume NAME. So either
 				check dotUnwrap content or simply execute complexFunctionCall earlier)
 			-	newObject -> complexVariable (as "new" would be considered as a variable)
+			- 	unaryOp -> complexVariable (as variable will be consumed in case of postOp)
 		 */
 		BaseAHKNode Expression(string code, ref int origin)
 		{
 			var part1 = parenthesesExpression(code, ref origin)
 			?? STRING(code, ref origin) ?? NUMBER(code, ref origin)
 			?? newObject(code, ref origin)
+			?? unaryOperation(code, ref origin)
 			?? complexFunctionCall(code, ref origin) ?? complexVariable(code, ref origin)
 			?? (BaseAHKNode)null;
 

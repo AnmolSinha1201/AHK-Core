@@ -54,6 +54,7 @@ namespace AHKCore
 			return variableAssign(code, ref origin) 
 			?? complexFunctionCall(code, ref origin)
 			?? returnBlock(code, ref origin)
+			?? unaryOperation(code, ref origin)
 			?? (BaseAHKNode)null;
 		}
 
