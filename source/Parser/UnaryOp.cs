@@ -10,14 +10,33 @@ namespace AHKCore
 	{
 		unaryOperationClass unaryOperation(string code, ref int origin)
 		{
-			return preOp(code, ref origin) ?? postOp(code, ref origin);
+			return preOp(code, ref origin) ?? postOp(code, ref origin) ?? negate(code, ref origin);
+		}
+
+		unaryOperationClass negate(string code, ref int origin)
+		{
+			int pos = origin;
+			
+			var op = opChecker(code, ref pos, new string[]{"-"});
+			if (op == null)
+				return null;
+			
+			WS(code, ref pos);
+
+			var variable = Expression(code, ref pos);
+			if (variable == null)
+				return null;
+
+			origin = pos;
+			var retList = new List<BaseAHKNode>() { new opClass(op), variable };
+			return visitor.unaryOperation(new unaryOperationClass(retList));
 		}
 
 		unaryOperationClass preOp(string code, ref int origin)
 		{
 			int pos = origin;
 			
-			var op = opChecker(code, ref pos, new string[]{"++", "--"});
+			var op = opChecker(code, ref pos, new string[]{"++", "--", "!", "~"});
 			if (op == null)
 				return null;
 			
