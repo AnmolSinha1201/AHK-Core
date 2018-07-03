@@ -35,6 +35,9 @@ namespace AHKCore
 			string op;
 			
 			CRLFWS(code, ref pos);
+			// making sure its not var=123\n--var
+			if ((op = opChecker(code, ref pos, new string[] {"--"})) != null)
+				return null;
 			if ((op = opChecker(code, ref pos, ops)) == null)
 				return null;
 			WS(code, ref pos);
