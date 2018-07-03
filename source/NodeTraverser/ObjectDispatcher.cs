@@ -71,6 +71,9 @@ namespace AHKCore
 				case unaryOperationClass o:
 					return unaryOperation(o);
 
+				case ternaryOperationClass o:
+					return ternaryOperation(o);
+
 				default :
 					return node;
 			}

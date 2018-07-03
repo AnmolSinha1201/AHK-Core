@@ -25,7 +25,10 @@ namespace AHKCore
 			if (part1 == null)
 				return null;
 			
-			var part2 = binaryOperation(code, ref origin, part1);
+			var part2 = binaryOperation(code, ref origin, part1) 
+			?? ternaryOperation(code, ref origin, part1)
+			?? (BaseAHKNode)null;
+			
 			if (part2 != null)
 				return part2;
 
