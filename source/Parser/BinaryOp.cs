@@ -93,7 +93,7 @@ namespace AHKCore
 		List<BaseAHKNode> bitwiseOperation(string code, ref int origin)
 		{
 			int pos = origin;
-			string[] ops = {"<<", ">>"};
+			string[] ops = {"<<", ">>", "&", "|"};
 			string op;
 			
 			CRLFWS(code, ref pos);
