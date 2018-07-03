@@ -10,8 +10,7 @@ namespace AHKCore
 	{
 		public virtual unaryOperationClass unaryOperation(unaryOperationClass context)
 		{
-			context.unaryOperationList.Where(i => !(i is opClass)).ToList()
-				.ForEach(o => objectDispatcher(o));
+			context.unaryOperationList.ForEach(o => objectDispatcher(o));
 				
 			return visitor.unaryOperation(context);
 		}
