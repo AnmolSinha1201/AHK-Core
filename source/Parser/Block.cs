@@ -48,10 +48,12 @@ namespace AHKCore
 
 		/*
 			Blocks which are allowed inside a function.
+			ifElseBlock -> complexFunctionCall (if () is absorbed by func ())
 		 */
 		BaseAHKNode functionBodyBlock(string code, ref int origin)
 		{
-			return variableAssign(code, ref origin) 
+			return ifElseBlock(code, ref origin)
+			?? variableAssign(code, ref origin) 
 			?? complexFunctionCall(code, ref origin)
 			?? returnBlock(code, ref origin)
 			?? unaryOperation(code, ref origin)

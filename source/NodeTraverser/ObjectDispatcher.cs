@@ -74,6 +74,9 @@ namespace AHKCore
 				case ternaryOperationClass o:
 					return ternaryOperation(o);
 
+				case ifElseBlockClass o:
+					return ifElseBlock(o);
+
 				default :
 					return node;
 			}
