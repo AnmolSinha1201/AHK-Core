@@ -77,6 +77,9 @@ namespace AHKCore
 				case ifElseBlockClass o:
 					return ifElseBlock(o);
 
+				case loopLoopClass o:
+					return loopLoop(o);
+
 				default :
 					return node;
 			}
