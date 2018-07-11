@@ -41,7 +41,10 @@ namespace AHKCore
 
 		commandClass command(string code, ref int origin)
 		{
-			return new commandClass(NAME(code, ref origin));
+			var name = NAME(code, ref origin);
+			if (name == null)
+				return null;
+			return new commandClass(name);
 		}
 
 		/*
