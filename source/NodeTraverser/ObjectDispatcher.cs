@@ -80,6 +80,9 @@ namespace AHKCore
 				case loopLoopClass o:
 					return loopLoop(o);
 
+				case whileLoopClass o:
+					return whileLoop(o);
+
 				default :
 					return node;
 			}
