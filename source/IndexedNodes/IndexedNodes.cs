@@ -15,5 +15,6 @@ namespace AHKCore
 		public Functions Functions = new Functions();
 		public Variables Variables = new Variables();
 		public List<BaseAHKNode> AutoExecute = new List<BaseAHKNode>();
+		public IndexedNode Parent = null;
 	}
 }
