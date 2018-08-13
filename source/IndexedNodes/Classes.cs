@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using static AHKCore.Nodes;
+using System.Linq;
 
 namespace AHKCore.IndexedNodesFragment
 {
@@ -24,6 +25,11 @@ namespace AHKCore.IndexedNodesFragment
 		public bool Exists(string className)
 		{
 			return ClassList.ContainsKey(className.ToLower());
+		}
+
+		public List<IndexedNode> AllClasses()
+		{
+			return ClassList.Values.ToList();
 		}
 	}
 }

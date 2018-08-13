@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using static AHKCore.Nodes;
 
 namespace AHKCore.IndexedNodesFragment
@@ -25,6 +26,11 @@ namespace AHKCore.IndexedNodesFragment
 		public bool Exists(string functionName)
 		{
 			return FunctionList.ContainsKey(functionName.ToLower());
+		}
+
+		public List<functionDeclarationClass> AllFunctions()
+		{
+			return FunctionList.SelectMany(i => i.Value).ToList();
 		}
 	}
 }
